@@ -11,10 +11,18 @@ const defaultTheme = {
   homeButtonColor: null,
 };
 
+const rimbleTheme = {
+  background: '#fffff',
+  font: "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif",
+  titleFont: null,
+  accentColor: '#4e3fce',
+  paperBackground: '#ffffff',
+  homeButtonColor: null,
+};
+
 const styles = (theme: any) => ({
   '@global': {
     body: {
-      backgroundImage: theme.background === defaultTheme.background ? 'linear-gradient(#553319, #ca6e28)' : '',
       backgroundColor: theme.background,
       backgroundAttachment: 'fixed',
       fontFamily: theme.font,
@@ -34,9 +42,13 @@ const styles = (theme: any) => ({
     },
   },
   container: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
     maxWidth: 740,
     width: '100%',
-    padding: '0 8px',
+    height: '100%;',
+    padding: '16px',
     boxSizing: 'border-box',
   },
 });
@@ -51,7 +63,7 @@ const WrappedContainer = injectSheet(styles)(Container);
 
 const Template: React.FC<{ theme: any }> = ({ children, theme }) => {
   return (
-    <ThemeProvider theme={{ ...defaultTheme, ...theme }}>
+    <ThemeProvider theme={{ ...rimbleTheme}}>
       <WrappedContainer>
         {children}
       </WrappedContainer>
