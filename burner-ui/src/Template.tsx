@@ -39,6 +39,8 @@ const styles = (theme: any) => ({
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
+      justifyContent: 'space-between',
+      height: '100%',
     },
   },
   container: {
