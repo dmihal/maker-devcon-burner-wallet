@@ -2,6 +2,7 @@
   "name": "basic-wallet",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://dmihal.github.io/maker-devcon-burner-wallet/",
   "dependencies": {
     "@burner-wallet/assets": "^0.0.20",
     "@burner-wallet/core": "^0.0.22",
