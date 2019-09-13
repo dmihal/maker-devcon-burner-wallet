@@ -7,7 +7,7 @@ import { InjectedSigner, LocalSigner } from '@burner-wallet/core/signers';
 import { InfuraGateway, InjectedGateway, XDaiGateway, } from '@burner-wallet/core/gateways';
 import Exchange from '@burner-wallet/exchange';
 import { xdaiBridge, uniswapDai } from '@burner-wallet/exchange/pairs';
-import BurnerUI from '@burner-wallet/ui';
+import BurnerUI from '../../burner-ui/src';
 import LegacyPlugin from '@burner-wallet/plugins/legacy';
 
 const core = new BurnerCore({

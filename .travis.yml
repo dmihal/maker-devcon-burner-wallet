@@ -1,12 +1,20 @@
 language: node_js
 node_js:
   - "stable"
+dist: trusty
+
 cache:
   directories:
-  - node_modules
-script:
+  - basic-wallet/node_modules
+  - burner-ui/node_modules
+  - plugins/node_modules
+  - exchange/node_modules
+
+install:
   - cd basic-wallet
-  - yarn install
+  - ./install-all.sh
+
+script:
   - yarn build
 
 deploy:
