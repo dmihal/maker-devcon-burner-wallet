@@ -10,6 +10,12 @@ import { xdaiBridge, uniswapDai } from '@burner-wallet/exchange/pairs';
 import BurnerUI from '../../burner-ui/src';
 import LegacyPlugin from '@burner-wallet/plugins/legacy';
 
+// Github Pages hack
+if (localStorage.getItem('path')) {
+  window.history.replaceState(null, 'MakerDAO Burner Wallet', localStorage.getItem('path'));
+  localStorage.removeItem('path');
+}
+
 const core = new BurnerCore({
   signers: [new InjectedSigner(), new LocalSigner()],
   gateways: [
@@ -26,6 +32,7 @@ const exchange = new Exchange({
 
 const BurnerWallet = () =>
   <BurnerUI
+    title="MakerDAO Wallet"
     core={core}
     plugins={[exchange, new LegacyPlugin()]}
   />
