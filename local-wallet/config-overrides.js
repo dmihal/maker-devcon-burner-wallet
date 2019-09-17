@@ -12,5 +12,6 @@ module.exports = override(
     path.resolve("../burner-ui"),
     path.resolve("../exchange"),
     path.resolve("../plugins"),
+    path.resolve("../collectable-plugin"),
   ]),
 );

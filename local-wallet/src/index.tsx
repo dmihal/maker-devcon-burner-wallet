@@ -6,6 +6,7 @@ import { InjectedSigner, LocalSigner } from '@burner-wallet/core/signers';
 import { HTTPGateway } from '@burner-wallet/core/gateways';
 import BurnerUI from '../../burner-ui/src';
 import LegacyPlugin from '../../plugins/src/legacy';
+import CollectablePlugin from '../../collectable-plugin';
 
 const core = new BurnerCore({
   signers: [
@@ -24,7 +25,10 @@ const BurnerWallet = () =>
   <BurnerUI
     title="Local Wallet"
     core={core}
-    plugins={[new LegacyPlugin()]}
+    plugins={[
+      new LegacyPlugin(),
+      new CollectablePlugin('5777', process.env.REACT_APP_NFT_ADDRESS),
+    ]}
   />
 
 

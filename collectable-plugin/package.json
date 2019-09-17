@@ -1,0 +1,6 @@
+{
+  "name": "collectable-plugin",
+  "version": "1.0.0",
+  "main": "src/CollectablePlugin.js",
+  "license": "MIT"
+}
