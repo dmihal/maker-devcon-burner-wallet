@@ -9,20 +9,41 @@ const HistoryPluginElements = PluginElements as React.FC<PluginElementsProps & {
 const styles = {
   container: {
     display: 'flex',
-    background: '#d9d9d9',
-    padding: 6,
-    borderRadius: 12,
-    margin: '4px 0',
+    flexDirection: 'flex-row',
+    background: 'none',
+    padding: 8,
+    fontSize: '20px',
+    margin: '8px 0',
+    alignItems: 'center',
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
+  },
+  column: {
+    display: 'flex',
+    flexDirection: 'column',
     alignItems: 'center',
     overflow: 'hidden',
     whiteSpace: 'nowrap',
   },
   address: {
-    fontFamily: 'monospace',
-    margin: '0 4px',
+    width: 160,
+    display: 'inline-block',
+    whiteSpace: 'nowrap',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
   },
   value: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    fontSize: '24px',
     whiteSpace: 'nowrap',
+  },
+  assetName: {
+    fontSize: '14px',
+    fontWeight: '600',
+    textTransform: 'uppercase',
+    color: '#666',
+    justifyItems: 'flex-end',
   },
   details: {
     flex: '1 0',
@@ -32,10 +53,10 @@ const styles = {
     textOverflow: 'ellipsis',
     overflow: 'hidden',
   },
-  type: {
-    minWidth: 64,
-    fontSize: 18,
-    marginRight: 12,
+  txType: {
+    fontSize: '24px',
+    marginRight: 4,
+    color: '#FD9D28', // Todo: Set the color based on a conditional. #28C081 for receiving and #FD9D28 for sending
   },
   subDetail: {
     fontSize: 14,
@@ -63,10 +84,11 @@ const HistoryListEvent: React.FC<HistoryListEventProps> = ({ event, account, cla
   switch (event.type) {
     case 'send':
       const isReceive = event.to === account;
-      type = isReceive ? 'Receive' : 'Send';
+      type = isReceive ? '\u2199' : '\u2197';
+      // TODO: Remove line 90
       main = (
         <Fragment>
-          {isReceive ? 'From: ' : 'To: '}
+           {isReceive ? '' : ''}
           <span className={classes.address} title={isReceive ? event.from : event.to}>
             {isReceive ? event.from : event.to}
           </span>
@@ -86,14 +108,19 @@ const HistoryListEvent: React.FC<HistoryListEventProps> = ({ event, account, cla
 
   return (
     <div className={classes.container} onClick={onClick}>
-      <div className={classes.type}>{type}</div>
       <div className={classes.details}>
         <div className={classes.mainDetail}>{main}</div>
         {subDetail && (
           <div className={classes.subDetail}>{subDetail}</div>
         )}
       </div>
-      <div className={classes.value}>{asset.getDisplayValue(event.value)} {asset.name}</div>
+      <div className={classes.column}>
+        <div className={classes.value}>
+          <div className={classes.txType}>{type}</div>
+        {asset.getDisplayValue(event.value)}
+          </div>
+        <div className={classes.assetName}>{asset.name}</div>
+      </div>
       <HistoryPluginElements position="history-event" event={event} />
     </div>
   );
