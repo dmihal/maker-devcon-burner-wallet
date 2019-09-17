@@ -6,6 +6,7 @@ export default class CollectablePlugin {
   constructor(network, address) {
     this.network = network;
     this.address = address;
+    this.nftCache = {};
   }
 
   initializePlugin(pluginContext) {
@@ -27,14 +28,23 @@ export default class CollectablePlugin {
     const numNFTs = await contract.methods.balanceOf(address).call();
     const nfts = await Promise.all([...Array(numNFTs.toNumber()).keys()].map(async index => {
       const nftId = await contract.methods.tokenOfOwnerByIndex(address, index).call();
-      const uri = await contract.methods.tokenURI(nftId).call();
-      const response = await fetch(uri);
-      const metadata = await response.json();
-      return {
-        ...metadata,
-        id: nftId,
-      };
+      return await this.getNFT(nftId);
     }));
     return nfts;
+  }
+
+  async getNFT(id) {
+    if (!this.nftCache[id]) {
+      const contract = this.getContract();
+      const uri = await contract.methods.tokenURI(id).call();
+      const response = await fetch(uri);
+      const metadata = await response.json();
+      this.nftCache[id] = {
+        ...metadata,
+        id,
+      };
+    }
+
+    return this.nftCache[id];
   }
 }
