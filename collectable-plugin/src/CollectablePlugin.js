@@ -1,6 +1,7 @@
-import abi from './abi/ERC721Full.json';
+import abi from './abi/Collectable.json';
 import NFTDrawer from './ui/NFTDrawer';
 import NFTDetailPage from './ui/NFTDetailPage';
+import NFTClonePage from './ui/NFTClonePage';
 
 export default class CollectablePlugin {
   constructor(network, address) {
@@ -13,6 +14,7 @@ export default class CollectablePlugin {
     this.pluginContext = pluginContext;
     pluginContext.addElement('home-middle', NFTDrawer);
     pluginContext.addPage('/nft/:id', NFTDetailPage);
+    pluginContext.addPage('/clone/:id', NFTClonePage);
   }
 
   getContract() {
@@ -46,5 +48,11 @@ export default class CollectablePlugin {
     }
 
     return this.nftCache[id];
+  }
+
+  async cloneNFT(id, account) {
+    const contract = this.getContract();
+    const receipt = await contract.methods.clone(account, id).send({ from: account });
+    return receipt.events.Transfer.returnValues.tokenId.toNumber();
   }
 }
