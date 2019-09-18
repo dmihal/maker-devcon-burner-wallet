@@ -1,58 +1,68 @@
-import React, { Fragment } from 'react';
-import injectSheet from 'react-jss';
-import { Asset } from '@burner-wallet/assets';
-import HistoryEvent from '@burner-wallet/core/HistoryEvent';
-import PluginElements, { PluginElementsProps } from '../../components/PluginElements';
+import React, { Fragment } from "react";
+import injectSheet from "react-jss";
+import styled from "styled-components";
+import { Asset } from "@burner-wallet/assets";
+import HistoryEvent from "@burner-wallet/core/HistoryEvent";
+import PluginElements, {
+  PluginElementsProps
+} from "../../components/PluginElements";
 
-const HistoryPluginElements = PluginElements as React.FC<PluginElementsProps & { event: HistoryEvent }>;
+const HistoryPluginElements = PluginElements as React.FC<
+  PluginElementsProps & { event: HistoryEvent }
+>;
 
 const styles = {
   container: {
-    display: 'flex',
-    background: '#d9d9d9',
+    display: "flex",
+    background: "#d9d9d9",
     padding: 6,
     borderRadius: 12,
-    margin: '4px 0',
-    alignItems: 'center',
-    overflow: 'hidden',
-    whiteSpace: 'nowrap',
+    margin: "4px 0",
+    alignItems: "center",
+    overflow: "hidden",
+    whiteSpace: "nowrap"
   },
   address: {
-    fontFamily: 'monospace',
-    margin: '0 4px',
+    fontFamily: "monospace",
+    margin: "0 4px"
   },
   value: {
-    whiteSpace: 'nowrap',
+    whiteSpace: "nowrap"
   },
   details: {
-    flex: '1 0',
-    overflow: 'hidden',
+    flex: "1 0",
+    overflow: "hidden"
   },
   mainDetail: {
-    textOverflow: 'ellipsis',
-    overflow: 'hidden',
+    textOverflow: "ellipsis",
+    overflow: "hidden"
   },
   type: {
     minWidth: 64,
     fontSize: 18,
-    marginRight: 12,
+    marginRight: 12
   },
   subDetail: {
-    fontSize: 14,
-  },
+    fontSize: 14
+  }
 };
 
 interface HistoryListEventProps {
-  event: HistoryEvent,
-  account?: string,
-  classes: any,
-  navigateTo: (path: string) => void,
+  event: HistoryEvent;
+  account?: string;
+  classes: any;
+  navigateTo: (path: string) => void;
 }
 
-const HistoryListEvent: React.FC<HistoryListEventProps> = ({ event, account, classes, navigateTo }) => {
+const HistoryListEvent: React.FC<HistoryListEventProps> = ({
+  event,
+  account,
+  classes,
+  navigateTo
+}) => {
   const asset = event.getAsset();
   if (!asset) {
-    console.warn(`Could not find asset ${event.asset}`)
+    console.warn(`Could not find asset ${event.asset}`);
     return null;
   }
 
@@ -61,13 +71,16 @@ const HistoryListEvent: React.FC<HistoryListEventProps> = ({ event, account, cla
   let onClick;
   let subDetail = null;
   switch (event.type) {
-    case 'send':
+    case "send":
       const isReceive = event.to === account;
-      type = isReceive ? 'Receive' : 'Send';
+      type = isReceive ? "Receive" : "Send";
       main = (
         <Fragment>
-          {isReceive ? 'From: ' : 'To: '}
-          <span className={classes.address} title={isReceive ? event.from : event.to}>
+          {isReceive ? "From: " : "To: "}
+          <span
+            className={classes.address}
+            title={isReceive ? event.from : event.to}
+          >
             {isReceive ? event.from : event.to}
           </span>
         </Fragment>
@@ -77,26 +90,26 @@ const HistoryListEvent: React.FC<HistoryListEventProps> = ({ event, account, cla
       }
       onClick = () => navigateTo(`/receipt/${asset.id}/${event.tx}`);
       break;
-    case 'exchange':
-      type = 'Exchange';
-      break
+    case "exchange":
+      type = "Exchange";
+      break;
     default:
-      console.warn('Unknown event type', event.type);
+      console.warn("Unknown event type", event.type);
   }
 
   return (
-    <div className={classes.container} onClick={onClick}>
+    <Wrapper onClick={onClick}>
       <div className={classes.type}>{type}</div>
       <div className={classes.details}>
         <div className={classes.mainDetail}>{main}</div>
-        {subDetail && (
-          <div className={classes.subDetail}>{subDetail}</div>
-        )}
+        {subDetail && <div className={classes.subDetail}>{subDetail}</div>}
       </div>
-      <div className={classes.value}>{asset.getDisplayValue(event.value)} {asset.name}</div>
+      <div className={classes.value}>
+        {asset.getDisplayValue(event.value)} {asset.name}
+      </div>
       <HistoryPluginElements position="history-event" event={event} />
-    </div>
+    </Wrapper>
   );
-}
+};
 
 export default injectSheet(styles)(HistoryListEvent);

@@ -1,92 +1,109 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import injectSheet from 'react-jss';
-import Color from 'color';
+import React from "react";
+import { Link } from "react-router-dom";
+import injectSheet from "react-jss";
+import Color from "color";
 
-import { BurnerContext, withBurner } from '../../BurnerProvider';
-import Button from '../../components/Button';
-import Page from '../../components/Page';
-import PluginElements from '../../components/PluginElements';
-import AccountBalance, { AccountBalanceData } from '../../data-providers/AccountBalance';
-import History from '../../data-providers/History';
-import { SCAN_QR_DATAURI } from '../../constants';
-import BalanceRow from './BalanceRow';
-import HistoryListEvent from './HistoryListEvent';
+import { BurnerContext, withBurner } from "../../BurnerProvider";
+import Button from "../../components/Button";
+import Page from "../../components/Page";
+import PluginElements from "../../components/PluginElements";
+import AccountBalance, {
+  AccountBalanceData
+} from "../../data-providers/AccountBalance";
+import History from "../../data-providers/History";
+import { SCAN_QR_DATAURI } from "../../constants";
+import BalanceRow from "./BalanceRow";
+import HistoryListEvent from "./HistoryListEvent";
 
 const styles = (theme: any) => ({
   balances: {
-    padding: 0,
+    padding: 0
   },
   buttons: {
-    display: 'flex',
+    display: "flex",
     padding: 0,
-    flexWrap: 'wrap',
+    flexWrap: "wrap"
   },
   buttonContainer: {
-    display: 'block',
-    width: '50%',
+    display: "block",
+    width: "50%",
     padding: 4,
-    boxSizing: 'border-box',
-    flex: '0 0 50%',
+    boxSizing: "border-box",
+    flex: "0 0 50%"
   },
   homeButton: {
-    backgroundColor: theme.homeButtonColor,
+    backgroundColor: theme.homeButtonColor
   },
   scanBtn: {
-    position: 'fixed',
+    position: "fixed",
     bottom: 20,
     right: 20,
     height: 60,
     width: 60,
     borderRadius: 100,
     backgroundImage: `url("${SCAN_QR_DATAURI}")`,
-    backgroundSize: '60%',
-    backgroundRepeat: 'no-repeat',
-    backgroundPosition: 'center',
-    backgroundColor: Color(theme.accentColor).lighten(0.2).hsl().string(),
+    backgroundSize: "60%",
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "center",
+    backgroundColor: Color(theme.accentColor)
+      .lighten(0.2)
+      .hsl()
+      .string()
   },
   advancedLink: {
-    color: Color(theme.paperBackground).isLight() ? '#333333' : '#cccccc',
-  },
+    color: Color(theme.paperBackground).isLight() ? "#333333" : "#cccccc"
+  }
 });
 
 interface HomeButtonProps {
-  path: string,
-  title: string,
-  classes: any,
+  path: string;
+  title: string;
+  classes: any;
 }
 
 const HomeButton: React.FC<HomeButtonProps> = ({ path, title, classes }) => (
   <li className={classes.buttonContainer}>
-    <Button to={path} className={classes.homeButton}>{title}</Button>
+    <Button to={path} className={classes.homeButton}>
+      {title}
+    </Button>
   </li>
-)
+);
 
 const ADDRESS_REGEX = /^(?:0x)?[0-9a-f]{40}$/i;
 const PK_REGEX = /^(?:0x)?[0-9a-f]{64}$/i;
 
-const HomePage: React.FC<BurnerContext & { classes: any }> = ({ accounts, actions, assets, pluginData, classes }) => (
+const HomePage: React.FC<BurnerContext & { classes: any }> = ({
+  accounts,
+  actions,
+  assets,
+  pluginData,
+  classes
+}) => (
   <Page>
-    <button className={classes.scanBtn} onClick={async () => {
-      try {
-        const result = await actions.scanQrCode();
-        if (pluginData.tryHandleQR(result, { actions })) {
-          return;
-        } else if (ADDRESS_REGEX.test(result)) {
-          actions.navigateTo('/send', { address: result });
-        } else if (PK_REGEX.test(result)) {
-          actions.callSigner('writeKey', accounts[0], result);
-        } else if (result.indexOf(location.origin) === 0) {
-          actions.navigateTo(result.substr(location.origin.length));
-        }
-      } catch (e) {}
-    }} />
+    <h1>Hello world</h1>
+    <button
+      className={classes.scanBtn}
+      onClick={async () => {
+        try {
+          const result = await actions.scanQrCode();
+          if (pluginData.tryHandleQR(result, { actions })) {
+            return;
+          } else if (ADDRESS_REGEX.test(result)) {
+            actions.navigateTo("/send", { address: result });
+          } else if (PK_REGEX.test(result)) {
+            actions.callSigner("writeKey", accounts[0], result);
+          } else if (result.indexOf(location.origin) === 0) {
+            actions.navigateTo(result.substr(location.origin.length));
+          }
+        } catch (e) {}
+      }}
+    />
 
     <PluginElements position="home-top" />
 
     {accounts.length > 0 ? (
       <ul className={classes.balances}>
-        {assets.map(asset =>
+        {assets.map(asset => (
           <AccountBalance
             key={asset.id}
             asset={asset.id}
@@ -99,9 +116,11 @@ const HomePage: React.FC<BurnerContext & { classes: any }> = ({ accounts, action
               />
             )}
           />
-        )}
+        ))}
       </ul>
-    )  : 'Loading'}
+    ) : (
+      "Loading"
+    )}
 
     <PluginElements position="home-middle" />
 
@@ -116,20 +135,24 @@ const HomePage: React.FC<BurnerContext & { classes: any }> = ({ accounts, action
     {accounts.length > 0 && (
       <History
         account={accounts[0]}
-        render={(events: any[]) => events.map(event => (
-          <HistoryListEvent
-            key={JSON.stringify(event)}
-            event={event}
-            account={accounts[0]}
-            navigateTo={actions.navigateTo}
-          />
-        ))}
+        render={(events: any[]) =>
+          events.map(event => (
+            <HistoryListEvent
+              key={JSON.stringify(event)}
+              event={event}
+              account={accounts[0]}
+              navigateTo={actions.navigateTo}
+            />
+          ))
+        }
       />
     )}
 
     <PluginElements position="home-bottom" />
 
-    <Link to="/advanced" className={classes.advancedLink}>Advanced</Link>
+    <Link to="/advanced" className={classes.advancedLink}>
+      Advanced
+    </Link>
   </Page>
 );
 
