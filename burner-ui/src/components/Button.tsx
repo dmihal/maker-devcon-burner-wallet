@@ -5,16 +5,17 @@ import Color from 'color';
 
 const styles = (theme: any) => ({
   button: {
-    display: 'block',
+    display: 'flex',
+    justifyContent: 'center',
+    alignContent: 'center',
     // backgroundImage: 'linear-gradient(rgb(250, 125, 54), rgb(247, 107, 28))',
     backgroundColor: theme.accentColor,
     color: Color(theme.accentColor).luminosity() > 0.6 ? '#333333' : '#EEEEEE',
     lineHeight: 1.5,
     borderRadius: 4,
     textDecoration: 'none',
-    padding: '6px 12px',
+    padding: '8px 16px',
     textAlign: 'center',
-    fontSize: 16,
   },
   disabled: {
     // backgroundImage: 'linear-gradient(rgb(189, 143, 117), rgb(176, 127, 99))',
