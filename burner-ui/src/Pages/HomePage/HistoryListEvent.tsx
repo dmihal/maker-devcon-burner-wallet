@@ -21,7 +21,7 @@ const styles = {
   column: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
+    alignItems: 'flex-end',
     overflow: 'hidden',
     whiteSpace: 'nowrap',
   },
