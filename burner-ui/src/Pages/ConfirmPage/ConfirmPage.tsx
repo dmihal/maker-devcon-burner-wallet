@@ -5,7 +5,7 @@ import Button from '../../components/Button';
 import Page from '../../components/Page';
 import LineItem from '../../components/LineItem';
 
-const ConfirmPage: React.FC<BurnerContext & RouteComponentProps> = ({ history, assets, actions, pluginData }) => {
+const ConfirmPage: React.FC<BurnerContext & RouteComponentProps> = ({ history, assets, actions }) => {
   if (!history.location.state) {
     history.replace('/send');
     return null;
@@ -13,21 +13,16 @@ const ConfirmPage: React.FC<BurnerContext & RouteComponentProps> = ({ history, a
 
   const [sending, setSending] = useState(false);
 
-  const { to, from, ether, asset: assetId, message, id } = history.location.state;
-  const [asset] = assets.filter(a => a.id === assetId);
+  const { to, from, ether, asset, message } = history.location.state;
+  const [_asset] = assets.filter(a => a.id === asset);
 
   const send = async () => {
     setSending(true);
     try {
       actions.setLoading('Sending...');
-      const receipt = await asset.send({ from, to, ether, message });
-
+      const receipt = await _asset.send({ from, to, ether, message });
       actions.setLoading(null);
-      const redirect = pluginData.sent({
-        asset, from, to, ether, message, receipt, hash: receipt.transactionHash, id,
-      });
-
-      history.push(redirect || `/receipt/${asset.id}/${receipt.transactionHash}`);
+      history.push(`/receipt/${_asset.id}/${receipt.transactionHash}`);
     } catch (err) {
       setSending(false);
       console.error(err);
@@ -38,7 +33,7 @@ const ConfirmPage: React.FC<BurnerContext & RouteComponentProps> = ({ history, a
     <Page title="Confirm">
       <LineItem name="From" value={from} />
       <LineItem name="To" value={to} />
-      <LineItem name="Amount" value={`${ether} ${asset.name}`} />
+      <LineItem name="Amount" value={`${ether} ${_asset.name}`} />
       {message && <LineItem name="Message" value={message} />}
 
       <div style={{ display: 'flex' }}>

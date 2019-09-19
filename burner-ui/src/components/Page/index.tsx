@@ -41,10 +41,9 @@ const LinkClose = styled(Link)`
 export interface PageProps {
   children: React.ReactNode;
   title?: string;
-  classes: any;
 }
 
-const Page: React.FC<PageProps> = ({ children, title, classes }) => (
+const Page: React.FC<PageProps> = ({ children, title }) => (
   <Wrapper>
     {title && (
       <TitleBar>

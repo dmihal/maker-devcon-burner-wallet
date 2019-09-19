@@ -1,38 +1,36 @@
-import React from 'react';
-import injectSheet from 'react-jss';
-import { Asset } from '@burner-wallet/assets';
+import React from "react";
+import { Asset } from "@burner-wallet/assets";
+const classes = require("./BalanceRow.module.css");
+import { Card, Box, Flex } from "rimble-ui";
 
 interface BalanceRowProps {
-  asset: Asset,
-  usdBalance?: string | null,
-  balance?: string | null,
-  classes: any,
+  asset: Asset;
+  usdBalance?: string | null;
+  balance?: string | null;
 }
 
-const styles = {
-  balanceRow: {
-    display: 'flex',
-    alignItems: 'center',
-    padding: 10,
-    borderBottom: 'solid 1px #e0e0e0',
-  },
-  assetName: {
-    flex: '1 0',
-    color: '#919191',
-  },
-  assetBalance: {
-    fontSize: 40,
-  },
-};
-
-const BalanceRow: React.FC<BalanceRowProps> = ({ asset, usdBalance, balance, classes }) => (
+const BalanceRow: React.FC<BalanceRowProps> = ({
+  asset,
+  usdBalance,
+  balance
+}) => (
   <li className={classes.balanceRow}>
-    <div className={classes.assetName}>{asset.name}</div>
-    <div className={classes.assetBalance}>
-      {!(usdBalance || balance) && '-'}
-      {usdBalance ? `$${usdBalance}` : balance}
-    </div>
+    <Card maxWidth={160} borderRadius={4} p={3}>
+      <Flex
+        flexDirection="row"
+        justifyContent="space-between"
+        alignContent="center"
+      >
+        <Flex flexDirection="column" p={2}>
+          <div className={classes.assetBalance}>
+            {!(usdBalance || balance) && "-"}
+            {usdBalance ? `$${usdBalance}` : balance}
+          </div>
+          <div className={classes.assetName}>{asset.name}</div>
+        </Flex>
+      </Flex>
+    </Card>
   </li>
 );
 
-export default injectSheet(styles)(BalanceRow);
+export default BalanceRow;

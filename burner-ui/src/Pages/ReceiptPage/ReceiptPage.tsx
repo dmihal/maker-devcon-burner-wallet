@@ -15,14 +15,12 @@ const ReceiptPage: React.FC<RouteComponentProps<MatchParams>> = ({ match }) => (
     <TransactionDetails
       asset={match.params.asset}
       txHash={match.params.txHash}
-      render={(tx) => {
-        if (!tx) {
-          return (
-            <div>
-              <div>Transaction not found...</div>
-              <div>The transaction may still be propogating</div>
-            </div>
-          );
+      render={(err, tx) => {
+        if (err) {
+          return `Error: ${err.message}`;
+        }
+        if (!err && !tx) {
+          return 'Loading...';
         }
 
         return (

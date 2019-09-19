@@ -1,22 +1,24 @@
-// @ts-ignore
 import React, { MouseEvent } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Color from "color";
 
-const ButtonStyled = styled.button`
-  display: block;
+const StyledButton = styled.button`
+  display: flex;
+  justify-content: center;
+  align-content: center;
   background-color: ${props => props.theme.accentColor};
   color: ${Color(props => props.theme.accentColor).luminosity() > 0.6
     ? "#333333"
     : "#EEEEEE"};
   line-height: 1.5;
-  border-radius: 4px;
+  border-radius: 4;
   text-decoration: none;
   padding: 8px 16px;
   text-align: center;
   font-size: 16px;
-  &:disabled {
+
+  :disabled {
     background-color: ${Color(props => props.theme.accentColor)
       .desaturate(0.5)
       .hsl()
@@ -25,19 +27,22 @@ const ButtonStyled = styled.button`
   }
 `;
 
-const LinkStyled = styled(Link)`
-  display: block;
+const StyledLink = styled(Link)`
+  display: flex;
+  justify-content: center;
+  align-content: center;
   background-color: ${props => props.theme.accentColor};
   color: ${Color(props => props.theme.accentColor).luminosity() > 0.6
     ? "#333333"
     : "#EEEEEE"};
   line-height: 1.5;
-  border-radius: 4px;
+  border-radius: 4;
   text-decoration: none;
   padding: 8px 16px;
   text-align: center;
   font-size: 16px;
-  &:disabled {
+
+  :disabled {
     background-color: ${Color(props => props.theme.accentColor)
       .desaturate(0.5)
       .hsl()
@@ -51,6 +56,7 @@ export interface ButtonProps {
   onClick?: () => any;
   disabled?: boolean;
   className?: string;
+  classes: any;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -66,26 +72,21 @@ const Button: React.FC<ButtonProps> = ({
 
   if (to) {
     return (
-      <LinkStyled
-        to={to}
-        onClick={clickHandler}
-        disabled={disabled}
-        className={className}
-      >
+      <Link className={className} to={to} onClick={clickHandler}>
         {children}
-      </LinkStyled>
+      </Link>
     );
   } else {
     return (
-      <ButtonStyled
+      <StyledButton
+        className={className}
         onClick={clickHandler}
         disabled={disabled}
-        className={className}
       >
         {children}
-      </ButtonStyled>
+      </StyledButton>
     );
   }
 };
 
-export default Button;
+export default ActionRow;
