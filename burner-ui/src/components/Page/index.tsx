@@ -5,9 +5,10 @@ import Color from "color";
 import styled from "styled-components";
 
 const Wrapper = styled.div`
+  height: 100%;
   background: ${props => props.theme.paperBackground};
-  padding: 15;
-  border-radius: 5;
+  padding: 16px;
+  border-radius: 4px;
   color: ${Color(props => props.theme.paperBackground).isLight()
     ? "#333333"
     : "#EEEEEE"};
