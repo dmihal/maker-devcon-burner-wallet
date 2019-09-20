@@ -21,9 +21,7 @@ const TitleBar = styled.div`
   height: 64px;
 `;
 
-const Corner = styled.div`
-  width: 64px;
-`;
+
 
 const TextTitle = styled.div`
   font-size: 22px;
@@ -48,11 +46,8 @@ const Page: React.FC<PageProps> = ({ children, title }) => (
   <Wrapper>
     {title && (
       <TitleBar>
-        <Corner />
         <TextTitle>{title}</TextTitle>
-        <Corner />
         <LinkClose to="/">&times;</LinkClose>
-        <Corner />
       </TitleBar>
     )}
     <div>{children}</div>
