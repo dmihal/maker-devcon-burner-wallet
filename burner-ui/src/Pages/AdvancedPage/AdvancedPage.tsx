@@ -34,8 +34,9 @@ const AdvancedPage: React.FC<BurnerContext> = ({ defaultAccount }) => {
           keys && (
             <Section title='Private Key'>
               <div style={{ display: 'flex' }}>
+                {showPk && keys.privateKey}
                 <Button onClick={() => setShowPk(!showPk)}>
-                  {showPk ? 'Hide' : 'Show'} PK
+                  {showPk ? 'Hide' : 'Show'}
                 </Button>
                 <Button
                   onClick={() => navigator.clipboard.writeText(keys.privateKey)}

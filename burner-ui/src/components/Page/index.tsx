@@ -11,6 +11,10 @@ const TitleBar = styled.div`
   padding: 0 var(--page-margin);
 `;
 
+const CloseButton = styled(IconButton)`
+  margin-left: auto;
+`;
+
 export interface PageProps {
   children: React.ReactNode;
   title?: string;
