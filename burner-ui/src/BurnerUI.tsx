@@ -1,17 +1,17 @@
-import React, { Component } from "react";
-import { BrowserRouter as Router } from "react-router-dom";
-import { Asset } from "@burner-wallet/assets";
-import BurnerCore from "@burner-wallet/core";
-import burnerComponents from "./components/BurnerComponents";
-import Header from "./components/Header";
-import Loading from "./components/Loading";
-import Scanner from "./components/Scanner";
-import BurnerProvider from "./BurnerProvider";
-import Pages from "./Pages";
-import Template from "./Template";
-import HistoryProvider from "./HistoryProvider";
-import Plugins from "./Plugins";
-import { Plugin } from "./";
+import React, { Component } from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { Asset } from '@burner-wallet/assets';
+import BurnerCore from '@burner-wallet/core';
+import burnerComponents from './components/BurnerComponents';
+import Header from './components/Header';
+import Loading from './components/Loading';
+import Scanner from './components/Scanner';
+import BurnerProvider from './BurnerProvider';
+import Pages from './Pages';
+import Template from './Template';
+import HistoryProvider from './HistoryProvider';
+import Plugins from './Plugins';
+import { Plugin } from './';
 
 interface BurnerUIProps {
   core: BurnerCore;
@@ -60,7 +60,6 @@ export default class BurnerUI extends Component<BurnerUIProps, any> {
             <Template theme={this.props.theme}>
               <Loading />
               <Scanner />
-              <Header title={this.props.title} />
               <Pages pluginData={this.state.pluginData} />
             </Template>
           </HistoryProvider>

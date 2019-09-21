@@ -1,7 +1,6 @@
-import React, { Component } from "react";
-import styled from "styled-components";
+import React, { Component } from 'react';
+import styled from 'styled-components';
 
-//
 // This is a modular text component to enforce rules defined in css :root
 // It is called using predefined levels (unlimited), but each level must have
 // a font-size, line-height, and font-weight.
@@ -11,11 +10,12 @@ import styled from "styled-components";
 // --l1-fw = font-weight
 
 const StyledText = styled.p`
-  font-size: ${props => "var(--l" + props.level + "-fs)"};
-  line-height: ${props => "var(--l" + props.level + "-lh)"};
-  font-weight: ${props => "var(--l" + props.level + "-fw)"};
+  font-size: ${props => 'var(--l' + props.level + '-fs)'};
+  line-height: ${props => 'var(--l' + props.level + '-lh)'};
+  font-weight: ${props => 'var(--l' + props.level + '-weight)'};
   text-align: ${props =>
-    props.center ? "center" : props.right ? "right" : props.left && "left"};
+    props.center ? 'center' : props.right ? 'right' : props.left && 'left'};
+  margin: ${props => props.margin};
 `;
 
 interface TextProps {
@@ -25,6 +25,7 @@ interface TextProps {
   left?: Boolean;
   right?: Boolean;
   level: number;
+  margin?: string | number;
 }
 
 interface LevelProps {
@@ -33,6 +34,7 @@ interface LevelProps {
   center?: Boolean;
   left?: Boolean;
   right?: Boolean;
+  margin?: string | number;
 }
 
 const Text: React.FC<TextProps> = ({
@@ -42,7 +44,8 @@ const Text: React.FC<TextProps> = ({
   center,
   left,
   right,
-  children
+  children,
+  margin
 }) => (
   <StyledText
     level={level}
@@ -52,6 +55,7 @@ const Text: React.FC<TextProps> = ({
     right={right}
     center={center}
     children={children}
+    margin={margin}
   />
 );
 
@@ -61,7 +65,8 @@ const L1: React.FC<LevelProps> = ({
   center,
   left,
   right,
-  children
+  children,
+  margin
 }) => (
   <Text
     level={1}
@@ -71,6 +76,7 @@ const L1: React.FC<LevelProps> = ({
     right={right}
     center={center}
     children={children}
+    margin={margin}
   />
 );
 
@@ -80,7 +86,8 @@ const L2: React.FC<TextProps> = ({
   center,
   left,
   right,
-  children
+  children,
+  margin
 }) => (
   <Text
     level={2}
@@ -90,6 +97,7 @@ const L2: React.FC<TextProps> = ({
     right={right}
     center={center}
     children={children}
+    margin={margin}
   />
 );
 
@@ -99,7 +107,8 @@ const L3: React.FC<TextProps> = ({
   center,
   left,
   right,
-  children
+  children,
+  margin
 }) => (
   <Text
     level={3}
@@ -109,6 +118,7 @@ const L3: React.FC<TextProps> = ({
     right={right}
     center={center}
     children={children}
+    margin={margin}
   />
 );
 

@@ -1,9 +1,9 @@
-import React from "react";
-import { RouteComponentProps } from "react-router-dom";
-import QRCode from "qrcode.react";
-import Page from "../../components/Page";
-import LineItem from "../../components/LineItem";
-import TransactionDetails from "../../data-providers/TransactionDetails";
+import React from 'react';
+import { RouteComponentProps } from 'react-router-dom';
+import QRCode from 'qrcode.react';
+import Page from '../../components/Page';
+import LineItem from '../../components/LineItem';
+import TransactionDetails from '../../data-providers/TransactionDetails';
 
 interface MatchParams {
   asset: string;
@@ -11,7 +11,7 @@ interface MatchParams {
 }
 
 const ReceiptPage: React.FC<RouteComponentProps<MatchParams>> = ({ match }) => (
-  <Page title="Receipt">
+  <Page title='Transaction' back>
     <TransactionDetails
       asset={match.params.asset}
       txHash={match.params.txHash}
@@ -27,13 +27,13 @@ const ReceiptPage: React.FC<RouteComponentProps<MatchParams>> = ({ match }) => (
 
         return (
           <div>
-            <LineItem name="From" value={tx.from} />
-            <LineItem name="To" value={tx.to} />
+            <LineItem name='From' value={tx.from} />
+            <LineItem name='To' value={tx.to} />
             <LineItem
-              name="Amount"
+              name='Amount'
               value={`${tx.displayValue} ${tx.assetName}`}
             />
-            {tx.message && <LineItem name="Message" value={tx.message} />}
+            {tx.message && <LineItem name='Message' value={tx.message} />}
           </div>
         );
       }}
