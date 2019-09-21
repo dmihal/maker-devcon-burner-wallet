@@ -16,6 +16,7 @@ import IconButton from '../IconButton';
 const TitleBar = styled.div`
   display: flex;
   height: 64px;
+  padding: 0 var(--page-margin);
 `;
 
 const Corner = styled.div`
@@ -36,33 +37,6 @@ const LinkClose = styled(Link)`
   text-align: center;
 `;
 
-const Wrapper = styled.div`
-  padding: var(--page-margin);
-`;
-
-const CloseIcon = (
-  <svg
-    width='16'
-    height='16'
-    viewBox='0 0 16 16'
-    fill='none'
-    xmlns='http://www.w3.org/2000/svg'
-  >
-    <rect
-      width='3.0866'
-      height='19.5407'
-      transform='matrix(0.707104 -0.70711 0.707104 0.70711 0 2.18262)'
-      fill='#CCCCCC'
-    />
-    <rect
-      width='3.0866'
-      height='19.5407'
-      transform='matrix(-0.707104 -0.70711 -0.707104 0.70711 16 2.18262)'
-      fill='#CCCCCC'
-    />
-  </svg>
-);
-
 const CloseButton = styled(IconButton)`
   margin-left: auto;
 `;
@@ -75,7 +49,7 @@ export interface PageProps {
 }
 
 const Page: React.FC<PageProps> = ({ children, title, close, back }) => (
-  <Wrapper>
+  <div>
     {title && (
       <TitleBar>
         {back && <IconButton icon='back' to='/' marginLeft={-12} />}
@@ -86,7 +60,7 @@ const Page: React.FC<PageProps> = ({ children, title, close, back }) => (
       </TitleBar>
     )}
     <div>{children}</div>
-  </Wrapper>
+  </div>
 );
 
 export default Page;

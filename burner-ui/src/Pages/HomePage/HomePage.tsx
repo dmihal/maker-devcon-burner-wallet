@@ -6,15 +6,12 @@ import Color from 'color';
 import { BurnerContext, withBurner } from '../../BurnerProvider';
 import Button from '../../components/Button';
 import Page from '../../components/Page';
-import ActionRow from '../../components/ActionRow';
-import { Card } from 'rimble-ui';
+// import ActionRow from '../../components/ActionRow';
+import { Card, Flex } from 'rimble-ui';
 import PluginElements from '../../components/PluginElements';
-import AccountBalance, {
-  AccountBalanceData
-} from '../../data-providers/AccountBalance';
 import History from '../../data-providers/History';
 import { SCAN_QR_DATAURI } from '../../constants';
-import BalanceRow from './BalanceRow';
+import BalanceRow from '../../components/BalanceRow';
 import HistoryListEvent from './HistoryListEvent';
 import { L1, L2 } from '../../components/Text';
 
@@ -99,39 +96,8 @@ const HomePage: React.FC<BurnerContext & { classes: any }> = ({
 }) => (
   <Page title={'My Wallet'}>
     <PluginElements position='home-top' />
-
-    {accounts.length > 0 ? (
-      <ul className={classes.balances}>
-        {assets.map(asset => (
-          <AccountBalance
-            key={asset.id}
-            asset={asset.id}
-            account={accounts[0]}
-            render={(err: Error, data: AccountBalanceData | null) => (
-              <BalanceRow
-                asset={asset}
-                usdBalance={data && data.usdBalance}
-                balance={data && data.displayBalance}
-              />
-            )}
-          />
-        ))}
-      </ul>
-    ) : (
-      'Loading'
-    )}
-
+    <BalanceRow accounts={accounts} assets={assets} />
     <PluginElements position='home-middle' />
-
-    {/*
-    <ul className={classes.buttons}>
-      <HomeButton path="/receive" title="Receive" classes={classes} />
-      <HomeButton path="/send" title="Send" classes={classes} />
-      {pluginData.homeButtons.map(({ title, path }) => (
-        <HomeButton title={title} path={path} key={title} classes={classes} />
-      ))}
-    </ul>
-    */}
 
     <L2 as={'h2'} margin={0}>
       Recent activity
@@ -154,30 +120,32 @@ const HomePage: React.FC<BurnerContext & { classes: any }> = ({
 
     <PluginElements position='home-bottom' />
 
-    <Card className={classes.ActionRow}>
-      <HomeButton path='/receive' title='Request' classes={classes} />
-      <button
-        className={classes.scanBtn}
-        onClick={async () => {
-          try {
-            const result = await actions.scanQrCode();
-            if (pluginData.tryHandleQR(result, { actions })) {
-              return;
-            } else if (ADDRESS_REGEX.test(result)) {
-              actions.navigateTo('/send', { address: result });
-            } else if (PK_REGEX.test(result)) {
-              actions.callSigner('writeKey', accounts[0], result);
-            } else if (result.indexOf(location.origin) === 0) {
-              actions.navigateTo(result.substr(location.origin.length));
-            }
-          } catch (e) {}
-        }}
-      />
-      <HomeButton path='/send' title='Send' classes={classes} />
-      {pluginData.homeButtons.map(({ title, path }) => (
-        <HomeButton title={title} path={path} key={title} classes={classes} />
-      ))}
-    </Card>
+    <Flex>
+      <Card className={classes.ActionRow}>
+        <HomeButton path='/receive' title='Request' classes={classes} />
+        <button
+          className={classes.scanBtn}
+          onClick={async () => {
+            try {
+              const result = await actions.scanQrCode();
+              if (pluginData.tryHandleQR(result, { actions })) {
+                return;
+              } else if (ADDRESS_REGEX.test(result)) {
+                actions.navigateTo('/send', { address: result });
+              } else if (PK_REGEX.test(result)) {
+                actions.callSigner('writeKey', accounts[0], result);
+              } else if (result.indexOf(location.origin) === 0) {
+                actions.navigateTo(result.substr(location.origin.length));
+              }
+            } catch (e) {}
+          }}
+        />
+        <HomeButton path='/send' title='Send' classes={classes} />
+        {pluginData.homeButtons.map(({ title, path }) => (
+          <HomeButton title={title} path={path} key={title} classes={classes} />
+        ))}
+      </Card>
+    </Flex>
 
     <Link to='/advanced' className={classes.advancedLink}>
       Advanced

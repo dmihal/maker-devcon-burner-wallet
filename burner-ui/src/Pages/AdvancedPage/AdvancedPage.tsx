@@ -6,17 +6,22 @@ import Button from '../../components/Button';
 import Page from '../../components/Page';
 import PluginElements from '../../components/PluginElements';
 import AccountKeys from '../../data-providers/AccountKeys';
+import styled from 'styled-components';
 
 interface SectionProps {
   title: string;
   children: React.ReactNode;
 }
 
+const SectionWrapper = styled.section`
+  padding: 0 var(--page-margin);
+`;
+
 const Section: React.FC<SectionProps> = ({ title, children }) => (
-  <div>
+  <SectionWrapper>
     <h3>{title}</h3>
     {children}
-  </div>
+  </SectionWrapper>
 );
 
 const AdvancedPage: React.FC<BurnerContext> = ({ accounts }) => {
