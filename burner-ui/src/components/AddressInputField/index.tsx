@@ -13,9 +13,6 @@ const styles = {
     width: 40,
     height: 40
   },
-  clearBtn: {
-    width: 40
-  }
 };
 
 const InputContainer = styled.div`
@@ -29,17 +26,19 @@ const InputContainer = styled.div`
 const InputField = styled.input`
   order: none;
   flex: 1 0;
-  font-size: 16px;
+  font-size: 20px;
   padding: 4px;
+
 `;
 const ButtonScan = styled.button`
-  background-image: url("${SCAN_QR_DATAURI}"); 
+  background-image: url("${SCAN_QR_DATAURI}");
   width: 40px;
   height: 40px;
 `;
 
 const ButtonClear = styled.button`
-  width: 40px;
+  font-size: 32px;
+  color: #4E3FCE;
 `;
 interface AddressInputFieldProps {
   value: string;
