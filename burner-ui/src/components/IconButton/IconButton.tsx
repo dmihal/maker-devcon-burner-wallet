@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { L1 } from '../Text';
 
 const StyledLink = styled(Link)`
   width: 40px;
@@ -8,6 +9,16 @@ const StyledLink = styled(Link)`
   display: flex;
   justify-content: center;
   align-items: center;
+  text-decoration: none;
+  color: ${props => props.color || '#000'};
+  margin-left: ${props =>
+    typeof props.marginLeft === 'number'
+      ? props.marginLeft + 'px'
+      : props.marginLeft};
+  margin-right: ${props =>
+    typeof props.marginRight === 'number'
+      ? props.marginRight + 'px'
+      : props.marginRight};
 `;
 
 export interface IconProps {
@@ -39,19 +50,47 @@ const Close: React.FC<IconProps> = ({ color }) => (
 
 export interface IconLinkProps {
   to: string;
-  icon: string;
+  icon: 'close' | 'back';
   color?: string;
   className?: string;
+  marginLeft?: string | number;
+  marginRight?: string | number;
 }
 const IconButton: React.FC<IconLinkProps> = ({
   to,
   icon,
   color,
-  className
-}) => (
-  <StyledLink to={to} className={className}>
-    {icon.toLowerCase() == 'close' && <Close color={color} />}
-  </StyledLink>
-);
+  className,
+  marginLeft,
+  marginRight
+}) => {
+  switch (icon.toLowerCase()) {
+    case 'close':
+      return (
+        <StyledLink
+          marginLeft={marginLeft}
+          marginRight={marginRight}
+          to={to}
+          className={className}
+        >
+          <Close color={color} />
+        </StyledLink>
+      );
+    case 'back':
+      return (
+        <StyledLink
+          marginLeft={marginLeft}
+          marginRight={marginRight}
+          to={to}
+          className={className}
+        >
+          <L1 as={'span'}>{'\u2190'}</L1>
+        </StyledLink>
+      );
+
+    default:
+      return <div>ICON INVALID</div>;
+  }
+};
 
 export default IconButton;

@@ -66,6 +66,7 @@ const CloseIcon = (
 const CloseButton = styled(IconButton)`
   margin-left: auto;
 `;
+
 export interface PageProps {
   children: React.ReactNode;
   title?: string;
@@ -77,6 +78,7 @@ const Page: React.FC<PageProps> = ({ children, title, close, back }) => (
   <Wrapper>
     {title && (
       <TitleBar>
+        {back && <IconButton icon='back' to='/' marginLeft={-12} />}
         <L1 as={'h1'} margin={0}>
           {title}
         </L1>

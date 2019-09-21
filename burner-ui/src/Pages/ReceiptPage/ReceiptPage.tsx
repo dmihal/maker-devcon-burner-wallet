@@ -11,7 +11,7 @@ interface MatchParams {
 }
 
 const ReceiptPage: React.FC<RouteComponentProps<MatchParams>> = ({ match }) => (
-  <Page title='Receipt' close>
+  <Page title='Transaction' back>
     <TransactionDetails
       asset={match.params.asset}
       txHash={match.params.txHash}
