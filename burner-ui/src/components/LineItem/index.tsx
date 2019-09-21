@@ -21,7 +21,7 @@ const TextLineValue = styled.div`
 interface LineItemProps {
   name: string;
   value: string;
-  classes: any;
+  classes?: any;
 }
 
 const LineItem: React.FC<LineItemProps> = ({ name, value, classes }) => (
