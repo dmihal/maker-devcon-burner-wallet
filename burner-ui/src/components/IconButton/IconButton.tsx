@@ -1,7 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+<<<<<<< HEAD
 import { L1 } from '../Text';
+=======
+>>>>>>> Added modular button icon framework. Homepage navigation now working
 
 const StyledLink = styled(Link)`
   width: 40px;
@@ -9,6 +12,7 @@ const StyledLink = styled(Link)`
   display: flex;
   justify-content: center;
   align-items: center;
+<<<<<<< HEAD
   text-decoration: none;
   color: ${props => props.color || '#000'};
   margin-left: ${props =>
@@ -19,6 +23,8 @@ const StyledLink = styled(Link)`
     typeof props.marginright === 'number'
       ? props.marginright + 'px'
       : props.marginright};
+=======
+>>>>>>> Added modular button icon framework. Homepage navigation now working
 `;
 
 export interface IconProps {
