@@ -1,0 +1,15 @@
+.balanceRow {
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+.assetName {
+  flex: 1 0;
+  color: #444;
+  text-transform: uppercase;
+  font-size: 16px;
+  font-weight: 600;
+}
+.assetBalance {
+  font-size: 40px;
+}

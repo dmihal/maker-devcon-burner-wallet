@@ -1,33 +1,54 @@
-import React, { useState } from 'react';
-import { RouteComponentProps } from 'react-router-dom';
-import { BurnerContext, withBurner } from '../../BurnerProvider';
-import Button from '../../components/Button';
-import Page from '../../components/Page';
-import LineItem from '../../components/LineItem';
+import React, { useState } from "react";
+import { RouteComponentProps } from "react-router-dom";
+import { BurnerContext, withBurner } from "../../BurnerProvider";
+import Button from "../../components/Button";
+import Page from "../../components/Page";
+import LineItem from "../../components/LineItem";
 
-const ConfirmPage: React.FC<BurnerContext & RouteComponentProps> = ({ history, assets, actions, pluginData }) => {
+const ConfirmPage: React.FC<BurnerContext & RouteComponentProps> = ({
+  history,
+  assets,
+  actions,
+  pluginData
+}) => {
   if (!history.location.state) {
-    history.replace('/send');
+    history.replace("/send");
     return null;
   }
 
   const [sending, setSending] = useState(false);
 
-  const { to, from, ether, asset: assetId, message, id } = history.location.state;
+  const {
+    to,
+    from,
+    ether,
+    asset: assetId,
+    message,
+    id
+  } = history.location.state;
   const [asset] = assets.filter(a => a.id === assetId);
 
   const send = async () => {
     setSending(true);
     try {
-      actions.setLoading('Sending...');
+      actions.setLoading("Sending...");
       const receipt = await asset.send({ from, to, ether, message });
 
       actions.setLoading(null);
       const redirect = pluginData.sent({
-        asset, from, to, ether, message, receipt, hash: receipt.transactionHash, id,
+        asset,
+        from,
+        to,
+        ether,
+        message,
+        receipt,
+        hash: receipt.transactionHash,
+        id
       });
 
-      history.push(redirect || `/receipt/${asset.id}/${receipt.transactionHash}`);
+      history.push(
+        redirect || `/receipt/${asset.id}/${receipt.transactionHash}`
+      );
     } catch (err) {
       setSending(false);
       console.error(err);
@@ -41,9 +62,13 @@ const ConfirmPage: React.FC<BurnerContext & RouteComponentProps> = ({ history, a
       <LineItem name="Amount" value={`${ether} ${asset.name}`} />
       {message && <LineItem name="Message" value={message} />}
 
-      <div style={{ display: 'flex' }}>
-        <Button disabled={sending} onClick={send}>Send</Button>
-        <Button disabled={sending} onClick={() => history.goBack()}>Cancel</Button>
+      <div style={{ display: "flex" }}>
+        <Button disabled={sending} onClick={send}>
+          Send
+        </Button>
+        <Button disabled={sending} onClick={() => history.goBack()}>
+          Cancel
+        </Button>
       </div>
     </Page>
   );
