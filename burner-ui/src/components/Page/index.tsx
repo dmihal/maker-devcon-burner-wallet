@@ -13,7 +13,7 @@ const TitleBar = styled.div`
 
 const CloseButton = styled(IconButton)`
   margin-left: auto;
-
+`;
 
 export interface PageProps {
   children: React.ReactNode;
