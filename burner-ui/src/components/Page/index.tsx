@@ -1,23 +1,19 @@
 // @ts-ignore
-import React from "react";
-import { Link } from "react-router-dom";
-import Color from "color";
-import styled from "styled-components";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import Color from 'color';
+import styled from 'styled-components';
+import { L1 } from '../Text';
 
-const Wrapper = styled.div`
-  height: 100%;
-  background: ${props => props.theme.paperBackground};
-  padding: 16px;
-  border-radius: 4px;
-  color: ${Color(props => props.theme.paperBackground).isLight()
-    ? "#333333"
-    : "#EEEEEE"};
-`;
+// const Wrapper = styled.div`
+//   height: 100%;
+//   background: ${props => props.theme.paperBackground};
+//   padding: 16px;
+//   border-radius: 4px;
+// `;
 
 const TitleBar = styled.div`
   display: flex;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  margin-bottom: 5px;
   height: 64px;
 `;
 
@@ -39,20 +35,23 @@ const LinkClose = styled(Link)`
   text-align: center;
 `;
 
+const Wrapper = styled.div`
+  padding: var(--page-margin);
+`;
+
 export interface PageProps {
   children: React.ReactNode;
   title?: string;
+  close?: boolean;
+  back?: boolean;
 }
 
-const Page: React.FC<PageProps> = ({ children, title }) => (
+const Page: React.FC<PageProps> = ({ children, title, close, back }) => (
   <Wrapper>
     {title && (
       <TitleBar>
-        <Corner />
-        <TextTitle>{title}</TextTitle>
-        <Corner />
-        <LinkClose to="/">&times;</LinkClose>
-        <Corner />
+        <L1 margin={0}>{title}</L1>
+        {close && <LinkClose to='/'>&times;</LinkClose>}
       </TitleBar>
     )}
     <div>{children}</div>

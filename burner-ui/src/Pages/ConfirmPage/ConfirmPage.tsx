@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { RouteComponentProps } from "react-router-dom";
-import { BurnerContext, withBurner } from "../../BurnerProvider";
-import Button from "../../components/Button";
-import Page from "../../components/Page";
-import LineItem from "../../components/LineItem";
+import React, { useState } from 'react';
+import { RouteComponentProps } from 'react-router-dom';
+import { BurnerContext, withBurner } from '../../BurnerProvider';
+import Button from '../../components/Button';
+import Page from '../../components/Page';
+import LineItem from '../../components/LineItem';
 
 const ConfirmPage: React.FC<BurnerContext & RouteComponentProps> = ({
   history,
@@ -12,7 +12,7 @@ const ConfirmPage: React.FC<BurnerContext & RouteComponentProps> = ({
   pluginData
 }) => {
   if (!history.location.state) {
-    history.replace("/send");
+    history.replace('/send');
     return null;
   }
 
@@ -31,7 +31,7 @@ const ConfirmPage: React.FC<BurnerContext & RouteComponentProps> = ({
   const send = async () => {
     setSending(true);
     try {
-      actions.setLoading("Sending...");
+      actions.setLoading('Sending...');
       const receipt = await asset.send({ from, to, ether, message });
 
       actions.setLoading(null);
@@ -56,13 +56,13 @@ const ConfirmPage: React.FC<BurnerContext & RouteComponentProps> = ({
   };
 
   return (
-    <Page title="Confirm">
-      <LineItem name="From" value={from} />
-      <LineItem name="To" value={to} />
-      <LineItem name="Amount" value={`${ether} ${asset.name}`} />
-      {message && <LineItem name="Message" value={message} />}
+    <Page title='Confirm' close>
+      <LineItem name='From' value={from} />
+      <LineItem name='To' value={to} />
+      <LineItem name='Amount' value={`${ether} ${asset.name}`} />
+      {message && <LineItem name='Message' value={message} />}
 
-      <div style={{ display: "flex" }}>
+      <div style={{ display: 'flex' }}>
         <Button disabled={sending} onClick={send}>
           Send
         </Button>

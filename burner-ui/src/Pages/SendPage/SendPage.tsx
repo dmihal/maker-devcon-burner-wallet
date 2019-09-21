@@ -12,14 +12,14 @@ import Button from '../../components/Button';
 import Page from '../../components/Page';
 
 interface SendPageState {
-  to: string,
-  value: string,
-  asset: Asset | null,
-  sending: boolean,
-  txHash: string | null,
-  account: Account | null,
-  accounts: Account[],
-  message: string,
+  to: string;
+  value: string;
+  asset: Asset | null;
+  sending: boolean;
+  txHash: string | null;
+  account: Account | null;
+  accounts: Account[];
+  message: string;
 }
 
 type SendPageProps = BurnerContext & RouteComponentProps & { classes: any };
@@ -33,31 +33,33 @@ const styles = {
     height: 40,
     boxSizing: 'border-box',
     border: 'solid 1px #cccccc',
-    borderRadius: 4,
+    borderRadius: 4
   },
   sendContainer: {
-    marginTop: 16,
-  },
+    marginTop: 16
+  }
 };
 
 class SendPage extends Component<SendPageProps, SendPageState> {
   constructor(props: SendPageProps) {
     super(props);
     this.state = {
-      to: props.location.state && props.location.state.address || '',
+      to: (props.location.state && props.location.state.address) || '',
       value: '',
       message: '',
       asset: null,
       sending: false,
       txHash: null,
       account: null,
-      accounts: [],
+      accounts: []
     };
   }
 
   async getAccounts(search: string) {
     const { pluginData } = this.props;
-    const _accounts = await Promise.all(pluginData.accountSearches.map(searchFn => searchFn(search)));
+    const _accounts = await Promise.all(
+      pluginData.accountSearches.map(searchFn => searchFn(search))
+    );
     const accounts = Array.prototype.concat(..._accounts);
     this.setState({ accounts });
   }
@@ -80,24 +82,35 @@ class SendPage extends Component<SendPageProps, SendPageState> {
       to,
       ether: value,
       asset: asset.id,
-      message: message.length > 0 ? message : null,
+      message: message.length > 0 ? message : null
     });
   }
 
   render() {
-    const { to, value, asset, sending, txHash, account, accounts, message } = this.state;
+    const {
+      to,
+      value,
+      asset,
+      sending,
+      txHash,
+      account,
+      accounts,
+      message
+    } = this.state;
     const { actions, classes } = this.props;
 
     if (txHash && asset) {
-      return (
-        <Redirect to={`/receipt/${asset.id}/${txHash}`} />
-      )
+      return <Redirect to={`/receipt/${asset.id}/${txHash}`} />;
     }
 
     const canSend = asset !== null && !sending && to.length == 42 && to;
     return (
-      <Page title="Send To Address">
-        <AssetSelector selected={asset} onChange={newAsset => this.setState({ asset: newAsset })} disabled={sending} />
+      <Page title='Send To Address' close>
+        <AssetSelector
+          selected={asset}
+          onChange={newAsset => this.setState({ asset: newAsset })}
+          disabled={sending}
+        />
         <div>To address:</div>
         <AddressInputField
           value={to}
@@ -115,7 +128,9 @@ class SendPage extends Component<SendPageProps, SendPageState> {
         />
         <AddressInputSearchResults
           accounts={accounts}
-          onSelect={(account: Account) => this.setState({ account, accounts: [] })}
+          onSelect={(account: Account) =>
+            this.setState({ account, accounts: [] })
+          }
         />
 
         <div>Send Amount:</div>
@@ -138,7 +153,9 @@ class SendPage extends Component<SendPageProps, SendPageState> {
         )}
 
         <div className={classes.sendContainer}>
-          <Button onClick={() => this.send()} disabled={!canSend}>Send</Button>
+          <Button onClick={() => this.send()} disabled={!canSend}>
+            Send
+          </Button>
         </div>
       </Page>
     );

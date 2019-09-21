@@ -8,8 +8,8 @@ import PluginElements from '../../components/PluginElements';
 import AccountKeys from '../../data-providers/AccountKeys';
 
 interface SectionProps {
-  title: string,
-  children:  React.ReactNode,
+  title: string;
+  children: React.ReactNode;
 }
 
 const Section: React.FC<SectionProps> = ({ title, children }) => (
@@ -17,40 +17,48 @@ const Section: React.FC<SectionProps> = ({ title, children }) => (
     <h3>{title}</h3>
     {children}
   </div>
-)
+);
 
 const AdvancedPage: React.FC<BurnerContext> = ({ accounts }) => {
   const [showPk, setShowPk] = React.useState(false);
   return (
-    <Page title="Advanced">
+    <Page title='Advanced' close>
       <AccountKeys
         account={accounts[0]}
-        render={keys => keys && (
-          <Section title="Private Key">
-            <div style={{ display: 'flex' }}>
-              <Button onClick={() => setShowPk(!showPk)}>
-                {showPk ? 'Hide' : 'Show'} PK
-              </Button>
-              <Button onClick={() => navigator.clipboard.writeText(keys.privateKey)}>
-                Copy PK
-              </Button>
-            </div>
-
-            {showPk && (
-              <div>
-                <div><QRCode value={keys.privateKey} renderAs="svg" /></div>
-                <div><input value={keys.privateKey} readOnly /></div>
+        render={keys =>
+          keys && (
+            <Section title='Private Key'>
+              <div style={{ display: 'flex' }}>
+                <Button onClick={() => setShowPk(!showPk)}>
+                  {showPk ? 'Hide' : 'Show'} PK
+                </Button>
+                <Button
+                  onClick={() => navigator.clipboard.writeText(keys.privateKey)}
+                >
+                  Copy PK
+                </Button>
               </div>
-            )}
 
-            <div>
-              <Button onClick={keys.burnAccount}>Burn PK</Button>
-            </div>
-          </Section>
-        )}
+              {showPk && (
+                <div>
+                  <div>
+                    <QRCode value={keys.privateKey} renderAs='svg' />
+                  </div>
+                  <div>
+                    <input value={keys.privateKey} readOnly />
+                  </div>
+                </div>
+              )}
+
+              <div>
+                <Button onClick={keys.burnAccount}>Burn PK</Button>
+              </div>
+            </Section>
+          )
+        }
       />
 
-      <PluginElements position="advanced" />
+      <PluginElements position='advanced' />
     </Page>
   );
 };

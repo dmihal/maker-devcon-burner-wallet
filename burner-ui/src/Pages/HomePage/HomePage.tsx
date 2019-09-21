@@ -16,6 +16,7 @@ import History from '../../data-providers/History';
 import { SCAN_QR_DATAURI } from '../../constants';
 import BalanceRow from './BalanceRow';
 import HistoryListEvent from './HistoryListEvent';
+import { L1, L2 } from '../../components/Text';
 
 const styles = (theme: any) => ({
   balances: {
@@ -96,7 +97,7 @@ const HomePage: React.FC<BurnerContext & { classes: any }> = ({
   pluginData,
   classes
 }) => (
-  <Page>
+  <Page title={'My Wallet'}>
     <PluginElements position='home-top' />
 
     {accounts.length > 0 ? (
@@ -132,6 +133,9 @@ const HomePage: React.FC<BurnerContext & { classes: any }> = ({
     </ul>
     */}
 
+    <L2 as={'h2'} margin={0}>
+      Recent activity
+    </L2>
     {accounts.length > 0 && (
       <History
         account={accounts[0]}

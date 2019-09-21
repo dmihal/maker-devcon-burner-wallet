@@ -7,11 +7,11 @@ const classes = require('./ReceivePage.module.css');
 const ReceivePage: React.FC<BurnerContext> = ({ accounts }) => {
   const [showCopied, setShowCopied] = useState(false);
   return (
-    <Page title="Receive">
+    <Page title='Receive' close>
       {accounts.length > 0 && (
         <>
           <div className={classes.qrContainer}>
-            <QRCode value={accounts[0]} renderAs="svg" />
+            <QRCode value={accounts[0]} renderAs='svg' />
           </div>
           <div className={classes.addressContainer}>
             <input
