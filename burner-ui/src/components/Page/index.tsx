@@ -1,62 +1,35 @@
 // @ts-ignore
-import React from "react";
-import { Link } from "react-router-dom";
-import Color from "color";
-import styled from "styled-components";
-
-const Wrapper = styled.div`
-  height: 100%;
-  background: ${props => props.theme.paperBackground};
-  padding: 16px;
-  border-radius: 4px;
-  color: ${Color(props => props.theme.paperBackground).isLight()
-    ? "#333333"
-    : "#EEEEEE"};
-`;
+import React from 'react';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import { L1 } from '../Text';
+import IconButton from '../IconButton';
 
 const TitleBar = styled.div`
   display: flex;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  margin-bottom: 5px;
   height: 64px;
-`;
-
-const Corner = styled.div`
-  width: 64px;
-`;
-
-const TextTitle = styled.div`
-  font-size: 22px;
-  text-align: center;
-  flex: 1 0;
-  line-height: 64px;
-`;
-
-const LinkClose = styled(Link)`
-  font-size: 54px;
-  text-decoration: none;
-  display: block;
-  text-align: center;
 `;
 
 export interface PageProps {
   children: React.ReactNode;
   title?: string;
+  close?: boolean;
+  back?: boolean;
 }
 
-const Page: React.FC<PageProps> = ({ children, title }) => (
-  <Wrapper>
+const Page: React.FC<PageProps> = ({ children, title, close, back }) => (
+  <>
     {title && (
       <TitleBar>
-        <Corner />
-        <TextTitle>{title}</TextTitle>
-        <Corner />
-        <LinkClose to="/">&times;</LinkClose>
-        <Corner />
+        {back && <IconButton icon='back' to='/' marginleft={-12} />}
+        <L1 as={'h1'} margin={0}>
+          {title}
+        </L1>
+        {close && <IconButton icon='close' to='/' marginleft={'auto'} />}
       </TitleBar>
     )}
     <div>{children}</div>
-  </Wrapper>
+  </>
 );
 
 export default Page;
