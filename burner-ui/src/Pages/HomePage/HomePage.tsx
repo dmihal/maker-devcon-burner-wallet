@@ -6,15 +6,12 @@ import Color from 'color';
 import { BurnerContext, withBurner } from '../../BurnerProvider';
 import Button from '../../components/Button';
 import Page from '../../components/Page';
-import ActionRow from '../../components/ActionRow';
-import { Card } from 'rimble-ui';
+// import ActionRow from '../../components/ActionRow';
+import { Card, Flex } from 'rimble-ui';
 import PluginElements from '../../components/PluginElements';
-import AccountBalance, {
-  AccountBalanceData
-} from '../../data-providers/AccountBalance';
 import History from '../../data-providers/History';
 import { SCAN_QR_DATAURI } from '../../constants';
-import BalanceRow from './BalanceRow';
+import BalanceRow from '../../components/BalanceRow';
 import HistoryListEvent from './HistoryListEvent';
 import { L1, L2 } from '../../components/Text';
 
@@ -95,41 +92,15 @@ const HomePage: React.FC<BurnerContext & { classes: any }> = ({
   actions,
   assets,
   pluginData,
-  classes
+  classes,
+  accounts
 }) => (
   <Page title={'My Wallet'}>
     <PluginElements position='home-top' />
-
-    <ul className={classes.balances}>
-      {assets.map(asset => (
-        <AccountBalance
-          key={asset.id}
-          asset={asset.id}
-          account={defaultAccount}
-          render={(err: Error, data: AccountBalanceData | null) => (
-            <BalanceRow
-              asset={asset}
-              usdBalance={data && data.usdBalance}
-              balance={data && data.displayBalance}
-            />
-          )}
-        />
-      ))}
-    </ul>
-
+    <BalanceRow accounts={accounts} assets={assets} />
     <PluginElements position='home-middle' />
 
-    {/*
-    <ul className={classes.buttons}>
-      <HomeButton path="/receive" title="Receive" classes={classes} />
-      <HomeButton path="/send" title="Send" classes={classes} />
-      {pluginData.homeButtons.map(({ title, path }) => (
-        <HomeButton title={title} path={path} key={title} classes={classes} />
-      ))}
-    </ul>
-    */}
-
-    <L2 as={'h2'} margin={0}>
+    <L2 level={2} as={'h2'} margin={0}>
       Recent activity
     </L2>
 

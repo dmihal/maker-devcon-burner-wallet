@@ -8,6 +8,7 @@ import IconButton from '../IconButton';
 const TitleBar = styled.div`
   display: flex;
   height: 64px;
+  padding: 0 var(--page-margin);
 `;
 
 export interface PageProps {
