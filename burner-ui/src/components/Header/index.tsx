@@ -38,7 +38,7 @@ interface HeaderProps extends BurnerContext {
   classes: any;
 }
 
-const Header: React.FC<HeaderProps> = ({ accounts, title, actions }) => (
+const Header: React.FC<HeaderProps> = ({ defaultAccount, title, actions }) => (
   <HeaderStyled>
     <TitleContainer>
       <TextTitle>{title}</TextTitle>
@@ -48,7 +48,7 @@ const Header: React.FC<HeaderProps> = ({ accounts, title, actions }) => (
     </TitleContainer>
     <Spacer />
     <TextLinkHeaderAccount onClick={() => actions.navigateTo("/receive")}>
-      {accounts.length > 0 && accounts[0].substr(2, 8)}
+      {defaultAccount.substr(2, 8)}
     </TextLinkHeaderAccount>
   </HeaderStyled>
 );
