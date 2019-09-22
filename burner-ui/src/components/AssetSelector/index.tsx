@@ -13,21 +13,27 @@ const Wrapper = styled.div`
   padding: 4px 12px;
   flex: 1 0;
   cursor: default;
+  padding: 8px 16px;
+  border-radius: 100px;
 `;
 
 const TextAssetName = styled.div`
   flex: 1 0;
-  font-size: 24px;
+  font-size: 20px;
 `;
 
 const TextAssetBalance = styled.div`
   font-size: 18px;
   color: #999;
+  margin: 0px 8px;
+
 `;
 
 const SelectWrapper = styled.div`
   position: relative;
   margin: 4px 0;
+  background: #D1CCFC;
+  border-radius: 100px;
 `;
 
 const Selected = styled.div`
@@ -44,13 +50,19 @@ const Selected = styled.div`
   }
 `;
 
+const IcoArrowDown = styled.span`
+  font-size: 32px;
+  line-height: 0;
+`
+
 const ItemWrapper = styled.div`
   position: absolute;
   background: white;
+  width: 100%;
   left: 0;
   right: 0;
   padding: 6px;
-  box-shadow: 0px 3px 5px 0px #0000008a;
+  box-shadow: 0px 3px 5px 0px #999;
   border-radius: 4px;
   z-index: 10;
   &:hover {
@@ -77,6 +89,7 @@ const AssetElement: React.FC<{ asset: Asset }> = ({ asset }) => (
         )
       }
     />
+    <IcoArrowDown>{ '\u25BE' }</IcoArrowDown>
   </Wrapper>
 );
 
