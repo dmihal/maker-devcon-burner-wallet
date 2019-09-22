@@ -32,7 +32,9 @@ const BalanceItem: React.FC<BalanceItemProps> = ({
 }) => (
   <BalanceCard flex={1} borderRadius={'8px'} p={'8px'}>
     {!(usdBalance || balance) && '-'}
-    {usdBalance ? `$${usdBalance}` : balance}
+    {usdBalance
+      ? `$${Number(usdBalance).toFixed(2)}`
+      : Number(balance).toFixed(2)}
     <Text as={'span'} level={4}>
       {asset.name}
     </Text>
