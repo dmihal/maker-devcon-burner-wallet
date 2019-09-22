@@ -1,7 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import injectSheet from 'react-jss';
-import Color from 'color';
 
 import { BurnerContext, withBurner } from '../../BurnerProvider';
 import Button from '../../components/Button';

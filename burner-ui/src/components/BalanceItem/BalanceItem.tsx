@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import Text from '../Text';
 
 interface BalanceItemProps {
-  asset: Asset;
+  asset: Asset | string;
   usdBalance?: string | null;
   balance?: string | null;
 }
