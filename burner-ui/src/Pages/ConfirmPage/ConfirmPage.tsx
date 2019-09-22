@@ -56,7 +56,7 @@ const ConfirmPage: React.FC<BurnerContext & RouteComponentProps> = ({
   };
 
   return (
-    <Page title='Confirm' close>
+    <Page title='Confirm' back>
       <LineItem name='From' value={from} />
       <LineItem name='To' value={to} />
       <LineItem name='Amount' value={`${ether} ${asset.name}`} />

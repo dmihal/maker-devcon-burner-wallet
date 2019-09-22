@@ -7,7 +7,7 @@ const classes = require('./ReceivePage.module.css');
 const ReceivePage: React.FC<BurnerContext> = ({ defaultAccount }) => {
   const [showCopied, setShowCopied] = useState(false);
   return (
-    <Page title='Receive' close>
+    <Page title='Receive' back>
       <div className={classes.qrContainer}>
         <QRCode value={defaultAccount} renderAs='svg' />
       </div>

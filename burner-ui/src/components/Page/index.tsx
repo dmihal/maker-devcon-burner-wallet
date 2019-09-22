@@ -4,39 +4,29 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { L1 } from '../Text';
 import IconButton from '../IconButton';
-
-const TitleBar = styled.div`
-  display: flex;
-  height: 64px;
-  padding: 0 var(--page-margin);
-  align-items: center;
-  border-bottom: ${props => props.back && '1px solid #F2F2F2'};
-`;
-
-const CloseButton = styled(IconButton)`
-  margin-left: auto;
-`;
+import PageTitleBar from '../PageTitleBar';
 
 export interface PageProps {
   children: React.ReactNode;
   title?: string;
   close?: boolean;
   back?: boolean;
+  dark?: boolean;
 }
 
-const Page: React.FC<PageProps> = ({ children, title, close, back }) => (
-  <>
-    {title && (
-      <TitleBar back={back}>
-        {back && <IconButton icon='back' to='/' marginleft={-12} />}
-        <L1 as={'h1'} margin={0}>
-          {title}
-        </L1>
-        {close && <IconButton icon='close' to='/' marginleft={'auto'} />}
-      </TitleBar>
-    )}
-    <div>{children}</div>
-  </>
-);
+const Page: React.FC<PageProps> = ({ children, title, close, back, dark }) => {
+  const TitleBarProps = {
+    back: back,
+    close: close,
+    title: title,
+    dark: dark
+  };
+  return (
+    <>
+      {title && <PageTitleBar {...TitleBarProps} />}
+      <div>{children}</div>
+    </>
+  );
+};
 
 export default Page;

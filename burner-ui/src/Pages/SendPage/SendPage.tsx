@@ -10,6 +10,7 @@ import AssetSelector from '../../components/AssetSelector';
 import AmountInput from '../../components/AmountInput';
 import Button from '../../components/Button';
 import Page from '../../components/Page';
+import { Box } from 'rimble-ui';
 
 interface SendPageState {
   to: string;
@@ -104,58 +105,60 @@ class SendPage extends Component<SendPageProps, SendPageState> {
 
     const canSend = asset !== null && !sending && to.length == 42 && to;
     return (
-      <Page title='Send To Address' close>
-        <AssetSelector
-          selected={asset}
-          onChange={newAsset => this.setState({ asset: newAsset })}
-          disabled={sending}
-        />
-        <div>To address:</div>
-        <AddressInputField
-          value={to}
-          account={account}
-          onChange={(to: string, account: Account | null) => {
-            this.setState({ to, account });
-            if (account) {
-              this.setState({ accounts: [] });
-            } else {
-              this.getAccounts(to);
+      <Page title='Send To Address' back>
+        <Box padding='var(--page-margin)'>
+          <AssetSelector
+            selected={asset}
+            onChange={newAsset => this.setState({ asset: newAsset })}
+            disabled={sending}
+          />
+          <div>To address:</div>
+          <AddressInputField
+            value={to}
+            account={account}
+            onChange={(to: string, account: Account | null) => {
+              this.setState({ to, account });
+              if (account) {
+                this.setState({ accounts: [] });
+              } else {
+                this.getAccounts(to);
+              }
+            }}
+            scan={() => this.scanCode()}
+            disabled={sending}
+          />
+          <AddressInputSearchResults
+            accounts={accounts}
+            onSelect={(account: Account) =>
+              this.setState({ account, accounts: [] })
             }
-          }}
-          scan={() => this.scanCode()}
-          disabled={sending}
-        />
-        <AddressInputSearchResults
-          accounts={accounts}
-          onSelect={(account: Account) =>
-            this.setState({ account, accounts: [] })
-          }
-        />
+          />
 
-        <div>Send Amount:</div>
-        <AmountInput
-          asset={asset}
-          value={value}
-          onChange={e => this.setState({ value: e.target.value })}
-          disabled={sending}
-        />
+          <div>Send Amount:</div>
+          <AmountInput
+            asset={asset}
+            value={value}
+            onChange={e => this.setState({ value: e.target.value })}
+            disabled={sending}
+          />
 
-        {asset && asset.supportsMessages() && (
-          <Fragment>
-            <div>Message:</div>
-            <input
-              value={message}
-              onChange={e => this.setState({ message: e.target.value })}
-              className={classes.messageField}
-            />
-          </Fragment>
-        )}
+          {asset && asset.supportsMessages() && (
+            <Fragment>
+              <div>Message:</div>
+              <input
+                value={message}
+                onChange={e => this.setState({ message: e.target.value })}
+                className={classes.messageField}
+              />
+            </Fragment>
+          )}
 
-        <div className={classes.sendContainer}>
-          <Button onClick={() => this.send()} disabled={!canSend}>
-            Send
-          </Button>
-        </div>
+          <div className={classes.sendContainer}>
+            <Button onClick={() => this.send()} disabled={!canSend}>
+              Send
+            </Button>
+          </div>
+        </Box>
       </Page>
     );
   }

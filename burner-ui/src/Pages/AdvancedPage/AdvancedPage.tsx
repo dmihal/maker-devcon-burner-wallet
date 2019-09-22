@@ -64,7 +64,7 @@ const Section: React.FC<SectionProps> = ({ title, children }) => (
 const AdvancedPage: React.FC<BurnerContext> = ({ defaultAccount }) => {
   const [showPk, setShowPk] = React.useState(false);
   return (
-    <Page title='Advanced' close>
+    <Page title='Advanced' back>
       <AccountKeys
         account={defaultAccount}
         render={keys =>
