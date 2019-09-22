@@ -10,6 +10,8 @@ const TitleBar = styled.div`
   align-items: center;
   height: 64px;
   padding: 0 var(--page-margin);
+  align-items: center;
+  border-bottom: ${props => props.back && '1px solid #F2F2F2'};
 `;
 
 const CloseButton = styled(IconButton)`
@@ -26,7 +28,7 @@ export interface PageProps {
 const Page: React.FC<PageProps> = ({ children, title, close, back }) => (
   <>
     {title && (
-      <TitleBar>
+      <TitleBar back={back}>
         {back && <IconButton icon='back' to='/' marginleft={-12} />}
         <L1 as={'h1'} margin={0}>
           {title}
