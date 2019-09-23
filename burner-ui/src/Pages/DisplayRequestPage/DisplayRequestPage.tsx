@@ -1,8 +1,14 @@
 import React from 'react';
+import styled from 'styled-components'
 import QRCode from 'qrcode.react';
 import { BurnerContext, withBurner } from '../../BurnerProvider';
 import Page from '../../components/Page';
 import Button from '../../components/Button';
+
+const QRWrapper = styled.div`
+width: 100%;
+max-width: 320px;
+`
 
 const DisplayRequestPage = ({ history, actions }) => {
   if (!history.location.state) {
