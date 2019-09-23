@@ -7,6 +7,7 @@ import IconButton from '../IconButton';
 
 const TitleBar = styled.div`
   display: flex;
+  align-items: center;
   height: 64px;
   padding: 0 var(--page-margin);
 `;
