@@ -139,7 +139,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
 
     const canSend = asset !== null && !sending && to.length == 42 && to;
     return (
-      <Page>
+      <Page title='Send' close>
         <TransactionCard>
           <TransactionCardHeader>
             <h3>Sending</h3>
