@@ -99,10 +99,13 @@ const HomePage: React.FC<BurnerContext & { classes: any }> = ({
     <BalanceRow account={defaultAccount} assets={assets} />
     <PluginElements position='home-middle' />
 
-    <L2 level={2} as={'h2'} margin={0}>
-      Recent activity
-    </L2>
+    <Flex pl={3}>
+      <L1 level={1} as={'h2'} margin={0}>
+        Recent Activity
+      </L1>
+    </Flex>
 
+    <Flex flexDirection="column" p={3}>
     <History
       account={defaultAccount}
       render={(events: any[]) =>
@@ -116,6 +119,7 @@ const HomePage: React.FC<BurnerContext & { classes: any }> = ({
         ))
       }
     />
+    </Flex>
 
     <PluginElements position='home-bottom' />
 
