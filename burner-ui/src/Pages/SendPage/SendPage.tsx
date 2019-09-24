@@ -181,11 +181,10 @@ class SendPage extends Component<SendPageProps, SendPageState> {
                   placeholder="Optional"
                   value={message}
                   onChange={e => this.setState({ message: e.target.value })}
-
                 />
 
             </Fragment>
-          )};
+          )}
         </TransactionCardFooter>
         </TransactionCard>
 
