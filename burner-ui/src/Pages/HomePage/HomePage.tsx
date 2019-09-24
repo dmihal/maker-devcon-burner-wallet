@@ -44,13 +44,13 @@ const styles = (theme: any) => ({
   },
   homeButton: {
     color: '#4e3fce', // To Do: Change to CSS variable
-    backgroundColor: 'transparent'
+    backgroundColor: 'transparent',
   },
   scanBtn: {
     position: 'fixed',
     left: '50%',
     transform: 'translateX(-50%)',
-    bottom: -8,
+    bottom: -4,
     height: 72,
     width: 72,
     borderRadius: 100,
