@@ -135,9 +135,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
           <Page title='Send' close>
         <TransactionCard>
           <TransactionCardHeader>
-            <Text level={2} as="h2">Sending</Text>
-
-            <Text level={3} as="p">Send to</Text>
+            <Text level={2} as="p">Send to</Text>
             <AddressInputField
               value={to}
               account={account}
