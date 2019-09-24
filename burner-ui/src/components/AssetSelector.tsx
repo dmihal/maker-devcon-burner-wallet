@@ -4,9 +4,9 @@ import styled from "styled-components";
 import { Asset } from "@burner-wallet/assets";
 import AccountBalance, {
   AccountBalanceData
-} from "../../data-providers/AccountBalance";
-import Assets from "../../data-providers/Assets";
-import Text from '../../components/Text';
+} from "../data-providers/AccountBalance";
+import Assets from "../data-providers/Assets";
+import Text from '../components/Text';
 
 
 const Wrapper = styled.div`

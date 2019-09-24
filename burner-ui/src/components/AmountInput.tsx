@@ -6,10 +6,11 @@ import { Asset } from "@burner-wallet/assets";
 const ONE_ETH = 1000000000000000000;
 
 export interface AmountInputProps {
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  asset?: Asset | null;
-  value: string;
-  disabled?: boolean;
+  onChange: (val: string, isMax: boolean) => void,
+  asset?: Asset | null,
+  value: string,
+  disabled?: boolean,
+  max?: string | null,
 }
 
 const Wrapper = styled.div`
@@ -35,11 +36,21 @@ const Input = styled.input`
   background: transparent;
 `;
 
+const MaxBtn = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  background: #c07a53;
+  color: white;
+  cursor: pointer;
+`;
+
 const AmountInput: React.FC<AmountInputProps> = ({
   onChange,
   asset,
   value,
-  disabled
+  disabled,
+  max,
 }) => {
   let isUSD = false;
   let usdValue;
@@ -56,12 +67,16 @@ const AmountInput: React.FC<AmountInputProps> = ({
         <Input
           type="number"
           placeholder="0.00"
-          onChange={onChange}
+          onChange={e => onChange(e.target.value, false)}
           value={value}
           disabled={disabled}
           min="0"
+          max={max || undefined}
         />
         {!isUSD && asset && <Unit>{asset.name}</Unit>}
+        {max && (
+          <MaxBtn onClick={() => onChange(max, true)}>Max</MaxBtn>
+        )}
       </Wrapper>
       {usdValue && <div>${usdValue} USD</div>}
     </div>

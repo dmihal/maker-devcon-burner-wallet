@@ -15,30 +15,27 @@ const Row = styled.section`
 `;
 
 interface BalanceRowProps {
-  accounts?: any;
+  account: string;
   assets?: any;
 }
 
-const BalanceRow: React.FC<BalanceRowProps> = ({ accounts, assets }) =>
-  accounts.length > 0 ? (
-    <Row>
-      {assets.map(asset => (
-        <AccountBalance
-          key={asset.id}
-          asset={asset.id}
-          account={accounts[0]}
-          render={(err: Error, data: AccountBalanceData | null) => (
-            <BalanceItem
-              asset={asset}
-              usdBalance={data && data.usdBalance}
-              balance={data && data.displayBalance}
-            />
-          )}
-        />
-      ))}
-    </Row>
-  ) : (
-    <div>'Loading'</div>
-  );
+const BalanceRow: React.FC<BalanceRowProps> = ({ account, assets }) => (
+  <Row>
+    {assets.map(asset => (
+      <AccountBalance
+        key={asset.id}
+        asset={asset.id}
+        account={account}
+        render={(data: AccountBalanceData | null) => (
+          <BalanceItem
+            asset={asset}
+            usdBalance={data && data.usdBalance}
+            balance={data && data.displayBalance}
+          />
+        )}
+      />
+    ))}
+  </Row>
+);
 
 export default BalanceRow;
