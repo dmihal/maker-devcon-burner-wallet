@@ -3,6 +3,7 @@ import React from "react";
 import styled from "styled-components";
 import { Account } from "../../";
 import AddressInputAccount from "../AddressInputAccount";
+import { RimbleInput } from '../../components/RimbleInput';
 import { SCAN_QR_DATAURI } from "../../constants";
 
 const ADDRESS_REGEX = /^(0x)?[0-9a-f]{40}$/i;
@@ -16,14 +17,11 @@ const styles = {
 };
 
 const InputContainer = styled.div`
-  border: solid 1px #cccccc;
-  border-radius: 4px;
+  border-radius: 8px;
   display: flex;
-  padding: 1px;
-  height: 40px;
 `;
 
-const InputField = styled.input`
+const InputField = styled(RimbleInput)`
   order: none;
   flex: 1 0;
   font-size: 20px;

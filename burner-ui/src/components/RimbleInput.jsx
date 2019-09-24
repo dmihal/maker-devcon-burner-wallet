@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components'
 import { Input } from 'rimble-ui'
 
-const RimbleInput = styled(Input)`
+export const RimbleInput = styled(Input)`
 
 `
 
