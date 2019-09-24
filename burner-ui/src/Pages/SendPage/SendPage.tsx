@@ -10,44 +10,17 @@ import AddressInputSearchResults from '../../components/AddressInputSearchResult
 import AssetSelector from '../../components/AssetSelector';
 import AmountInput from '../../components/AmountInput';
 import Button from '../../components/Button';
+import Text from '../../components/Text';
 import Page from '../../components/Page';
 import { Card } from 'rimble-ui';
 import RimbleAmountInput from '../../components/RimbleAmountInput';
 import { RimbleInput, TransferMessageInput } from '../../components/RimbleInput';
+import { TransactionCard,
+         TransactionCardHeader,
+         TransactionCardBody,
+         TransactionCardFooter
+       } from '../../components/TransactionCard';
 
-const TransactionCard = styled(Card)`
-  display: flex;
-  flex-direction: column;
-  border-radius: 8px;
-  padding: 0px;
-  color: #4E3FCE;
-  background: #E1DEFF;
-`
-
-const TransactionCardHeader = styled.div`
-  background: #CAC4FF;
-  padding: 16px;
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
-`
-
-const TransactionCardBody = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`
-
-const TransactionCardFooter = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-content: center;
-  width: 100%;
-  background: #D1CCFC;
-  padding: 8px;
-  border-bottom-left-radius: 8px;
-  border-bottom-right-radius: 8px;
-  box-sizing: border-box;
-`
 
 
 interface SendPageState {
@@ -136,9 +109,9 @@ class SendPage extends Component<SendPageProps, SendPageState> {
       <Page title='Send' close>
         <TransactionCard>
           <TransactionCardHeader>
-            <h3>Sending</h3>
+            <Text level={2} as="h2">Sending</Text>
 
-            <h4>Send to</h4>
+            <Text level={3} as="p">Send to</Text>
             <AddressInputField
               value={to}
               account={account}
@@ -155,7 +128,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
             />
           </TransactionCardHeader>
           <TransactionCardBody>
-            <h4>How much do you want to send?</h4>
+            <Text level={3} as="h3">How much do you want to send?</Text>
             <RimbleAmountInput
               asset={asset}
               value={value}
@@ -165,16 +138,18 @@ class SendPage extends Component<SendPageProps, SendPageState> {
             <AssetSelector selected={asset} onChange={newAsset => this.setState({ asset: newAsset })} disabled={sending} />
           </TransactionCardBody>
 
+         { /* Can we move this to a new screen as per  the Figma designs?
         <AddressInputSearchResults
           accounts={accounts}
           onSelect={(account: Account) =>
             this.setState({ account, accounts: [] })
           }
         />
+         */ }
         <TransactionCardFooter>
         {asset && asset.supportsMessages() && (
           <Fragment>
-              <div>For:</div>
+              <Text level={3} as="h3">For:</Text>
               <TransferMessageInput
                 placeholder="Optional"
                 value={message}
