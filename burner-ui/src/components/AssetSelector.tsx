@@ -110,7 +110,7 @@ const AssetElement: React.FC<{ asset: Asset }> = ({ asset }) => (
       <TextAssetName level={3} as="p">{asset.name}</TextAssetName>
       <AccountBalance
         asset={asset}
-        render={(err: Error, data: AccountBalanceData | null) =>
+        render={(data: AccountBalanceData | null) =>
           data && (
             <TextAssetBalance level={4} as="p" margin={0} color={999999}>
               {data.usdBalance ? `$${data.usdBalance}` : data.displayBalance}
