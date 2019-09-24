@@ -7,10 +7,12 @@ import styled from "styled-components";
 const StyledAccount = styled.div`
   display: flex;
   flex: 1 0;
-  padding-left: 8px;
+  padding: 8px;
   cursor: default;
-  height: 40px;
   overflow: hidden;
+  background: hsla(0, 0%, 100%, 0.25);
+  border-radius: 8px;
+  align-items: center;
 `;
 
 const StyledAvatar = styled.div`
@@ -29,6 +31,7 @@ const StyledNames = styled.div`
 `;
 
 const StyledTitle = styled.div`
+  font-size: 20px;
   text-overflow: ellipsis;
   overflow: hidden;
 `;

@@ -12,51 +12,30 @@ import AddressInputSearchResults from '../../components/AddressInputSearchResult
 import AssetSelector from '../../components/AssetSelector';
 import AmountInput from '../../components/AmountInput';
 import Button from '../../components/Button';
+import Text from '../../components/Text';
 import Page from '../../components/Page';
 import AccountBalance, { AccountBalanceData } from '../../data-providers/AccountBalance';
 import RimbleAmountInput from '../../components/RimbleAmountInput';
-import RimbleInput from '../../components/RimbleInput';
+import { RimbleInput, TransferMessageInput } from '../../components/RimbleInput';
+import { TransactionCard,
+         TransactionCardHeader,
+         TransactionCardBody,
+         TransactionCardFooter
+       } from '../../components/TransactionCard';
 
-const TransactionCard = styled(Card)`
+const MaxButton = styled(Button)`
   display: flex;
-  flex-direction: column;
-  border-radius: 8px;
-  padding: 0px;
-  color: #4E3FCE;
-  background: #E1DEFF;
-`
-
-const TransactionCardHeader = styled.div`
-  background: #CAC4FF;
-  padding: 16px;
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
-`
-
-const TransactionCardBody = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`
-
-const TransactionCardFooter = styled.div`
-  display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-content: center;
-  width: 100%;
-  background: #D1CCFC;
-  padding: 8px;
-  border-bottom-left-radius: 8px;
-  border-bottom-right-radius: 8px;
-  box-sizing: border-box;
+  border-radius: 100px;
+  font-size: 18px;
+  background: #4E3FCE;
+  color: #E1DEFF;
+  padding: 4px 16px;
+  margin: 8px 0px;
+  border: 0px;
 `
 
-const TransferMessageInput = styled(RimbleInput)`
-  background: transparent;
-  box-shadow: none;
-  border: 0px;
-  outline: 0px;
-`
 
 interface SendPageState {
   to: string,
@@ -150,73 +129,66 @@ class SendPage extends Component<SendPageProps, SendPageState> {
 
     const canSend = !sending && to.length == 42 && to;
     return (
+
       <AccountBalance asset={asset} render={(data: AccountBalanceData | null) => {
         const exceedsBalance = !!data && parseFloat(value) > parseFloat(data.displayMaximumSendableBalance);
         return (
           <Page title='Send' close>
-            <TransactionCard>
-              <TransactionCardHeader>
-                <h3>Sending</h3>
+        <TransactionCard>
+          <TransactionCardHeader>
+            <Text level={2} as="h2">Sending</Text>
 
-                <h4>Send to</h4>
-                <AddressInputField
-                  value={to}
-                  account={account}
-                  onChange={(to: string, account: Account | null) => {
-                    this.setState({ to, account });
-                    if (account) {
-                      this.setState({ accounts: [] });
-                    } else {
-                      this.getAccounts(to);
-                    }
-                  }}
-                  scan={() => this.scanCode()}
-                  disabled={sending}
-                />
-              </TransactionCardHeader>
-              <TransactionCardBody>
-                <h4>How much do you want to send?</h4>
-                <RimbleAmountInput
-                  asset={asset}
-                  value={value}
-                  onChange={e => this.setState({ value: e.target.value })}
-                  disabled={sending}
-                />
-                <AssetSelector selected={asset} onChange={newAsset => this.setState({ asset: newAsset })} disabled={sending} />
-              </TransactionCardBody>
-
-              <AddressInputSearchResults
-                accounts={accounts}
-                onSelect={(account: Account) =>
-                  this.setState({ account, accounts: [] })
+            <Text level={3} as="p">Send to</Text>
+            <AddressInputField
+              value={to}
+              account={account}
+              onChange={(to: string, account: Account | null) => {
+                this.setState({ to, account });
+                if (account) {
+                  this.setState({ accounts: [] });
+                } else {
+                  this.getAccounts(to);
                 }
-              />
+              }}
+              scan={() => this.scanCode()}
+              disabled={sending}
+            />
+          </TransactionCardHeader>
+          <TransactionCardBody>
+            <Text level={3} as="h3">How much do you want to send?</Text>
+            <RimbleAmountInput
+              asset={asset}
+              value={value}
+              onChange={e => this.setState({ value: e.target.value })}
+              disabled={sending}
+            />
+            <MaxButton>Max</MaxButton>
+            <AssetSelector selected={asset} onChange={newAsset => this.setState({ asset: newAsset })} disabled={sending} />
+          </TransactionCardBody>
 
-              <div>Send Amount:</div>
-              <AmountInput
-                asset={asset}
-                value={value}
-                onChange={(val: string, isMax: boolean) => this.setState({
-                  value: val,
-                  maxVal: data && isMax ? data.maximumSendableBalance : null,
-                })}
-                disabled={sending}
-                max={data && data.displayMaximumSendableBalance}
-              />
+         { /* Can we move this to a new screen as per  the Figma designs?
+        <AddressInputSearchResults
+          accounts={accounts}
+          onSelect={(account: Account) =>
+            this.setState({ account, accounts: [] })
+          }
+        />
+         */ }
+        <TransactionCardFooter>
+          {asset.supportsMessages() && (
+            <Fragment>
+                <Text level={3} as="h3" margin={0}>For:</Text>
+                <TransferMessageInput
+                  placeholder="Optional"
+                  value={message}
+                  onChange={e => this.setState({ message: e.target.value })}
 
-              <TransactionCardFooter>
-                {asset.supportsMessages() && (
-                  <Fragment>
-                      <div>For:</div>
-                      <TransferMessageInput
-                        value={message}
-                        onChange={e => this.setState({ message: e.target.value })}
+                />
 
-                      />
-                  </Fragment>
-                )}
-              </TransactionCardFooter>
-            </TransactionCard>
+            </Fragment>
+          )};
+        </TransactionCardFooter>
+        </TransactionCard>
 
             <div className={classes.sendContainer}>
               <Button
