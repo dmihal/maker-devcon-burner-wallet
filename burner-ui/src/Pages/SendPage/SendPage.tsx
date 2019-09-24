@@ -10,7 +10,6 @@ import { Account } from '../../';
 import AddressInputField from '../../components/AddressInputField';
 import AddressInputSearchResults from '../../components/AddressInputSearchResults';
 import AssetSelector from '../../components/AssetSelector';
-import AmountInput from '../../components/AmountInput';
 import Button from '../../components/Button';
 import Text from '../../components/Text';
 import Page from '../../components/Page';

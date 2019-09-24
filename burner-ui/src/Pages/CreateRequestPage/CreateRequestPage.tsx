@@ -8,7 +8,6 @@ import { TransactionCard,
          TransactionCardBody,
          TransactionCardFooter }
          from '../../components/TransactionCard';
-import AmountInput from '../../components/AmountInput';
 import AssetSelector from '../../components/AssetSelector';
 import Button from '../../components/Button';
 import RimbleInput from '../../components/RimbleInput';

@@ -9,7 +9,6 @@ import { TransactionCard,
          TransactionCardFooter }
          from '../../components/TransactionCard';
 import { Card, Flex, Box } from 'rimble-ui';
-import AmountInput from '../../components/AmountInput';
 import AssetSelector from '../../components/AssetSelector';
 import Button from '../../components/Button';
 import Text from '../../components/Text';
