@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Redirect, RouteComponentProps } from 'react-router-dom';
 import injectSheet from 'react-jss';
 import { Asset } from '@burner-wallet/assets';
-import { Card } from 'rimble-ui';
+import { Card, Flex } from 'rimble-ui';
 
 import { BurnerContext, withBurner, SendParams } from '../../BurnerProvider';
 import { Account } from '../../';
@@ -33,6 +33,11 @@ const MaxButton = styled(Button)`
   padding: 4px 16px;
   margin: 8px 0px;
   border: 0px;
+  text-transform: uppercase;
+
+  &:focus {
+    outline: none;
+  }
 `
 
 
@@ -133,6 +138,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
         const exceedsBalance = !!data && parseFloat(value) > parseFloat(data.displayMaximumSendableBalance);
         return (
           <Page title='Send' close>
+        <Flex flexDirection="column" p={3}>
         <TransactionCard>
           <TransactionCardHeader>
             <Text level={2} as="p">Send to</Text>
@@ -185,6 +191,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
           )}
         </TransactionCardFooter>
         </TransactionCard>
+        </Flex>
 
             <div className={classes.sendContainer}>
               <Button
