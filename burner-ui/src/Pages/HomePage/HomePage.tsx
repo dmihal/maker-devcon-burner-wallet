@@ -93,11 +93,10 @@ const HomePage: React.FC<BurnerContext & { classes: any }> = ({
   assets,
   pluginData,
   classes,
-  accounts
 }) => (
   <Page title={'My Wallet'}>
     <PluginElements position='home-top' />
-    <BalanceRow accounts={accounts} assets={assets} />
+    <BalanceRow account={defaultAccount} assets={assets} />
     <PluginElements position='home-middle' />
 
     <L2 level={2} as={'h2'} margin={0}>

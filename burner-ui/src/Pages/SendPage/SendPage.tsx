@@ -3,7 +3,9 @@ import styled from 'styled-components';
 import { Redirect, RouteComponentProps } from 'react-router-dom';
 import injectSheet from 'react-jss';
 import { Asset } from '@burner-wallet/assets';
-import { BurnerContext, withBurner } from '../../BurnerProvider';
+import { Card } from 'rimble-ui';
+
+import { BurnerContext, withBurner, SendParams } from '../../BurnerProvider';
 import { Account } from '../../';
 import AddressInputField from '../../components/AddressInputField';
 import AddressInputSearchResults from '../../components/AddressInputSearchResults';
@@ -11,7 +13,7 @@ import AssetSelector from '../../components/AssetSelector';
 import AmountInput from '../../components/AmountInput';
 import Button from '../../components/Button';
 import Page from '../../components/Page';
-import { Card } from 'rimble-ui';
+import AccountBalance, { AccountBalanceData } from '../../data-providers/AccountBalance';
 import RimbleAmountInput from '../../components/RimbleAmountInput';
 import RimbleInput from '../../components/RimbleInput';
 
@@ -57,14 +59,15 @@ const TransferMessageInput = styled(RimbleInput)`
 `
 
 interface SendPageState {
-  to: string;
-  value: string;
-  asset: Asset | null;
-  sending: boolean;
-  txHash: string | null;
-  account: Account | null;
-  accounts: Account[];
-  message: string;
+  to: string,
+  value: string,
+  maxVal: string | null,
+  asset: Asset,
+  sending: boolean,
+  txHash: string | null,
+  account: Account | null,
+  accounts: Account[],
+  message: string,
 }
 
 type SendPageProps = BurnerContext & RouteComponentProps & { classes: any };
@@ -81,8 +84,9 @@ class SendPage extends Component<SendPageProps, SendPageState> {
     this.state = {
       to: (props.location.state && props.location.state.address) || '',
       value: '',
+      maxVal: null,
       message: '',
-      asset: null,
+      asset: props.assets[0],
       sending: false,
       txHash: null,
       account: null,
@@ -107,17 +111,24 @@ class SendPage extends Component<SendPageProps, SendPageState> {
   }
 
   send() {
-    const { asset, to, value, message } = this.state;
+    const { asset, to, value, message, maxVal } = this.state;
     const { actions } = this.props;
     if (!asset) {
       throw new Error('Asset not selected');
     }
-    actions.send({
+    const sendProps: SendParams = {
       to,
-      ether: value,
       asset: asset.id,
-      message: message.length > 0 ? message : null
-    });
+      message: message.length > 0 ? message : null,
+    };
+
+    if (maxVal) {
+      sendProps.value = maxVal;
+    } else {
+      sendProps.ether = value;
+    }
+
+    actions.send(sendProps);
   }
 
   render() {
@@ -137,68 +148,87 @@ class SendPage extends Component<SendPageProps, SendPageState> {
       return <Redirect to={`/receipt/${asset.id}/${txHash}`} />;
     }
 
-    const canSend = asset !== null && !sending && to.length == 42 && to;
+    const canSend = !sending && to.length == 42 && to;
     return (
-      <Page title='Send' close>
-        <TransactionCard>
-          <TransactionCardHeader>
-            <h3>Sending</h3>
+      <AccountBalance asset={asset} render={(data: AccountBalanceData | null) => {
+        const exceedsBalance = !!data && parseFloat(value) > parseFloat(data.displayMaximumSendableBalance);
+        return (
+          <Page title='Send' close>
+            <TransactionCard>
+              <TransactionCardHeader>
+                <h3>Sending</h3>
 
-            <h4>Send to</h4>
-            <AddressInputField
-              value={to}
-              account={account}
-              onChange={(to: string, account: Account | null) => {
-                this.setState({ to, account });
-                if (account) {
-                  this.setState({ accounts: [] });
-                } else {
-                  this.getAccounts(to);
+                <h4>Send to</h4>
+                <AddressInputField
+                  value={to}
+                  account={account}
+                  onChange={(to: string, account: Account | null) => {
+                    this.setState({ to, account });
+                    if (account) {
+                      this.setState({ accounts: [] });
+                    } else {
+                      this.getAccounts(to);
+                    }
+                  }}
+                  scan={() => this.scanCode()}
+                  disabled={sending}
+                />
+              </TransactionCardHeader>
+              <TransactionCardBody>
+                <h4>How much do you want to send?</h4>
+                <RimbleAmountInput
+                  asset={asset}
+                  value={value}
+                  onChange={e => this.setState({ value: e.target.value })}
+                  disabled={sending}
+                />
+                <AssetSelector selected={asset} onChange={newAsset => this.setState({ asset: newAsset })} disabled={sending} />
+              </TransactionCardBody>
+
+              <AddressInputSearchResults
+                accounts={accounts}
+                onSelect={(account: Account) =>
+                  this.setState({ account, accounts: [] })
                 }
-              }}
-              scan={() => this.scanCode()}
-              disabled={sending}
-            />
-          </TransactionCardHeader>
-          <TransactionCardBody>
-            <h4>How much do you want to send?</h4>
-            <RimbleAmountInput
-              asset={asset}
-              value={value}
-              onChange={e => this.setState({ value: e.target.value })}
-              disabled={sending}
-            />
-            <AssetSelector selected={asset} onChange={newAsset => this.setState({ asset: newAsset })} disabled={sending} />
-          </TransactionCardBody>
-
-        <AddressInputSearchResults
-          accounts={accounts}
-          onSelect={(account: Account) =>
-            this.setState({ account, accounts: [] })
-          }
-        />
-        <TransactionCardFooter>
-        {asset && asset.supportsMessages() && (
-          <Fragment>
-              <div>For:</div>
-              <TransferMessageInput
-                value={message}
-                onChange={e => this.setState({ message: e.target.value })}
-
               />
-          </Fragment>
-        )}
-        </TransactionCardFooter>
 
+              <div>Send Amount:</div>
+              <AmountInput
+                asset={asset}
+                value={value}
+                onChange={(val: string, isMax: boolean) => this.setState({
+                  value: val,
+                  maxVal: data && isMax ? data.maximumSendableBalance : null,
+                })}
+                disabled={sending}
+                max={data && data.displayMaximumSendableBalance}
+              />
 
+              <TransactionCardFooter>
+                {asset.supportsMessages() && (
+                  <Fragment>
+                      <div>For:</div>
+                      <TransferMessageInput
+                        value={message}
+                        onChange={e => this.setState({ message: e.target.value })}
 
-        </TransactionCard>
-        <div className={classes.sendContainer}>
-          <Button onClick={() => this.send()} disabled={!canSend}>
-            Send
-          </Button>
-        </div>
-      </Page>
+                      />
+                  </Fragment>
+                )}
+              </TransactionCardFooter>
+            </TransactionCard>
+
+            <div className={classes.sendContainer}>
+              <Button
+                onClick={() => this.send()}
+                disabled={!canSend || exceedsBalance}
+              >
+                Send
+              </Button>
+            </div>
+          </Page>
+        );
+      }} />
     );
   }
 }

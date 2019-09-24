@@ -4,8 +4,8 @@ import styled from "styled-components";
 import { Asset } from "@burner-wallet/assets";
 import AccountBalance, {
   AccountBalanceData
-} from "../../data-providers/AccountBalance";
-import Assets from "../../data-providers/Assets";
+} from "../data-providers/AccountBalance";
+import Assets from "../data-providers/Assets";
 
 const Wrapper = styled.div`
   display: flex;
@@ -81,7 +81,7 @@ const AssetElement: React.FC<{ asset: Asset }> = ({ asset }) => (
     <TextAssetName>{asset.name}</TextAssetName>
     <AccountBalance
       asset={asset}
-      render={(err: Error, data: AccountBalanceData | null) =>
+      render={(data: AccountBalanceData | null) =>
         data && (
           <TextAssetBalance>
             {data.usdBalance ? `$${data.usdBalance}` : data.displayBalance}
