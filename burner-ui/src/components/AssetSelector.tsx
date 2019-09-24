@@ -33,6 +33,7 @@ const TextAssetBalance = styled(Text)`
 
 const SelectWrapper = styled.div`
   position: relative;
+  width: 100%;
   margin: 8px;
   background: #D1CCFC;
   border-radius: 8px;
