@@ -45,6 +45,7 @@ const styles = (theme: any) => ({
   homeButton: {
     color: '#4e3fce', // To Do: Change to CSS variable
     backgroundColor: 'transparent',
+    fontSize: '20px !important', // To Do: Replace this after demo, as we don't want to be using these declarations in the app.
   },
   scanBtn: {
     position: 'fixed',
