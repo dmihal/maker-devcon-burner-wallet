@@ -13,7 +13,7 @@ import Button from '../../components/Button';
 import Page from '../../components/Page';
 import { Card } from 'rimble-ui';
 import RimbleAmountInput from '../../components/RimbleAmountInput';
-import RimbleInput from '../../components/RimbleInput';
+import { RimbleInput, TransferMessageInput } from '../../components/RimbleInput';
 
 const TransactionCard = styled(Card)`
   display: flex;
@@ -49,12 +49,6 @@ const TransactionCardFooter = styled.div`
   box-sizing: border-box;
 `
 
-const TransferMessageInput = styled(RimbleInput)`
-  background: transparent;
-  box-shadow: none;
-  border: 0px;
-  outline: 0px;
-`
 
 interface SendPageState {
   to: string;
@@ -182,6 +176,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
           <Fragment>
               <div>For:</div>
               <TransferMessageInput
+                placeholder="Optional"
                 value={message}
                 onChange={e => this.setState({ message: e.target.value })}
 
