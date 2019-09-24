@@ -21,6 +21,18 @@ import { TransactionCard,
          TransactionCardFooter
        } from '../../components/TransactionCard';
 
+const MaxButton = styled(Button)`
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  border-radius: 100px;
+  font-size: 18px;
+  background: #4E3FCE;
+  color: #E1DEFF;
+  padding: 4px 16px;
+  margin: 8px 0px;
+  border: 0px;
+`
 
 
 interface SendPageState {
@@ -135,6 +147,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
               onChange={e => this.setState({ value: e.target.value })}
               disabled={sending}
             />
+            <MaxButton>Max</MaxButton>
             <AssetSelector selected={asset} onChange={newAsset => this.setState({ asset: newAsset })} disabled={sending} />
           </TransactionCardBody>
 
@@ -149,7 +162,7 @@ class SendPage extends Component<SendPageProps, SendPageState> {
         <TransactionCardFooter>
         {asset && asset.supportsMessages() && (
           <Fragment>
-              <Text level={3} as="h3">For:</Text>
+              <Text level={3} as="h3" margin={0}>For:</Text>
               <TransferMessageInput
                 placeholder="Optional"
                 value={message}
