@@ -15,7 +15,7 @@ const styles = {
     display: "flex",
     flexDirection: "flex-row",
     background: "none",
-    padding: 8,
+    padding: "8px 0px",
     fontSize: "20px",
     margin: "8px 0",
     alignItems: "center",
@@ -63,7 +63,11 @@ const styles = {
     color: "#FD9D28" // Todo: Set the color based on a conditional. #28C081 for receiving and #FD9D28 for sending
   },
   subDetail: {
-    fontSize: 14
+    fontSize: 14,
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    maxWidth: "90%",
   }
 };
 
