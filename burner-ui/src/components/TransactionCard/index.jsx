@@ -29,10 +29,10 @@ export const TransactionCardBody = styled.div`
 export const TransactionCardFooter = styled.div`
   display: flex;
   justify-content: space-between;
-  align-content: center;
+  align-items: center;
   width: 100%;
   background: #D1CCFC;
-  padding: 8px;
+  padding: 8px 16px;
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
   box-sizing: border-box;
