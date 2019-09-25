@@ -2,7 +2,7 @@ import styled, { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
   :root {
-    --l1-fs: 24px; 
+    --l1-fs: 24px;
     --l1-lh: 1.5;
     --l1-weight: 600;
 
@@ -10,27 +10,27 @@ const GlobalStyle = createGlobalStyle`
     --l2-lh: 1.4;
     --l2-weight: 600;
 
-    --l3-fs: 16px;
+    --l3-fs: 18px;
     --l3-lh: 1.4;
     --l3-weight: 400;
 
-    --l4-fs: 14px;
+    --l4-fs: 16px;
     --l4-lh: 1.4;
     --l4-weight: 400;
 
-    --l5-fs: 12px;
+    --l5-fs: 14px;
     --l5-lh: 1.4;
     --l5-weight: 400;
 
     --main-font: system-ui, "-apple-system", BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-    
+
     --page-margin: 16px;
 
     --color-primary:  #4E3FCE;
     --color-secondary: #CAC4FF;
     --color-tertiary: #E1DEFF;
 
-    
+
     --modal-background: #E1DEFF;
     --modal-header-background: #CAC4FF;
   }
