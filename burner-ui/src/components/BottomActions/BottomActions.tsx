@@ -2,7 +2,11 @@ import React, { Component } from 'react';
 import { Box, Card, Flex } from 'rimble-ui';
 import styled from 'styled-components';
 import ReceiveModal from '../../Modals/Receive';
+<<<<<<< HEAD
 import SendModal from '../../Modals/Send/Send.tsx';
+=======
+import SendModal from '../../Modals/Send';
+>>>>>>> homepage-updates
 import Button, { Link } from '../../components/Button';
 import { SCAN_QR_DATAURI } from '../../constants';
 

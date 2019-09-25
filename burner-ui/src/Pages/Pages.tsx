@@ -21,6 +21,8 @@ const Pages: React.FC<PageProps> = ({ pluginData }) => (
     <Route path='/welcome' exact component={Onboarding} />
     <Route path='/receive' component={ReceivePage} />
     <Route path='/send' component={SendPage} />
+    <Route path='/request/display' component={DisplayRequestPage} />
+    <Route path='/request' component={CreateRequestPage} />
     <Route path='/confirm' component={ConfirmPage} />
     <Route path='/receipt/:asset/:txHash' component={ReceiptPage} />
     <Route path='/advanced' component={AdvancedPage} />
