@@ -27,6 +27,10 @@ interface HomeButtonProps {
   classes: any;
 }
 
+const StyledPage = styled(Page)`
+  padding-bottom: 110px;
+`;
+
 const HomeButton: React.FC<HomeButtonProps> = ({ path, title, classes }) => (
   <li className={classes.buttonContainer}>
     <Button to={path} className={classes.homeButton}>
@@ -50,7 +54,7 @@ class HomePage extends Component<BurnerContext & HomePageProps, any> {
   }
   render() {
     return (
-      <Page title={'My Wallet'}>
+      <StyledPage title={'My Wallet'}>
         <PluginElements position='home-top' />
         <BalanceRow accounts={this.props.accounts} assets={this.props.assets} />
         <PluginElements position='home-middle' />
@@ -81,7 +85,7 @@ class HomePage extends Component<BurnerContext & HomePageProps, any> {
           pluginData={this.props.pluginData}
           defaultAccount={this.props.defaultAccount}
         />
-      </Page>
+      </StyledPage>
     );
   }
 }

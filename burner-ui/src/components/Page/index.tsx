@@ -8,9 +8,17 @@ export interface PageProps {
   close?: boolean;
   back?: boolean;
   dark?: boolean;
+  className?: string;
 }
 
-const Page: React.FC<PageProps> = ({ children, title, close, back, dark }) => {
+const Page: React.FC<PageProps> = ({
+  children,
+  title,
+  close,
+  back,
+  dark,
+  className
+}) => {
   const TitleBarProps = {
     back: back,
     close: close,
@@ -18,10 +26,10 @@ const Page: React.FC<PageProps> = ({ children, title, close, back, dark }) => {
     dark: dark
   };
   return (
-    <>
+    <main className={className}>
       {title && <PageTitleBar {...TitleBarProps} />}
       <div>{children}</div>
-    </>
+    </main>
   );
 };
 
