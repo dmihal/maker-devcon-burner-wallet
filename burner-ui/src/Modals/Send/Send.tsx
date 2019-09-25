@@ -274,13 +274,6 @@ class SendModal extends Component<SendPageProps, SendPageState, BurnerContext> {
     actions.send(sendProps);
   }
 
-  handleInputChange(event, maskedValue, floatValue) {
-    this.setState({
-      value: floatValue,
-      fieldValue: maskedValue
-    });
-  }
-
   render() {
     const {
       to,
@@ -306,9 +299,7 @@ class SendModal extends Component<SendPageProps, SendPageState, BurnerContext> {
     };
 
     const canSend =
-      !sending && to.length == 42 && to && Number(this.state.fieldValue) > 0;
-
-    console.log(Number(this.state.value));
+      !sending && to.length == 42 && to && Number(this.state.value) > 0;
     return (
       isOpen && (
         <Portal>
