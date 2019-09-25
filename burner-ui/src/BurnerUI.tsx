@@ -5,7 +5,7 @@ import BurnerCore from '@burner-wallet/core';
 import burnerComponents from './components/BurnerComponents';
 import Header from './components/Header';
 import Loading from './components/Loading';
-import Scanner from './components/Scanner';
+import Scanner from './Modals/Scanner';
 import BurnerProvider from './BurnerProvider';
 import Pages from './Pages';
 import Template from './Template';

@@ -10,26 +10,30 @@ interface BalanceCache {
   maximumSendableBalance: string;
 }
 
-const balanceCache: { [key: string]: BalanceCache & { timestamp: number } } = {};
-const getCache = (key: string) => balanceCache[key] && (Date.now() - balanceCache[key].timestamp < CACHE_EXPIRATION)
-  ? balanceCache[key]
-  : null;
+const balanceCache: {
+  [key: string]: BalanceCache & { timestamp: number };
+} = {};
+const getCache = (key: string) =>
+  balanceCache[key] &&
+  Date.now() - balanceCache[key].timestamp < CACHE_EXPIRATION
+    ? balanceCache[key]
+    : null;
 const setCache = (key: string, val: BalanceCache) => {
   balanceCache[key] = { ...val, timestamp: Date.now() };
-}
+};
 
 export interface AccountBalanceProps extends BurnerContext {
-  asset: string | Asset,
-  account?: string,
-  render: (data: AccountBalanceData | null) => React.ReactNode,
+  asset: string | Asset;
+  account?: string;
+  render: (data: AccountBalanceData | null) => React.ReactNode;
 }
 
 export interface AccountBalanceData {
-  balance: string,
-  displayBalance: string,
-  maximumSendableBalance: string,
-  displayMaximumSendableBalance: string,
-  usdBalance: string | null,
+  balance: string;
+  displayBalance: string;
+  maximumSendableBalance: string;
+  displayMaximumSendableBalance: string;
+  usdBalance: string | null;
 }
 
 class AccountBalance extends Component<AccountBalanceProps, any> {
@@ -40,7 +44,7 @@ class AccountBalance extends Component<AccountBalanceProps, any> {
     super(props);
     this.state = {
       data: null,
-      err: null,
+      err: null
     };
     this.timer = null;
     this._isMounted = false;
@@ -95,7 +99,7 @@ class AccountBalance extends Component<AccountBalanceProps, any> {
 
     const [balance, maximumSendableBalance] = await Promise.all([
       asset.getBalance(account),
-      asset.getMaximumSendableBalance(account),
+      asset.getMaximumSendableBalance(account)
     ]);
     const returnVal = { balance, maximumSendableBalance };
 
@@ -121,8 +125,10 @@ class AccountBalance extends Component<AccountBalanceProps, any> {
         balance,
         displayBalance: asset.getDisplayValue(balance),
         maximumSendableBalance,
-        displayMaximumSendableBalance: asset.getDisplayValue(maximumSendableBalance),
-        usdBalance,
+        displayMaximumSendableBalance: asset.getDisplayValue(
+          maximumSendableBalance
+        ),
+        usdBalance
       };
       this.setState({ data, err: null });
     } catch (err) {
