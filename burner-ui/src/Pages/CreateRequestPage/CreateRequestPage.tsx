@@ -11,8 +11,8 @@ import { TransactionCard,
 import AssetSelector from '../../components/AssetSelector';
 import Button from '../../components/Button';
 import RimbleInput from '../../components/RimbleInput';
-import RimbleAmountInput from '../../components/RimbleAmountInput';
-import { Flex } from 'rimble-ui';
+// import RimbleAmountInput from '../../components/RimbleAmountInput';
+import { Flex, Input} from 'rimble-ui';
 
 
 // To Do: This is also used by SendPage.tsx & should be migrated to an independent component to avoid consistency errors.
@@ -37,7 +37,7 @@ const ReceivePage: React.FC<BurnerContext> = ({ actions, history, assets }) => {
         </TransactionCardHeader>
         <TransactionCardBody>
           <h3>How much do you want to request?</h3>
-          <RimbleAmountInput value={amount} placeholder="0" onChange={e => setAmount(e.target.value)} />
+          <Input value={amount} placeholder="0" onChange={e => setAmount(e.target.value)} />
         </TransactionCardBody>
         <AssetSelector selected={asset} onChange={newAsset => setAsset(newAsset) } />
         <TransactionCardFooter>
