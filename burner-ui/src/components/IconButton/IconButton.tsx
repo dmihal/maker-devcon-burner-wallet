@@ -21,8 +21,27 @@ const StyledLink = styled(Link)`
       : props.marginright};
 `;
 
+const StyledButton = styled.button`
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  appearance: none;
+  color: ${props => props.color || '#000'};
+  margin-left: ${props =>
+    typeof props.marginleft === 'number'
+      ? props.marginleft + 'px'
+      : props.marginleft};
+  margin-right: ${props =>
+    typeof props.marginright === 'number'
+      ? props.marginright + 'px'
+      : props.marginright};
+`;
+
 export interface IconProps {
-  color?: string;
+  color?: string | null | undefined | false;
 }
 
 const Close: React.FC<IconProps> = ({ color }) => (
@@ -51,10 +70,11 @@ const Close: React.FC<IconProps> = ({ color }) => (
 export interface IconLinkProps {
   to: string;
   icon: 'close' | 'back';
-  color?: string;
+  color?: string | null | undefined | false;
   className?: string;
   marginleft?: string | number;
   marginright?: string | number;
+  closeAction?: any;
 }
 const IconButton: React.FC<IconLinkProps> = ({
   to,
@@ -62,19 +82,20 @@ const IconButton: React.FC<IconLinkProps> = ({
   color,
   className,
   marginleft,
-  marginright
+  marginright,
+  closeAction
 }) => {
   switch (icon.toLowerCase()) {
     case 'close':
       return (
-        <StyledLink
+        <StyledButton
           marginleft={marginleft}
           marginright={marginright}
-          to={to}
+          onClick={() => closeAction}
           className={className}
         >
-          <Close color={color} />
-        </StyledLink>
+          <Close color={color && color} />
+        </StyledButton>
       );
     case 'back':
       return (

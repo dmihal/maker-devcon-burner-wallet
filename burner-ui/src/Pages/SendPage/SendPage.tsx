@@ -1,61 +1,41 @@
 import React, { Component, Fragment } from 'react';
-import styled from 'styled-components';
 import { Redirect, RouteComponentProps } from 'react-router-dom';
 import injectSheet from 'react-jss';
 import { Asset } from '@burner-wallet/assets';
-import { Card, Flex } from 'rimble-ui';
-
-import { BurnerContext, withBurner, SendParams } from '../../BurnerProvider';
+import { BurnerContext, withBurner } from '../../BurnerProvider';
 import { Account } from '../../';
 import AddressInputField from '../../components/AddressInputField';
 import AddressInputSearchResults from '../../components/AddressInputSearchResults';
 import AssetSelector from '../../components/AssetSelector';
+import AmountInput from '../../components/AmountInput';
 import Button from '../../components/Button';
-import Text from '../../components/Text';
 import Page from '../../components/Page';
-import AccountBalance, { AccountBalanceData } from '../../data-providers/AccountBalance';
-import RimbleAmountInput from '../../components/RimbleAmountInput';
-import { RimbleInput, TransferMessageInput } from '../../components/RimbleInput';
-import { TransactionCard,
-         TransactionCardHeader,
-         TransactionCardBody,
-         TransactionCardFooter
-       } from '../../components/TransactionCard';
-
-const MaxButton = styled(Button)`
-  display: flex;
-  justify-content: center;
-  align-content: center;
-  border-radius: 100px;
-  font-size: 18px;
-  background: #4E3FCE;
-  color: #E1DEFF;
-  padding: 4px 16px;
-  margin: 8px 0px;
-  border: 0px;
-  text-transform: uppercase;
-
-  &:focus {
-    outline: none;
-  }
-`
-
+import { Box } from 'rimble-ui';
 
 interface SendPageState {
-  to: string,
-  value: string,
-  maxVal: string | null,
-  asset: Asset,
-  sending: boolean,
-  txHash: string | null,
-  account: Account | null,
-  accounts: Account[],
-  message: string,
+  to: string;
+  value: string;
+  asset: Asset | null;
+  sending: boolean;
+  txHash: string | null;
+  account: Account | null;
+  accounts: Account[];
+  message: string;
 }
 
 type SendPageProps = BurnerContext & RouteComponentProps & { classes: any };
 
 const styles = {
+  messageField: {
+    width: '100%',
+    padding: 4,
+    fontSize: 16,
+    background: '#EEEEEE',
+    height: 40,
+    boxSizing: 'border-box',
+    border: 'solid 1px #cccccc',
+    borderRadius: 4
+  },
   sendContainer: {
     marginTop: 16
   }
@@ -67,9 +47,8 @@ class SendPage extends Component<SendPageProps, SendPageState> {
     this.state = {
       to: (props.location.state && props.location.state.address) || '',
       value: '',
-      maxVal: null,
       message: '',
-      asset: props.assets[0],
+      asset: null,
       sending: false,
       txHash: null,
       account: null,
@@ -94,24 +73,17 @@ class SendPage extends Component<SendPageProps, SendPageState> {
   }
 
   send() {
-    const { asset, to, value, message, maxVal } = this.state;
+    const { asset, to, value, message } = this.state;
     const { actions } = this.props;
     if (!asset) {
       throw new Error('Asset not selected');
     }
-    const sendProps: SendParams = {
+    actions.send({
       to,
+      ether: value,
       asset: asset.id,
-      message: message.length > 0 ? message : null,
-    };
-
-    if (maxVal) {
-      sendProps.value = maxVal;
-    } else {
-      sendProps.ether = value;
-    }
-
-    actions.send(sendProps);
+      message: message.length > 0 ? message : null
+    });
   }
 
   render() {
@@ -131,79 +103,63 @@ class SendPage extends Component<SendPageProps, SendPageState> {
       return <Redirect to={`/receipt/${asset.id}/${txHash}`} />;
     }
 
-    const canSend = !sending && to.length == 42 && to;
+    const canSend = asset !== null && !sending && to.length == 42 && to;
     return (
+      <Page title='Send To Address' back>
+        <Box padding='var(--page-margin)'>
+          <AssetSelector
+            selected={asset}
+            onChange={newAsset => this.setState({ asset: newAsset })}
+            disabled={sending}
+          />
+          <div>To address:</div>
+          <AddressInputField
+            value={to}
+            account={account}
+            onChange={(to: string, account: Account | null) => {
+              this.setState({ to, account });
+              if (account) {
+                this.setState({ accounts: [] });
+              } else {
+                this.getAccounts(to);
+              }
+            }}
+            scan={() => this.scanCode()}
+            disabled={sending}
+          />
+          <AddressInputSearchResults
+            accounts={accounts}
+            onSelect={(account: Account) =>
+              this.setState({ account, accounts: [] })
+            }
+          />
 
-      <AccountBalance asset={asset} render={(data: AccountBalanceData | null) => {
-        const exceedsBalance = !!data && parseFloat(value) > parseFloat(data.displayMaximumSendableBalance);
-        return (
-          <Page title='Send' close>
-        <Flex flexDirection="column" p={3}>
-        <TransactionCard>
-          <TransactionCardHeader>
-            <Text level={2} as="p">Send to</Text>
-            <AddressInputField
-              value={to}
-              account={account}
-              onChange={(to: string, account: Account | null) => {
-                this.setState({ to, account });
-                if (account) {
-                  this.setState({ accounts: [] });
-                } else {
-                  this.getAccounts(to);
-                }
-              }}
-              scan={() => this.scanCode()}
-              disabled={sending}
-            />
-          </TransactionCardHeader>
-          <TransactionCardBody>
-            <Text level={3} as="h3">How much do you want to send?</Text>
-            <RimbleAmountInput
-              asset={asset}
-              value={value}
-              onChange={e => this.setState({ value: e.target.value })}
-              disabled={sending}
-            />
-            <MaxButton>Max</MaxButton>
-            <AssetSelector selected={asset} onChange={newAsset => this.setState({ asset: newAsset })} disabled={sending} />
-          </TransactionCardBody>
+          <div>Send Amount:</div>
+          <AmountInput
+            asset={asset}
+            value={value}
+            onChange={e => this.setState({ value: e.target.value })}
+            disabled={sending}
+          />
 
-         { /* Can we move this to a new screen as per  the Figma designs?
-        <AddressInputSearchResults
-          accounts={accounts}
-          onSelect={(account: Account) =>
-            this.setState({ account, accounts: [] })
-          }
-        />
-         */ }
-        <TransactionCardFooter>
-          {asset.supportsMessages() && (
+          {asset && asset.supportsMessages() && (
             <Fragment>
-                <Text level={3} as="h3" margin={0}>For:</Text>
-                <TransferMessageInput
-                  placeholder="Optional"
-                  value={message}
-                  onChange={e => this.setState({ message: e.target.value })}
-                />
-
+              <div>Message:</div>
+              <input
+                value={message}
+                onChange={e => this.setState({ message: e.target.value })}
+                className={classes.messageField}
+              />
             </Fragment>
           )}
-        </TransactionCardFooter>
-        </TransactionCard>
-        </Flex>
 
-            <div className={classes.sendContainer}>
-              <Button
-                onClick={() => this.send()}
-                disabled={!canSend || exceedsBalance}
-              >
-                Send
-              </Button>
-            </div>
-          </Page>
-        );
-      }} />
+          <div className={classes.sendContainer}>
+            <Button onClick={() => this.send()} disabled={!canSend}>
+              Send
+            </Button>
+          </div>
+        </Box>
+      </Page>
     );
   }
 }
