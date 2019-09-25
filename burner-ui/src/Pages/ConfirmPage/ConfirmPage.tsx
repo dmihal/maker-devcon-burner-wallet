@@ -4,6 +4,8 @@ import { BurnerContext, withBurner } from '../../BurnerProvider';
 import Button from '../../components/Button';
 import Page from '../../components/Page';
 import LineItem from '../../components/LineItem';
+import { Flex, Box, Card} from 'rimble-ui';
+import Text from '../../components/Text';
 
 const ConfirmPage: React.FC<BurnerContext & RouteComponentProps> = ({
   history,
@@ -60,19 +62,24 @@ const ConfirmPage: React.FC<BurnerContext & RouteComponentProps> = ({
 
   return (
     <Page title='Confirm' back>
-      <LineItem name='From' value={from} />
-      <LineItem name='To' value={to} />
-      <LineItem name='Amount' value={`${amount} ${asset.name}`} />
+    <Box p={3}>
+    <Card p={2} borderRadius={2}>
+      <Flex flexDirection="column">
+      <Text level={2} as={'h2'}>From</Text>
+      <LineItem  value={from} />
+      <Text level={2} as={'h2'}>To</Text>
+      <LineItem  value={to} />
+      <Text level={2} as={'h2'}>Amount</Text>
+      <LineItem value={`${amount} ${asset.name}`} />
       {message && <LineItem name='Message' value={message} />}
-
-      <div style={{ display: 'flex' }}>
+      </Flex>
+    </Card>
+      <Flex mt={2}>
         <Button disabled={sending} onClick={send}>
           Send
         </Button>
-        <Button disabled={sending} onClick={() => history.goBack()}>
-          Cancel
-        </Button>
-      </div>
+      </Flex>
+      </Box>
     </Page>
   );
 };
