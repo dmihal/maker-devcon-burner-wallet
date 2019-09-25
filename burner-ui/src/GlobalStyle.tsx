@@ -31,8 +31,8 @@ const GlobalStyle = createGlobalStyle`
     --color-tertiary: #E1DEFF;
 
     
-    --modal-background: #CAC4FF;
-    --modal-header-background: #E1DEFF
+    --modal-background: #E1DEFF;
+    --modal-header-background: #CAC4FF;
   }
 
   *, *:before, *:after {

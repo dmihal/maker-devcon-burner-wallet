@@ -4,6 +4,7 @@ import { Redirect, RouteComponentProps } from 'react-router-dom';
 import injectSheet from 'react-jss';
 import { Asset } from '@burner-wallet/assets';
 import Color from 'color';
+import CurrencyInput from 'react-currency-input';
 import {
   Box,
   Card,
@@ -28,7 +29,7 @@ import Page from '../../components/Page';
 import AccountBalance, {
   AccountBalanceData
 } from '../../data-providers/AccountBalance';
-import RimbleAmountInput from '../../components/RimbleAmountInput';
+// import RimbleAmountInput from '../../components/RimbleAmountInput';
 import {
   RimbleInput,
   TransferMessageInput
@@ -50,13 +51,18 @@ const ModalBackdrop = styled(Box)`
     left: 0;
     right: 0;
     z-index: 9999;
-    height: 100vh;
+    height: ${window.innerHeight};
     width: 100vw;
     display: flex;
-    flex-flow: column;
-    place-items: center;
-    place-content: center;
+    flex-direction: column;
   }
+`;
+
+const PurpleCard = styled(Card)`
+  background-color: var(--modal-header-background);
+  height: 100%;
+  flex: 1;
+  margin-bottom: var(--page-margin);
 `;
 
 ModalBackdrop.defaultProps = {
@@ -75,10 +81,35 @@ interface AddressQrModalProps {
   address: string;
 }
 
+const TitleBar = styled(Box)`
+  padding: 0 var(--page-margin);
+`;
+
+const AmountWrapper = styled(Flex)`
+  background: var(--modal-background);
+  padding: 0 var(--page-margin);
+  align-items: center;
+  flex-direction: column;
+  flex: 1;
+`;
+
+const AmountInput = styled(CurrencyInput)`
+  width: 100%;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  outline: none;
+  border: none;
+  font-size: 80px;
+  height: 80px;
+  margin-top: auto;
+  margin-bottom: auto;
+  background-color: transparent;
+  appearance: none;
+`;
+
 const MaxButton = styled(Button)`
-  display: flex;
-  justify-content: center;
-  align-content: center;
+  text-align: center;
   border-radius: 100px;
   font-size: 18px;
   color: #e1deff;
@@ -90,10 +121,6 @@ const MaxButton = styled(Button)`
   &:focus {
     outline: none;
   }
-`;
-
-const PurpleCard = styled(Card)`
-  background-color: var(--modal-background);
 `;
 
 interface SendPageState {
@@ -210,117 +237,89 @@ class SendModal extends Component<SendPageProps, SendPageState> {
               flexDirection={'column'}
               justifyContent={'center'}
             >
-              <Button.Text
-                icon={'Close'}
-                mainColor={'inherit'}
-                p={0}
-                borderRadius={'100%'}
-                position={'absolute'}
-                top={0}
-                right={0}
-                onClick={this.closeModal}
-              />
+              <TitleBar>
+                <Text level={2} as={'h1'}>
+                  Send To
+                </Text>
 
-              <Text
-                color={'inherit'}
-                p={3}
-                borderBottom={1}
-                borderColor={'blacks.4'}
-                lineHeight={'solid'}
-                textAlign={'center'}
-                fontWeight={3}
-              >
-                Send
-              </Text>
-              <AccountBalance
-                asset={asset}
-                render={(data: AccountBalanceData | null) => {
-                  {
-                    /* // const exceedsBalance =
-                  //   !!data &&
-                  //   parseFloat(value) >
-                  //     parseFloat(data.displayMaximumSendableBalance); */
+                <Button.Text
+                  icon={'Close'}
+                  mainColor={'inherit'}
+                  p={0}
+                  borderRadius={'100%'}
+                  position={'absolute'}
+                  top={0}
+                  right={0}
+                  onClick={this.closeModal}
+                />
+              </TitleBar>
+
+              <Box padding={'24px var(--page-margin)'}>
+                <AddressInputField
+                  value={to}
+                  account={account}
+                  onChange={(to: string, account: Account | null) => {
+                    this.setState({ to, account });
+                    if (account) {
+                      this.setState({ accounts: [] });
+                    } else {
+                      this.getAccounts(to);
+                    }
+                  }}
+                  scan={() => this.scanCode()}
+                  disabled={sending}
+                />
+              </Box>
+
+              <AmountWrapper>
+                <Text level={3} as={'h2'}>
+                  How much do you want to send?
+                </Text>
+                <AmountInput
+                  // type='number'
+                  precision={2}
+                  pattern='\d*'
+                  value={this.state.value}
+                  placeholder='00.00'
+                  onChangeEvent={e =>
+                    this.setState({
+                      value: e.target.value
+                    })
                   }
-                  return (
-                    <>
-                      <Flex flexDirection='column' p={3}>
-                        <TransactionCard>
-                          <TransactionCardHeader>
-                            <Text level={2} as='p'>
-                              Send to
-                            </Text>
-                            <AddressInputField
-                              value={to}
-                              account={account}
-                              onChange={(
-                                to: string,
-                                account: Account | null
-                              ) => {
-                                this.setState({ to, account });
-                                if (account) {
-                                  this.setState({ accounts: [] });
-                                } else {
-                                  this.getAccounts(to);
-                                }
-                              }}
-                              scan={() => this.scanCode()}
-                              disabled={sending}
-                            />
-                          </TransactionCardHeader>
-                          <TransactionCardBody>
-                            <Text level={3} as='h3'>
-                              How much do you want to send?
-                            </Text>
-                            <RimbleAmountInput
-                              asset={asset}
-                              value={value}
-                              onChange={e =>
-                                this.setState({ value: e.target.value })
-                              }
-                              disabled={sending}
-                            />
-                            <MaxButton>Max</MaxButton>
-                            <AssetSelector
-                              selected={asset}
-                              onChange={newAsset =>
-                                this.setState({ asset: newAsset })
-                              }
-                              disabled={sending}
-                            />
-                          </TransactionCardBody>
+                />
+                <MaxButton
+                  onClick={() => this.setState({ value: asset.amount })}
+                >
+                  Max
+                </MaxButton>
+                <AssetSelector
+                  selected={asset}
+                  onChange={newAsset => this.setState({ asset: newAsset })}
+                  disabled={sending}
+                />
+              </AmountWrapper>
 
-                          <TransactionCardFooter>
-                            {asset.supportsMessages() && (
-                              <Fragment>
-                                <Text level={3} as='h3' margin={0}>
-                                  For:
-                                </Text>
-                                <TransferMessageInput
-                                  placeholder='Optional'
-                                  value={message}
-                                  onChange={e =>
-                                    this.setState({ message: e.target.value })
-                                  }
-                                />
-                              </Fragment>
-                            )}
-                          </TransactionCardFooter>
-                        </TransactionCard>
-                      </Flex>
-
-                      <div>
-                        <Button
-                          onClick={() => this.send()}
-                          // disabled={!canSend || exceedsBalance}
-                        >
-                          Send
-                        </Button>
-                      </div>
-                    </>
-                  );
-                }}
-              />
+              <TransactionCardFooter>
+                {asset.supportsMessages() && (
+                  <Fragment>
+                    <Text level={3} as='h3' margin={0}>
+                      For:
+                    </Text>
+                    <TransferMessageInput
+                      placeholder='Optional'
+                      value={message}
+                      onChange={e => this.setState({ message: e.target.value })}
+                    />
+                  </Fragment>
+                )}
+              </TransactionCardFooter>
             </PurpleCard>
+            <Button
+              onClick={() => this.send()}
+              // disabled={!canSend || exceedsBalance}
+            >
+              Send
+            </Button>
           </ModalBackdrop>
         </Portal>
       )
