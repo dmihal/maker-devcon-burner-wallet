@@ -10,6 +10,7 @@ import { TransactionCard,
          TransactionCardFooter }
          from '../../components/TransactionCard';
 import Text from '../../components/Text';
+import { Flex } from 'rimble-ui';
 
 const QRWrapper = styled.div`
   display: flex;
@@ -29,6 +30,7 @@ const DisplayRequestPage = ({ history, actions }) => {
 
   return (
     <Page title="Requesting" back>
+      <Flex flexDirection="column" p={3}>
       <TransactionCard>
         <TransactionCardHeader>
         <Text level={3} as="h1" center>Please scan this QR code to complete the transaction.</Text>
@@ -41,6 +43,7 @@ const DisplayRequestPage = ({ history, actions }) => {
         </TransactionCardBody>
       </TransactionCard>
       <Button onClick={() => actions.navigateTo('/request', { amount })}>Back</Button>
+      </Flex>
     </Page>
   );
 };

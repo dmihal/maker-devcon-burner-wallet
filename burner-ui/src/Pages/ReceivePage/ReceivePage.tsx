@@ -59,12 +59,13 @@ const ReceivePage: React.FC<BurnerContext> = ({ defaultAccount, actions }) => {
   const [showCopied, setShowCopied] = useState(false);
   return (
     <Page title="Request" close>
+    <Flex flexDirection="column" p={3}>
     <AddressWrapper>
-     <Text level={3} as={'h1'}>
+     <Text level={2} as={'h1'}>
      Your Address
      </Text>
-     <Text level={3} as={'p'}>
-     Show this to someone and let them scan it in order to get your wallet address
+     <Text level={2} as={'p'}>
+     To send funds to your Ethereum address, scan this code.
      </Text>
         <QRWrapper>
           <QRCode width={240} height={240} value={defaultAccount} renderAs='svg' />
@@ -93,6 +94,7 @@ const ReceivePage: React.FC<BurnerContext> = ({ defaultAccount, actions }) => {
           </ScanRequestHeader>
         <Text level={3} as={'p'}>Creates a QR code that someone can scan to pay you.</Text>
       </ScanRequestCard>
+      </Flex>
     </Page>
   );
 };

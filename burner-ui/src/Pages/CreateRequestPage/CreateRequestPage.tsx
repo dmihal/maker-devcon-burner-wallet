@@ -12,6 +12,7 @@ import AssetSelector from '../../components/AssetSelector';
 import Button from '../../components/Button';
 import RimbleInput from '../../components/RimbleInput';
 import RimbleAmountInput from '../../components/RimbleAmountInput';
+import { Flex } from 'rimble-ui';
 
 
 // To Do: This is also used by SendPage.tsx & should be migrated to an independent component to avoid consistency errors.
@@ -28,6 +29,7 @@ const ReceivePage: React.FC<BurnerContext> = ({ actions, history, assets }) => {
   const [asset, setAsset] = useState(assets[0])
   return (
     <Page title='Request' close>
+      <Flex flexDirection="column" p={3}>
       <TransactionCard>
         <TransactionCardHeader>
           <h3>Scan Request</h3>
@@ -51,6 +53,7 @@ const ReceivePage: React.FC<BurnerContext> = ({ actions, history, assets }) => {
           )}
         </TransactionCardFooter>
       </TransactionCard>
+      </Flex>
       <Button onClick={() => actions.navigateTo('/receive')}>Cancel</Button>
       <Button onClick={() => actions.navigateTo('/request/display', { amount })}>Next</Button>
     </Page>
