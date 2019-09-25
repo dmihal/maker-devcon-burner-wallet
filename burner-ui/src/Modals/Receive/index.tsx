@@ -152,7 +152,7 @@ class ReceiveModal extends Component<AddressQrModalProps> {
                 </Clipboard>
               </Box>
             </Card>
-            <Card borderRadius={2} padding={4} marginTop='var(--page-margin)'>
+            <Card borderRadius={2} padding={3} marginTop='var(--page-margin)'>
               <Flex flexDirection={'column'} alignItems={'center'} justifyItems={'center'}>
                 <Text level={1} as={'h2'}>
                   Create Custom Request
