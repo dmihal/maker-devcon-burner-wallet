@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect, Component, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { BurnerContext, withBurner } from '../../BurnerProvider';
@@ -6,7 +6,7 @@ import Button from '../../components/Button';
 import Page from '../../components/Page';
 import styled from 'styled-components';
 // import ActionRow from '../../components/ActionRow';
-import { Card, Box, Flex } from 'rimble-ui';
+import { Box } from 'rimble-ui';
 import PluginElements from '../../components/PluginElements';
 import History from '../../data-providers/History';
 import BalanceRow from '../../components/BalanceRow';
@@ -35,49 +35,55 @@ const HomeButton: React.FC<HomeButtonProps> = ({ path, title, classes }) => (
   </li>
 );
 
-const HomePage: React.FC<BurnerContext & { classes: any }> = ({
-  defaultAccount,
-  actions,
-  assets,
-  pluginData,
-  classes,
-}) => (
-  <Page title={'My Wallet'}>
-    <PluginElements position='home-top' />
-    <BalanceRow account={defaultAccount} assets={assets} />
-    <PluginElements position='home-middle' />
+interface HomePageProps {
+  defaultAccount;
+  actions;
+  assets;
+  pluginData;
+  classes;
+  accounts;
+}
 
-    <Box margin='0 var(--page-margin)'>
-      <L2 level={2} as={'h2'} margin={0}>
-        Recent Activity
-      </L2>
+class HomePage extends Component<BurnerContext & HomePageProps, any> {
+  constructor(props: BurnerContext & HomePageProps) {
+    super(props);
+  }
+  render() {
+    return (
+      <Page title={'My Wallet'}>
+        <PluginElements position='home-top' />
+        <BalanceRow accounts={this.props.accounts} assets={this.props.assets} />
+        <PluginElements position='home-middle' />
+        <Box margin='0 var(--page-margin)'>
+          <L2 level={2} as={'h2'} margin={0}>
+            Recent activity
+          </L2>
 
-      <History
-        account={defaultAccount}
-        render={(events: any[]) =>
-          events.map(event => (
-            <HistoryListEvent
-              key={JSON.stringify(event)}
-              event={event}
-              account={defaultAccount}
-              navigateTo={actions.navigateTo}
-            />
-          ))
-        }
-      />
-    </Box>
-
-    <PluginElements position='home-bottom' />
-    <Box margin='0 var(--page-margin)'>
-      <Link to='/advanced'>Advanced</Link>
-    </Box>
-
-    <PositionedBottomActions
-      actions={actions}
-      pluginData={pluginData}
-      defaultAccount={defaultAccount}
-    />
-  </Page>
-);
+          <History
+            account={this.props.defaultAccount}
+            render={(events: any[]) =>
+              events.map(event => (
+                <HistoryListEvent
+                  key={JSON.stringify(event)}
+                  event={event}
+                  account={this.props.defaultAccount}
+                  navigateTo={this.props.actions.navigateTo}
+                />
+              ))
+            }
+          />
+        </Box>
+        <Box margin='0 var(--page-margin)'>
+          <Link to='/advanced'>Advanced</Link>
+        </Box>
+        <PositionedBottomActions
+          actions={this.props.actions}
+          pluginData={this.props.pluginData}
+          defaultAccount={this.props.defaultAccount}
+        />
+      </Page>
+    );
+  }
+}
 
 export default withBurner(HomePage);

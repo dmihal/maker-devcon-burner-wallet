@@ -116,12 +116,14 @@ class SendPage extends Component<SendPageProps, SendPageState> {
           <AddressInputField
             value={to}
             account={account}
+            classes={classes}
             onChange={(to: string, account: Account | null) => {
               this.setState({ to, account });
               if (account) {
                 this.setState({ accounts: [] });
               } else {
                 this.getAccounts(to);
+                console.log(this.state.to);
               }
             }}
             scan={() => this.scanCode()}
@@ -138,7 +140,10 @@ class SendPage extends Component<SendPageProps, SendPageState> {
           <AmountInput
             asset={asset}
             value={value}
-            onChange={e => this.setState({ value: e.target.value })}
+            onChange={e => {
+              this.setState({ value: e.target.value });
+              console.log(this.state.value);
+            }}
             disabled={sending}
           />
 
