@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import {
   Box,
+  Flex,
   Card,
-  Text,
   Tooltip,
   Button,
   Icon,
@@ -11,7 +11,7 @@ import {
   QR,
   Portal
 } from 'rimble-ui';
-
+import Text from '../../components/Text';
 import Clipboard from '../../components/Clipboard';
 
 const ModalBackdrop = styled(Box)`
@@ -60,9 +60,9 @@ class ReceiveModal extends Component<AddressQrModalProps> {
     const { isOpen, address } = this.props;
 
     const text = {
-      title: 'Ethereum Address',
+      title: 'Your Address',
       description:
-        'To send funds to this Ethereum address, scan this code using your mobile wallet app'
+        'Scan this code with your wallet to send money to it.'
     };
 
     const colors = {
@@ -96,19 +96,15 @@ class ReceiveModal extends Component<AddressQrModalProps> {
               />
 
               <Text
-                color={'inherit'}
-                p={3}
-                borderBottom={1}
-                borderColor={'blacks.4'}
-                lineHeight={'solid'}
-                textAlign={'center'}
-                fontWeight={3}
+                level={1}
+                as={'h1'}
+                center
               >
                 {text.title}
               </Text>
 
-              <Box p={[3, 4]} overflow={'scroll'}>
-                <Text color={'inherit'} textAlign={'center'} mb={4}>
+              <Box p={[3, 4]} pt={0} overflow={'scroll'}>
+                <Text level={3} as={'p'} margin={0} center>
                   {text.description}
                 </Text>
                 <Box
@@ -116,6 +112,7 @@ class ReceiveModal extends Component<AddressQrModalProps> {
                   width={1}
                   maxWidth={'220px'}
                   mx={'auto'}
+                  mt={3}
                   mb={4}
                   p={4}
                   bg={'white'}
@@ -155,11 +152,17 @@ class ReceiveModal extends Component<AddressQrModalProps> {
                 </Clipboard>
               </Box>
             </Card>
-            <Card borderRadius={2} marginTop='var(--page-margin)'>
-              <Text level={2} tag={'h2'}>
-                Create a request
-              </Text>
-              <Button.Outline>Create a request</Button.Outline>
+            <Card borderRadius={2} border={0} padding={2} marginTop='var(--page-margin)' backgroundColor={'var(--color-tertiary)'}>
+              <Flex flexDirection={'row'} alignItems={'center'}>
+              <Box borderRadius={'100px'} backgroundColor={'var(--color-primary)'}>
+                <Icon name="Add" borderRadius={100} color={'var(--color-tertiary)'} />
+              </Box>
+              <Box width={'100%'}>
+                <Text level={3} as={'h3'} center color={'var(--color-primary)'}>
+                  Create Custom Request
+                </Text>
+              </Box>
+              </Flex>
             </Card>
           </ModalBackdrop>
         </Portal>

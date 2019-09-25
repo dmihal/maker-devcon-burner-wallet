@@ -38,6 +38,7 @@ const BottomButton = styled(Link)`
   color: var(--color-primary);
   background-color: transparent;
   width: calc((100% - 72px - 8px) / 2);
+  font-size: 18px;
   z-index: 10;
   border: none;
   box-shadow: none;
@@ -58,6 +59,7 @@ const BottomButtonButton = styled(Button)`
   color: var(--color-primary);
   background-color: transparent;
   width: calc((100% - 72px - 8px) / 2);
+  font-size: 18px;
   z-index: 10;
   border: none;
   box-shadow: none;
@@ -118,7 +120,7 @@ class BottomActions extends Component<BottomActionsProps> {
     return (
       <>
         <Box margin={'0 var(--page-margin)'} className={className}>
-          <Card width='auto' padding={0}>
+          <Card width='auto' padding={0} borderRadius={2}>
             <Flex justifyContent='space-between' alignItems='center'>
               <BottomButtonButton
                 onClick={() => this.openReceiveModal()}
