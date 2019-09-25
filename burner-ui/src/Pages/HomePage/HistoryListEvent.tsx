@@ -18,6 +18,10 @@ const FlexRow = styled(Flex)`
   border-top: 1px solid #f2f2f2;
 `;
 
+const IcoArrow = styled.span`
+  color: ${props => 'var(--l' + props.level + '-weight)'};
+`;
+
 interface HistoryListEventProps {
   event: HistoryEvent;
   account?: string;
@@ -56,7 +60,7 @@ const HistoryListEvent: React.FC<HistoryListEventProps> = ({
           </div>
 
           <div>
-            <Text level={3} as={'div'} right>
+            <Text level={2} as={'div'} right color="var(--color-primary)">
               {event.to === account ? '\u2199  ' : '\u2197  '}
               {parseFloat(asset.getDisplayValue(event.value)).toFixed(2)}
             </Text>
