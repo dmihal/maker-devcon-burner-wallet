@@ -70,11 +70,6 @@ ModalBackdrop.defaultProps = {
   p: 3
 };
 
-const StyledInput = styled(Input)`
-  text-overflow: ellipsis;
-  white-space: nowrap;
-`;
-
 interface AddressQrModalProps {
   isOpen: boolean;
   hide: Function;
@@ -179,6 +174,28 @@ interface AssetPickerProps {
 //     </select>
 //   );
 // };
+
+const StyledWrapper = styled(Box)`
+  & {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    position: relative;
+  }
+`;
+
+const StyledInput = styled(Input)`
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`;
+
+const CopyButton = ({ clipboardText, ...props }) => {
+  const text = {
+    tooltip: 'Copy to clipboard',
+    button: 'Copy'
+  };
+};
 
 interface SendPageState {
   to: string;

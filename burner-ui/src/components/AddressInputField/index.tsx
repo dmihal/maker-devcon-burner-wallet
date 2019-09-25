@@ -1,10 +1,11 @@
 // @ts-ignore
-import React from "react";
-import styled from "styled-components";
-import { Account } from "../../";
-import AddressInputAccount from "../AddressInputAccount";
+import React from 'react';
+import styled from 'styled-components';
+import { Account } from '../../';
+import AddressInputAccount from '../AddressInputAccount';
 import { RimbleInput } from '../../components/RimbleInput';
-import { SCAN_QR_DATAURI } from "../../constants";
+import { SCAN_QR_DATAURI } from '../../constants';
+import { Flex, Input, Icon, Button, Box } from 'rimble-ui';
 
 const ADDRESS_REGEX = /^(0x)?[0-9a-f]{40}$/i;
 
@@ -13,7 +14,7 @@ const styles = {
     backgroundImage: `url("${SCAN_QR_DATAURI}")`,
     width: 40,
     height: 40
-  },
+  }
 };
 
 const InputContainer = styled.div`
@@ -26,7 +27,6 @@ const InputField = styled(RimbleInput)`
   flex: 1 0;
   font-size: 20px;
   padding: 4px;
-
 `;
 const ButtonScan = styled.button`
   background-image: url("${SCAN_QR_DATAURI}");
@@ -36,8 +36,24 @@ const ButtonScan = styled.button`
 
 const ButtonClear = styled.button`
   font-size: 32px;
-  color: #4E3FCE;
+  color: #4e3fce;
 `;
+
+const StyledWrapper = styled(Box)`
+  & {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    position: relative;
+  }
+`;
+
+const StyledInput = styled(Input)`
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`;
+
 interface AddressInputFieldProps {
   value: string;
   account?: Account | null;
@@ -59,24 +75,36 @@ const AddressInputField: React.FC<AddressInputFieldProps> = ({
     _account = { address: value };
   }
   return (
-    <InputContainer>
-      {_account ? (
-        <>
-          <AddressInputAccount account={_account} />
-          <ButtonClear onClick={() => onChange("", null)}>
-            {"\u00D7"}
-          </ButtonClear>
-        </>
-      ) : (
-        <>
-          <InputField
-            value={value}
-            onChange={e => onChange(e.target.value, null)}
-          />
-          {scan && <ButtonScan onClick={scan} />}
-        </>
-      )}
-    </InputContainer>
+    <StyledWrapper>
+      {/* {_account && 
+          <>
+            <AddressInputAccount account={_account} />
+            <ButtonClear onClick={() => onChange('', null)}>
+              {'\u00D7'}
+            </ButtonClear>
+          </>
+        ) : (
+          <>
+            <InputField
+              value={value}
+              onChange={e => onChange(e.target.value, null)}
+            />
+            {scan && <ButtonScan onClick={scan} />}
+          </>
+        )} */}
+      <StyledInput
+        readOnly
+        value={value}
+        width={1}
+        fontWeight={3}
+        onChange={e => onChange(e.target.value, null)}
+      />
+      <Flex position={'absolute'} right={0} mr={2}>
+        <Button size={'small'} mx={2} p={0} onClick={scan}>
+          <Icon name='CenterFocusWeak' />
+        </Button>
+      </Flex>
+    </StyledWrapper>
   );
 };
 
