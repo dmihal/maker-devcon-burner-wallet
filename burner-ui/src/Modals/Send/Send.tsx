@@ -210,6 +210,7 @@ interface SendPageState {
   message: string;
   hide: Function;
   isOpen: boolean;
+  // location:
 }
 
 type SendPageProps = BurnerContext & RouteComponentProps & { classes: any };
@@ -331,7 +332,7 @@ class SendModal extends Component<SendPageProps, SendPageState, BurnerContext> {
 
               <Box padding={'24px var(--page-margin)'}>
                 <AddressInputField
-                  value={to}
+                  value={this.state.to}
                   account={account}
                   onChange={(to: string, account: Account | null) => {
                     this.setState({ to, account });
