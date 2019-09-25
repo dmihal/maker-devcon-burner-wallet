@@ -5,24 +5,35 @@ import { withBurner, BurnerContext } from '../BurnerProvider';
 const POLL_INTERVAL = 1000;
 const CACHE_EXPIRATION = 3000;
 
-const balanceCache: { [key: string]: { timestamp: number, balance: string } } = {};
-const getCache = (key: string) => balanceCache[key] && (Date.now() - balanceCache[key].timestamp < CACHE_EXPIRATION)
-  ? balanceCache[key].balance
-  : null;
-const setCache = (key: string, balance: string) => {
-  balanceCache[key] = { balance, timestamp: Date.now() };
+interface BalanceCache {
+  balance: string;
+  maximumSendableBalance: string;
 }
 
+const balanceCache: {
+  [key: string]: BalanceCache & { timestamp: number };
+} = {};
+const getCache = (key: string) =>
+  balanceCache[key] &&
+  Date.now() - balanceCache[key].timestamp < CACHE_EXPIRATION
+    ? balanceCache[key]
+    : null;
+const setCache = (key: string, val: BalanceCache) => {
+  balanceCache[key] = { ...val, timestamp: Date.now() };
+};
+
 export interface AccountBalanceProps extends BurnerContext {
-  asset: string | Asset,
-  account?: string,
-  render: (err: Error, data: AccountBalanceData | null) => React.ReactNode,
+  asset: string | Asset;
+  account?: string;
+  render: (data: AccountBalanceData | null) => React.ReactNode;
 }
 
 export interface AccountBalanceData {
-  balance: string,
-  displayBalance: string,
-  usdBalance: string | null,
+  balance: string;
+  displayBalance: string;
+  maximumSendableBalance: string;
+  displayMaximumSendableBalance: string;
+  usdBalance: string | null;
 }
 
 class AccountBalance extends Component<AccountBalanceProps, any> {
@@ -33,7 +44,7 @@ class AccountBalance extends Component<AccountBalanceProps, any> {
     super(props);
     this.state = {
       data: null,
-      err: null,
+      err: null
     };
     this.timer = null;
     this._isMounted = false;
@@ -86,15 +97,21 @@ class AccountBalance extends Component<AccountBalanceProps, any> {
       return cachedVal;
     }
 
-    const balance = await asset.getBalance(account);
-    setCache(cacheKey, balance);
-    return balance;
+    const [balance, maximumSendableBalance] = await Promise.all([
+      asset.getBalance(account),
+      asset.getMaximumSendableBalance(account)
+      // 1
+    ]);
+    const returnVal = { balance, maximumSendableBalance };
+
+    setCache(cacheKey, returnVal);
+    return returnVal;
   }
 
   async fetchData() {
     try {
       const asset = this.getAsset();
-      const balance = await this.getBalance(asset);
+      const { balance, maximumSendableBalance } = await this.getBalance(asset);
 
       if (!this._isMounted) {
         return;
@@ -108,17 +125,20 @@ class AccountBalance extends Component<AccountBalanceProps, any> {
       const data: AccountBalanceData = {
         balance,
         displayBalance: asset.getDisplayValue(balance),
-        usdBalance,
-      }
+        maximumSendableBalance,
+        displayMaximumSendableBalance: asset.getDisplayValue(
+          maximumSendableBalance
+        ),
+        usdBalance
+      };
       this.setState({ data, err: null });
     } catch (err) {
-      console.warn(err);
-      this.setState({ err, data: null });
+      console.warn('[AccountBalance]', err);
     }
   }
 
   render() {
-    return this.props.render(this.state.err, this.state.data);
+    return this.props.render(this.state.data);
   }
 }
 

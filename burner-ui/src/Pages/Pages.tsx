@@ -3,6 +3,8 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import { BurnerPluginData } from '../Plugins';
 import AdvancedPage from './AdvancedPage';
 import ConfirmPage from './ConfirmPage';
+import CreateRequestPage from './CreateRequestPage';
+import DisplayRequestPage from './DisplayRequestPage';
 import HomePage from './HomePage';
 import ReceiptPage from './ReceiptPage';
 import ReceivePage from './ReceivePage';
@@ -18,7 +20,8 @@ const Pages: React.FC<PageProps> = ({ pluginData }) => (
     <Route path='/' exact component={HomePage} />
     <Route path='/welcome' exact component={Onboarding} />
     <Route path='/receive' component={ReceivePage} />
-    <Route path='/send' component={SendPage} />
+    <Route path='/request/display' component={DisplayRequestPage} />
+    <Route path='/request' component={CreateRequestPage} />
     <Route path='/confirm' component={ConfirmPage} />
     <Route path='/receipt/:asset/:txHash' component={ReceiptPage} />
     <Route path='/advanced' component={AdvancedPage} />

@@ -15,7 +15,7 @@ import { L1, L2 } from '../../components/Text';
 import BottomActions from '../../components/BottomActions';
 
 const PositionedBottomActions = styled(BottomActions)`
-  position: absolute;
+  position: fixed;
   bottom: 32px;
   left: 0;
   right: 0;

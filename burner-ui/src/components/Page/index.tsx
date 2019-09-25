@@ -1,9 +1,5 @@
 // @ts-ignore
 import React from 'react';
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
-import { L1 } from '../Text';
-import IconButton from '../IconButton';
 import PageTitleBar from '../PageTitleBar';
 
 export interface PageProps {

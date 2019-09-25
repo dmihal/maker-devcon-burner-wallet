@@ -4,30 +4,60 @@ import styled from "styled-components";
 import { Asset } from "@burner-wallet/assets";
 import AccountBalance, {
   AccountBalanceData
-} from "../../data-providers/AccountBalance";
-import Assets from "../../data-providers/Assets";
+} from "../data-providers/AccountBalance";
+import Assets from "../data-providers/Assets";
+import Text from '../components/Text';
+
 
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
-  padding: 4px 12px;
   flex: 1 0;
   cursor: default;
+  border-radius: 8px;
 `;
 
-const TextAssetName = styled.div`
-  flex: 1 0;
-  font-size: 24px;
-`;
-
-const TextAssetBalance = styled.div`
+const TextAssetName = styled(Text)`
   font-size: 18px;
-  color: #999;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  margin: 0px;
+`;
+
+const TextAssetBalance = styled(Text)`
+  color: #777;
+  margin: 0px 8px;
+
 `;
 
 const SelectWrapper = styled.div`
   position: relative;
-  margin: 4px 0;
+  width: 100%;
+  margin: 8px;
+  background: #D1CCFC;
+  border-radius: 8px;
+`;
+
+const TextContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  padding: 10px 16px;
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+  width: 50%;
+  background: #CAC4FF;
+`;
+
+const AssetContainer = styled.div`
+  display: flex;
+  padding: 8px;
+  width: 50%;
+  justify-content: space-around;
+  align-items: center;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
 
 const Selected = styled.div`
@@ -44,13 +74,21 @@ const Selected = styled.div`
   }
 `;
 
+const IcoArrowDown = styled.span`
+  font-size: 32px;
+  line-height: 0;
+  justify-self: flex-end;
+  margin: 0px 8px;
+`
+
 const ItemWrapper = styled.div`
   position: absolute;
   background: white;
+  width: 100%;
   left: 0;
   right: 0;
   padding: 6px;
-  box-shadow: 0px 3px 5px 0px #0000008a;
+  box-shadow: 0px 3px 5px 0px #999;
   border-radius: 4px;
   z-index: 10;
   &:hover {
@@ -66,17 +104,23 @@ const Item = styled.div`
 
 const AssetElement: React.FC<{ asset: Asset }> = ({ asset }) => (
   <Wrapper>
-    <TextAssetName>{asset.name}</TextAssetName>
-    <AccountBalance
-      asset={asset}
-      render={(err: Error, data: AccountBalanceData | null) =>
-        data && (
-          <TextAssetBalance>
-            {data.usdBalance ? `$${data.usdBalance}` : data.displayBalance}
-          </TextAssetBalance>
-        )
-      }
-    />
+    <TextContainer>
+      <Text level={3} as="p" margin={0}>Currency</Text>
+    </TextContainer>
+    <AssetContainer>
+      <TextAssetName level={3} as="p">{asset.name}</TextAssetName>
+      <AccountBalance
+        asset={asset}
+        render={(data: AccountBalanceData | null) =>
+          data && (
+            <TextAssetBalance level={4} as="p" margin={0} color={999999}>
+              {data.usdBalance ? `$${data.usdBalance}` : data.displayBalance}
+            </TextAssetBalance>
+          )
+        }
+      />
+    </AssetContainer>
+    <IcoArrowDown>{ '\u25BE' }</IcoArrowDown>
   </Wrapper>
 );
 

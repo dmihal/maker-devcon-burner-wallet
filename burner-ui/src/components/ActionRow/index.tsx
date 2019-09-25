@@ -40,7 +40,7 @@ const StyledLink = styled(Link)`
   text-decoration: none;
   padding: 8px 16px;
   text-align: center;
-  font-size: 16px;
+  font-size: 20px;
 
   :disabled {
     background-color: ${Color(props => props.theme.accentColor)

@@ -27,6 +27,12 @@ const GlobalStyle = createGlobalStyle`
     --page-margin: 16px;
 
     --color-primary:  #4E3FCE;
+    --color-secondary: #CAC4FF;
+    --color-tertiary: #E1DEFF;
+
+    
+    --modal-background: #CAC4FF;
+    --modal-header-background: #E1DEFF
   }
 
   *, *:before, *:after {

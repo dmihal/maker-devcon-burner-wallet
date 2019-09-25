@@ -4,7 +4,7 @@
   background: '#CCCCCC';
 }
 
-.qrContainer svg {
+.QRWrapper svg {
   width: 100%;
   height: initial;
   max-width: 600px;

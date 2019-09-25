@@ -22,28 +22,31 @@ const ConfirmPage: React.FC<BurnerContext & RouteComponentProps> = ({
     to,
     from,
     ether,
+    value,
     asset: assetId,
     message,
     id
   } = history.location.state;
   const [asset] = assets.filter(a => a.id === assetId);
 
+  const amount = ether || asset.getDisplayValue(value);
+
   const send = async () => {
     setSending(true);
     try {
       actions.setLoading('Sending...');
-      const receipt = await asset.send({ from, to, ether, message });
+      const receipt = await asset.send({ from, to, ether, value, message });
 
       actions.setLoading(null);
       const redirect = pluginData.sent({
         asset,
         from,
         to,
-        ether,
+        ether: amount,
         message,
         receipt,
         hash: receipt.transactionHash,
-        id
+        id,
       });
 
       history.push(
@@ -59,7 +62,7 @@ const ConfirmPage: React.FC<BurnerContext & RouteComponentProps> = ({
     <Page title='Confirm' back>
       <LineItem name='From' value={from} />
       <LineItem name='To' value={to} />
-      <LineItem name='Amount' value={`${ether} ${asset.name}`} />
+      <LineItem name='Amount' value={`${amount} ${asset.name}`} />
       {message && <LineItem name='Message' value={message} />}
 
       <div style={{ display: 'flex' }}>
