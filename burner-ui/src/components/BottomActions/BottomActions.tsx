@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Box, Card, Flex } from 'rimble-ui';
 import styled from 'styled-components';
 import ReceiveModal from '../../Modals/Receive';
+import SendModal from '../../Modals/Send/Send.tsx';
 import Button, { Link } from '../../components/Button';
 import { SCAN_QR_DATAURI } from '../../constants';
 
@@ -83,22 +84,34 @@ class BottomActions extends Component<BottomActionsProps> {
   constructor(props: BottomActionsProps) {
     super(props);
     this.state = {
-      receiveModalVisible: false
+      receiveModalVisible: false,
+      sendModalVisible: true
     };
   }
 
-  openModal = () => {
+  openReceiveModal = () => {
     this.setState({
       receiveModalVisible: true
     });
   };
 
-  closeModal = () => {
+  openSendModal = () => {
+    this.setState({
+      sendModalVisible: true
+    });
+  };
+
+  closeReceiveModal = () => {
     this.setState({
       receiveModalVisible: false
     });
   };
 
+  closeSendModal = () => {
+    this.setState({
+      sendModalVisible: false
+    });
+  };
   render() {
     const { actions, pluginData, defaultAccount, className } = this.props;
 
@@ -108,7 +121,7 @@ class BottomActions extends Component<BottomActionsProps> {
           <Card width='auto' padding={0}>
             <Flex justifyContent='space-between' alignItems='center'>
               <BottomButtonButton
-                onClick={() => this.openModal()}
+                onClick={() => this.openReceiveModal()}
                 children='Request'
                 shadow
               />
@@ -128,7 +141,11 @@ class BottomActions extends Component<BottomActionsProps> {
                   } catch (e) {}
                 }}
               />
-              <BottomButton to='/send' children='Send' />
+              <BottomButtonButton
+                onClick={() => this.openSendModal()}
+                children='Send'
+                shadow
+              />
             </Flex>
           </Card>
           {pluginData.homeButtons.map(({ title, path }) => (
@@ -138,7 +155,12 @@ class BottomActions extends Component<BottomActionsProps> {
         <ReceiveModal
           address={this.props.defaultAccount}
           isOpen={this.state.receiveModalVisible}
-          hide={() => this.closeModal()}
+          hide={() => this.closeReceiveModal()}
+        />
+        <SendModal
+          address={this.props.defaultAccount}
+          isOpen={this.state.sendModalVisible}
+          hide={() => this.closeSendModal()}
         />
       </>
     );
