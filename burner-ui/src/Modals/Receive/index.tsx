@@ -75,8 +75,6 @@ class ReceiveModal extends Component<AddressQrModalProps> {
         <Portal>
           <ModalBackdrop>
             <Card
-              width={1}
-              maxWidth={6}
               bg={colors.background}
               color={colors.foreground}
               border={'none'}
@@ -156,6 +154,12 @@ class ReceiveModal extends Component<AddressQrModalProps> {
                   )}
                 </Clipboard>
               </Box>
+            </Card>
+            <Card borderRadius={2} marginTop='var(--page-margin)'>
+              <Text level={2} tag={'h2'}>
+                Create a request
+              </Text>
+              <Button.Outline>Create a request</Button.Outline>
             </Card>
           </ModalBackdrop>
         </Portal>
