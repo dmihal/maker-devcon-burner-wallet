@@ -85,7 +85,7 @@ class BottomActions extends Component<BottomActionsProps> {
     super(props);
     this.state = {
       receiveModalVisible: false,
-      sendModalVisible: true
+      sendModalVisible: false
     };
   }
 

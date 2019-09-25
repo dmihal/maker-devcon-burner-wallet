@@ -44,6 +44,9 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     font-family: var(--main-font);
   }
+
+  /* disable iOS zooming on select */
+  input, select { font-size: 100%; }
 `;
 
 export default GlobalStyle;

@@ -100,7 +100,6 @@ class AccountBalance extends Component<AccountBalanceProps, any> {
     const [balance, maximumSendableBalance] = await Promise.all([
       asset.getBalance(account),
       asset.getMaximumSendableBalance(account)
-      // 1
     ]);
     const returnVal = { balance, maximumSendableBalance };
 

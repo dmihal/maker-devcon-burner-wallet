@@ -22,7 +22,7 @@ import { BurnerContext, withBurner, SendParams } from '../../BurnerProvider';
 import { Account } from '../../';
 import AddressInputField from '../../components/AddressInputField';
 import AddressInputSearchResults from '../../components/AddressInputSearchResults';
-import AssetSelector from '../../components/AssetSelector';
+// import AssetSelector from '../../components/AssetSelector';
 // import Button from '../../components/Button';
 import Text from '../../components/Text';
 import Page from '../../components/Page';
@@ -123,6 +123,63 @@ const MaxButton = styled(Button)`
   }
 `;
 
+// const AssetPicker = styled(select)`
+//   display: inline;
+//   outline: none;
+//   border: none;
+//   background: transparent;
+// `;
+
+interface AssetPickerProps {
+  assets?: any;
+  selected?: string;
+  onChange?: Function;
+  disabled?: boolean;
+}
+
+{
+  /* <AccountBalance
+  key={asset.id}
+  asset={asset.id}
+  account={account}
+  render={(data: AccountBalanceData | null) => (
+    <BalanceItem
+      asset={asset}
+      usdBalance={data && data.usdBalance}
+      balance={data && data.displayBalance}
+    />
+  )}
+/>; */
+}
+
+// const AssetSelector: React.FC<AssetPickerProps> = ({
+//   assets,
+//   selected,
+//   onChange
+// }) => {
+//   // console.log(AccountBalanceData);
+//   const vals = ['Volvo', 'Saab', 'Mercedes', 'Audi'];
+//   return (
+//     <select onChange={() => onChange}>
+//       {assets.map(asset => (
+//         <AccountBalance
+//           key={asset.id}
+//           asset={asset.id}
+//           account={Account}
+//           render={(data: AccountBalanceData | null) => {
+//             return (
+//               <select
+//                 value={asset.id}
+//                 children={`${asset.name}: ${asset.balance}`}
+//               />
+//             );
+//           }}
+//         />
+//       ))}
+//     </select>
+//   );
+// };
+
 interface SendPageState {
   to: string;
   value: string;
@@ -132,6 +189,7 @@ interface SendPageState {
   txHash: string | null;
   account: Account | null;
   accounts: Account[];
+  assets;
   message: string;
   hide: Function;
   isOpen: boolean;
@@ -139,7 +197,7 @@ interface SendPageState {
 
 type SendPageProps = BurnerContext & RouteComponentProps & { classes: any };
 
-class SendModal extends Component<SendPageProps, SendPageState> {
+class SendModal extends Component<SendPageProps, SendPageState, BurnerContext> {
   constructor(props: SendPageProps) {
     super(props);
     this.state = {
@@ -208,7 +266,7 @@ class SendModal extends Component<SendPageProps, SendPageState> {
       accounts,
       message
     } = this.state;
-    const { actions, classes } = this.props;
+    const { actions, classes, assets } = this.props;
 
     if (txHash && asset) {
       return <Redirect to={`/receipt/${asset.id}/${txHash}`} />;
@@ -292,11 +350,12 @@ class SendModal extends Component<SendPageProps, SendPageState> {
                 >
                   Max
                 </MaxButton>
-                <AssetSelector
+                {/* <AssetSelector
                   selected={asset}
-                  onChange={newAsset => this.setState({ asset: newAsset })}
+                  assets={assets}
+                  // onChange={() => this.setState({ asset: newAsset })}
                   disabled={sending}
-                />
+                /> */}
               </AmountWrapper>
 
               <TransactionCardFooter>
