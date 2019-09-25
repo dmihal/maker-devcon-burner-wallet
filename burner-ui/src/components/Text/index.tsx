@@ -16,6 +16,7 @@ const StyledText = styled.p`
   text-align: ${props =>
     props.center ? 'center' : props.right ? 'right' : props.left && 'left'};
   margin: ${props => props.margin};
+  color: ${props => props.color};
 `;
 
 interface TextProps {
@@ -26,6 +27,7 @@ interface TextProps {
   right?: Boolean;
   level: number;
   margin?: string | number;
+  color: string;
 }
 
 interface LevelProps {
@@ -45,7 +47,8 @@ const Text: React.FC<TextProps> = ({
   left,
   right,
   children,
-  margin
+  margin,
+  color
 }) => (
   <StyledText
     level={level}
@@ -56,6 +59,7 @@ const Text: React.FC<TextProps> = ({
     center={center}
     children={children}
     margin={margin}
+    color={color}
   />
 );
 
@@ -66,7 +70,8 @@ const L1: React.FC<LevelProps> = ({
   left,
   right,
   children,
-  margin
+  margin,
+  color
 }) => (
   <Text
     level={1}
@@ -77,6 +82,7 @@ const L1: React.FC<LevelProps> = ({
     center={center}
     children={children}
     margin={margin}
+    color={color}
   />
 );
 
@@ -87,7 +93,8 @@ const L2: React.FC<TextProps> = ({
   left,
   right,
   children,
-  margin
+  margin,
+  color
 }) => (
   <Text
     level={2}
@@ -98,6 +105,7 @@ const L2: React.FC<TextProps> = ({
     center={center}
     children={children}
     margin={margin}
+    color={color}
   />
 );
 
@@ -119,6 +127,7 @@ const L3: React.FC<TextProps> = ({
     center={center}
     children={children}
     margin={margin}
+    color={color}
   />
 );
 
