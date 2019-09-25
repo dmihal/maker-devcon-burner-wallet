@@ -152,12 +152,16 @@ class ReceiveModal extends Component<AddressQrModalProps> {
                 </Clipboard>
               </Box>
             </Card>
-            <Card borderRadius={2} padding={3} marginTop='var(--page-margin)'>
-              <Flex flexDirection={'column'} alignItems={'center'} justifyItems={'center'}>
-                <Text level={1} as={'h2'}>
+            <Card borderRadius={2} border={0} padding={2} marginTop='var(--page-margin)' backgroundColor={'var(--color-tertiary)'}>
+              <Flex flexDirection={'row'} alignItems={'center'}>
+              <Box borderRadius={'100px'} backgroundColor={'var(--color-primary)'}>
+                <Icon name="Add" borderRadius={100} color={'var(--color-tertiary)'} />
+              </Box>
+              <Box width={'100%'}>
+                <Text level={3} as={'h3'} center color={'var(--color-primary)'}>
                   Create Custom Request
                 </Text>
-                <Button>Let's Go</Button>
+              </Box>
               </Flex>
             </Card>
           </ModalBackdrop>
