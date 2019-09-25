@@ -210,7 +210,7 @@ interface SendPageState {
   message: string;
   hide: Function;
   isOpen: boolean;
-  // location:
+  fieldValue?: string | Number;
 }
 
 type SendPageProps = BurnerContext & RouteComponentProps & { classes: any };
@@ -222,6 +222,7 @@ class SendModal extends Component<SendPageProps, SendPageState, BurnerContext> {
       // to: (props.location.state && props.location.state.address) || '',
       to: '',
       value: '',
+      fieldValue: '',
       maxVal: null,
       message: '',
       asset: props.assets[0],
@@ -273,6 +274,13 @@ class SendModal extends Component<SendPageProps, SendPageState, BurnerContext> {
     actions.send(sendProps);
   }
 
+  handleInputChange(event, maskedValue, floatValue) {
+    this.setState({
+      value: floatValue,
+      fieldValue: maskedValue
+    });
+  }
+
   render() {
     const {
       to,
@@ -297,7 +305,10 @@ class SendModal extends Component<SendPageProps, SendPageState, BurnerContext> {
       background: 'white'
     };
 
-    const canSend = !sending && to.length == 42 && to;
+    const canSend =
+      !sending && to.length == 42 && to && Number(this.state.fieldValue) > 0;
+
+    console.log(Number(this.state.value));
     return (
       isOpen && (
         <Portal>
@@ -357,6 +368,8 @@ class SendModal extends Component<SendPageProps, SendPageState, BurnerContext> {
                   pattern='\d*'
                   value={this.state.value}
                   placeholder='00.00'
+                  thousandSeparator=''
+                  maxLength='7'
                   onChangeEvent={e =>
                     this.setState({
                       value: e.target.value
@@ -394,6 +407,7 @@ class SendModal extends Component<SendPageProps, SendPageState, BurnerContext> {
             <Button
               onClick={() => this.send()}
               // disabled={!canSend || exceedsBalance}
+              disabled={!canSend}
             >
               Send
             </Button>
