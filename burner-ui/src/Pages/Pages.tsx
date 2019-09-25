@@ -7,25 +7,29 @@ import HomePage from './HomePage';
 import ReceiptPage from './ReceiptPage';
 import ReceivePage from './ReceivePage';
 import SendPage from './SendPage';
+import Onboarding from './Onboarding';
 
 interface PageProps {
-  pluginData: BurnerPluginData,
+  pluginData: BurnerPluginData;
 }
 
 const Pages: React.FC<PageProps> = ({ pluginData }) => (
   <Switch>
-    <Route path="/" exact component={HomePage} />
-    <Route path="/receive" component={ReceivePage} />
-    <Route path="/send" component={SendPage} />
-    <Route path="/confirm" component={ConfirmPage} />
-    <Route path="/receipt/:asset/:txHash" component={ReceiptPage} />
-    <Route path="/advanced" component={AdvancedPage} />
+    <Route path='/' exact component={HomePage} />
+    <Route path='/welcome' exact component={Onboarding} />
+    <Route path='/receive' component={ReceivePage} />
+    <Route path='/send' component={SendPage} />
+    <Route path='/confirm' component={ConfirmPage} />
+    <Route path='/receipt/:asset/:txHash' component={ReceiptPage} />
+    <Route path='/advanced' component={AdvancedPage} />
     {pluginData.pages.map(({ path, Component, plugin }) => (
-      <Route path={path} key={path} render={(props) => (
-        <Component plugin={plugin} {...props} />
-      )} />
+      <Route
+        path={path}
+        key={path}
+        render={props => <Component plugin={plugin} {...props} />}
+      />
     ))}
-    <Redirect to="/" />
+    <Redirect to='/' />
   </Switch>
 );
 

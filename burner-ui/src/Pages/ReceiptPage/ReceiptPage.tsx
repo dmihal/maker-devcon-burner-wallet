@@ -39,6 +39,10 @@ const BottomButton = styled(Link)`
   border: 1px solid #ccc;
 `;
 
+const BigEmoji = styled.div`
+  font-size: 106px;
+`;
+
 const DefaultAccount: React.FC<BurnerContext & { classes: any }> = ({
   defaultAccount
 }) => {
@@ -60,10 +64,11 @@ const ReceiptPage: React.FC<RouteComponentProps<MatchParams>> = ({ match }) => (
       render={tx => {
         if (!tx) {
           return (
-            <div>
+            <Box mt={24} padding='0 var(--page-margin)' as='section'>
+              <BigEmoji>&#128269;</BigEmoji>
               <div>Transaction not found...</div>
               <div>The transaction may still be propogating</div>
-            </div>
+            </Box>
           );
         }
 
