@@ -95,15 +95,23 @@ const ConfirmPage: React.FC<BurnerContext & RouteComponentProps> = ({
           <Text level={4} margin={'0'}>From:</Text>
           <LineItem value={from}>
             { /*
-            {tx.from.substring(0, 8)} ...{' '}
-            {tx.from.substring(tx.from.length - 8, tx.from.length)}
+              Copied over from ReceiptPage
+              <MetaKey level={4}>From:</MetaKey>
+              <MetaValue level={4}>
+                {tx.from.substring(0, 8)} ...{' '}
+                {tx.from.substring(tx.from.length - 8, tx.from.length)}
+              </MetaValue>
             */ }
           </LineItem>
           <Text level={3} margin={'0'}>To:</Text>
           <LineItem value={to}>
             { /*
-            {tx.to.substring(0, 8)} ...{' '}
-            {tx.to.substring(tx.to.length - 8, tx.to.length)}
+              Copied over from Receipt Page
+              <MetaKey level={4}>To:</MetaKey>
+              <MetaValue level={4}>
+                {tx.to.substring(0, 8)} ...{' '}
+                {tx.to.substring(tx.to.length - 8, tx.to.length)}
+              </MetaValue>
             */ }
           </LineItem>
           <Text level={3} margin={'0'}>Date:</Text>
@@ -115,8 +123,7 @@ const ConfirmPage: React.FC<BurnerContext & RouteComponentProps> = ({
           </Text>
           <Card borderRadius={2} width={'240px'}>
            <LineItem value={`${amount}`} />
-            <LineItem value={`${asset.name}`} />
-
+           <LineItem value={`${asset.name}`} />
           </Card>
           { /* Copied over from Receipt Page.
             <BalanceItem
@@ -135,13 +142,11 @@ const ConfirmPage: React.FC<BurnerContext & RouteComponentProps> = ({
           </Box>
         </Box>
 
-        <Flex mt={2}>
           <BottomButtonContainer>
             <Button disabled={sending} onClick={send} width={'100%'}>
               Send
             </Button>
           </BottomButtonContainer>
-        </Flex>
 
     </Page>
   );
