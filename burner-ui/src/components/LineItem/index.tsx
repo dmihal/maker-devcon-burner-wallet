@@ -7,7 +7,7 @@ const Line = styled.div`
 `;
 
 const TextLineName = styled.div`
-  font-size: 18;
+  font-size: 18px;
   font-weight: bold;
 `;
 
@@ -16,6 +16,7 @@ const TextLineValue = styled.div`
   text-overflow: ellipsis;
   white-space: nowrap;
   font-size: 20px;
+  max-width: 240px;
 `;
 
 interface LineItemProps {
