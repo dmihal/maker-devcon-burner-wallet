@@ -23,5 +23,6 @@ module.exports = {
     '@typescript-eslint',
   ],
   rules: {
+    'react/jsx-fragments': 0,
   },
 };
