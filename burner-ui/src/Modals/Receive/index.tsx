@@ -87,8 +87,6 @@ const StyledInput = styled(Input)`
 `;
 
 interface AddressQrModalProps {
-  isOpen: boolean;
-  hide: Function;
   address: string;
 }
 
@@ -117,98 +115,58 @@ class ReceiveModal extends Component<AddressQrModalProps> {
 
     const displayAddressQr = (
       <>
-      <Text level={3} as={'p'} margin={0} center>
-        {text.descriptionForAddress}
-      </Text>
-      <Box
-        // size={['100%', '200px']}
-        width={1}
-        maxWidth={'220px'}
-        mx={'auto'}
-        mt={3}
-        mb={4}
-        p={4}
-        bg={'white'}
-        border={1}
-        borderColor={'blacks.3'}
-        borderRadius={2}
-        boxShadow={2}
-      >
-        <QR value={address} size={'100%'} />
-      </Box>
-      <Box p={[3, 4]} pt={0} overflow={'scroll'}>
-      </Box>
+        <Text level={3} as={'p'} margin={0} center>
+          {text.descriptionForAddress}
+        </Text>
+        <Box
+          // size={['100%', '200px']}
+          width={1}
+          maxWidth={'220px'}
+          mx={'auto'}
+          mt={3}
+          mb={4}
+          p={4}
+          bg={'white'}
+          border={1}
+          borderColor={'blacks.3'}
+          borderRadius={2}
+          boxShadow={2}
+        >
+          <QR value={address} size={'100%'} />
+        </Box>
+        <Box p={[3, 4]} pt={0} overflow={'scroll'}></Box>
       </>
     );
 
     const displayCustomRequest = (
       <>
-      <Text level={3} as={'p'} margin={0} center>
-        {text.descriptionForRequest}
-      </Text>
-      <AmountWrapper>
-        <AmountInput
-          placeholder='00.00'
-        />
-        {/*
+        <Text level={3} as={'p'} margin={0} center>
+          {text.descriptionForRequest}
+        </Text>
+        <AmountWrapper>
+          <AmountInput placeholder='00.00' />
+          {/*
         <AssetSelector
           selected={asset}
           onChange={newAsset => this.setState({ asset: newAsset })}
           disabled={sending}
         />
         */}
-      </AmountWrapper>
+        </AmountWrapper>
       </>
     );
 
     return (
-      isOpen && (
-        <Portal>
-          <ModalBackdrop>
-            <TransactionCard
-              bg={colors.background}
-              color={colors.foreground}
-              border={'none'}
-              borderRadius={2}
-              p={0}
-              display={'flex'}
-              flexDirection={'column'}
-              justifyContent={'space-between'}
-              flex={'1'}
-            >
-              <TransactionCardHeader>
-                  <Text level={1} as={'h1'} left margin="0">
-                    {text.title}
-                  </Text>
-              </TransactionCardHeader>
-              <TransactionCardBody>
-                  <Tabs>
-                    <Tab title='Your Address' children={displayAddressQr}>
-                    </Tab>
-                    <Tab default title='Custom Request' children={displayCustomRequest}>
-                    </Tab>
-                  </Tabs>
-                  <Button.Text
-                    icon={'Close'}
-                    mainColor={'inherit'}
-                    p={0}
-                    borderRadius={'100%'}
-                    position={'absolute'}
-                    top={0}
-                    right={0}
-                    onClick={this.closeModal}
-                  />
-                  </TransactionCardBody>
-            </TransactionCard>
-            <SendButton
-                          onClick={() => this.send()}
-                          // disabled={!canSend || exceedsBalance}
-                        >
-                          Next
-            </SendButton>
-          </ModalBackdrop>
-        </Portal>
-      )
+      <>
+        <Tabs>
+          <Tab title='Your Address' children={displayAddressQr}></Tab>
+          <Tab
+            default
+            title='Custom Request'
+            children={displayCustomRequest}
+          ></Tab>
+        </Tabs>
+      </>
     );
   }
 }

@@ -19,17 +19,6 @@ const StyledText = styled.p`
   color: ${props => props.color};
 `;
 
-interface TextProps {
-  as: string;
-  className?: string;
-  center?: Boolean;
-  left?: Boolean;
-  right?: Boolean;
-  level: number;
-  margin?: string | number;
-  color: string;
-}
-
 interface LevelProps {
   as: string;
   className?: string;
@@ -37,6 +26,11 @@ interface LevelProps {
   left?: Boolean;
   right?: Boolean;
   margin?: string | number;
+  color?: string;
+}
+
+interface TextProps extends LevelProps {
+  level: number;
 }
 
 const Text: React.FC<TextProps> = ({
@@ -116,7 +110,8 @@ const L3: React.FC<TextProps> = ({
   left,
   right,
   children,
-  margin
+  margin,
+  color
 }) => (
   <Text
     level={3}

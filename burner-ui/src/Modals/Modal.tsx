@@ -1,37 +1,12 @@
 import React, { Component } from 'react';
 import { Link, Route, Switch, withRouter } from 'react-router-dom';
-import styled from 'styled-components';
-import {
-  Box,
-  Card,
-  Flex,
-  // Text,
-  Tooltip,
-  Button,
-  Icon,
-  Input,
-  QR,
-  Portal
-} from 'rimble-ui';
-import Sending from './Sending';
-import Receiving from './Receiving';
+import { Button, Portal } from 'rimble-ui';
 
-const Overlay = styled(Box)`
-  & {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 9999;
-    height: 100vh;
-    width: 100vw;
-    display: flex;
-    flex-flow: column;
-    place-items: center;
-    place-content: center;
-  }
-`;
+import ModalWrapper from './ModalWrapper';
+import Sending from './Sending';
+import Receive from './Receive';
+
+import Text from '../components/Text';
 
 interface ModalProps {
   history: any;
@@ -43,8 +18,11 @@ class Modal extends Component<ModalProps> {
   constructor(props: ModalProps) {
     super(props);
     const { location, history, match } = props;
-    const isOpen = location.pathname == '/send' || '/Receive';
   }
+
+  close = () => {
+    this.props.history.go(-1);
+  };
 
   render() {
     console.log(location);
@@ -52,14 +30,19 @@ class Modal extends Component<ModalProps> {
     return (
       <Portal>
         {location.pathname == '/send' ? (
-          <Overlay>
+          <ModalWrapper title='Send'>
             <Sending />
-          </Overlay>
+          </ModalWrapper>
         ) : (
           location.pathname == '/receive' && (
-            <Overlay>
-              <Receiving />
-            </Overlay>
+            <ModalWrapper
+              title='Receive'
+              bottomActions={() => (
+                <Button onClick={() => this.close()}>Close</Button>
+              )}
+            >
+              <Receive address='0x12202020202020' />
+            </ModalWrapper>
           )
         )}
       </Portal>
