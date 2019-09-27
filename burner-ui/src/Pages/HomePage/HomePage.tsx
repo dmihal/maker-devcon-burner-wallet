@@ -87,7 +87,16 @@ class HomePage extends Component<BurnerContext & HomePageProps, any> {
           <Link to='/advanced'>Advanced</Link>
         </Box>
 
-        <Link to='/receive'>Receive</Link>
+        <Link
+          to={{
+            pathname: '/receive',
+            state: {
+              rootPath: '/'
+            }
+          }}
+        >
+          Receive
+        </Link>
         <Link to='/send'>Send</Link>
 
         {/* <PositionedBottomActions

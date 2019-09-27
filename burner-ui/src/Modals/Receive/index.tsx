@@ -1,33 +1,14 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import {
-  Box,
-  Flex,
-  Card,
-  Tooltip,
-  Button,
-  Icon,
-  Input,
-  QR,
-  Portal
-} from 'rimble-ui';
+import { BrowserRouter as Router, Route, withRouter } from 'react-router-dom';
+import { Box, Flex, Tooltip, Button, Icon, Input, QR } from 'rimble-ui';
 
-import {
-  TransactionCard,
-  TransactionCardHeader,
-  TransactionCardBody,
-  TransactionCardFooter
-} from '../../components/TransactionCard';
 import Text from '../../components/Text';
 
 import Tabs, { Tab } from '../../components/Tabs';
 import Clipboard from '../../components/Clipboard';
 import CurrencyInput from 'react-currency-input';
 import AssetSelector from '../../components/AssetSelector';
-import {
-  RimbleInput,
-  TransferMessageInput
-} from '../../components/RimbleInput';
 
 const AmountWrapper = styled(Flex)`
   background: var(--modal-background);
@@ -88,7 +69,19 @@ const StyledInput = styled(Input)`
 
 interface AddressQrModalProps {
   address: string;
+  history: any;
 }
+
+const NewTabs = () => (
+  <Tabs history={history} location={location}>
+    <Tab location={location} to='/receive/address'>
+      Address
+    </Tab>
+    <Tab location={location} to='/receive'>
+      Custom
+    </Tab>
+  </Tabs>
+);
 
 class ReceiveModal extends Component<AddressQrModalProps> {
   constructor(props: AddressQrModalProps) {
@@ -109,7 +102,7 @@ class ReceiveModal extends Component<AddressQrModalProps> {
       background: 'white'
     };
 
-    const displayAddressQr = (
+    const DisplayAddressQr = () => (
       <>
         <Text level={3} as={'p'} margin={0} center>
           {text.descriptionForAddress}
@@ -133,7 +126,7 @@ class ReceiveModal extends Component<AddressQrModalProps> {
       </>
     );
 
-    const displayCustomRequest = (
+    const DisplayCustomRequest = () => (
       <>
         <Text level={3} as={'p'} margin={0} center>
           {text.descriptionForRequest}
@@ -152,16 +145,13 @@ class ReceiveModal extends Component<AddressQrModalProps> {
     );
 
     return (
-      <>
-        <Tabs>
-          <Tab title='Your Address' children={displayAddressQr}></Tab>
-          <Tab
-            default
-            title='Custom Request'
-            children={displayCustomRequest}
-          ></Tab>
-        </Tabs>
-      </>
+      <Router>
+        {/* always show this item, the tab bar */}
+        <Route path='/receive' component={NewTabs} />
+        {/* switch between children with exact={true} */}
+        <Route path='/receive' exact component={DisplayCustomRequest} />
+        <Route path='/receive/address' exact component={DisplayAddressQr} />
+      </Router>
     );
   }
 }
@@ -194,4 +184,4 @@ const CopyButton = ({ clipboardText, ...props }) => {
   );
 };
 
-export default ReceiveModal;
+export default withRouter(ReceiveModal);

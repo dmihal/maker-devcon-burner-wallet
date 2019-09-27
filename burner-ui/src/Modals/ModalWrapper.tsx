@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { Link, Route, Switch, withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import { Box } from 'rimble-ui';
+import { Button } from 'rimble-ui';
 
 import {
   TransactionCard,
   TransactionCardHeader,
-  TransactionCardBody,
-  TransactionCardFooter
+  TransactionCardBody
 } from '../components/TransactionCard';
 import Text from '../components/Text';
 
@@ -34,39 +34,83 @@ const Bottom = styled.div`
   margin-top: var(--page-margin);
 `;
 
-const ModalWrapper: React.FC<{
+interface ModalWrapperProps {
   title: string;
   bottomActions?: any;
-  // bottomActions?: boolean;
-}> = ({ title, children, bottomActions }) => {
-  const BottomActions = bottomActions;
-  return (
-    <ModalBackdrop>
-      <TransactionCard
-        bg='#FFF'
-        color='#000'
-        border={'none'}
-        borderRadius={2}
-        p={0}
-        display={'flex'}
-        flexDirection={'column'}
-        justifyContent={'space-between'}
-        flex={'1'}
-      >
-        <TransactionCardHeader>
-          <Text level={1} as={'h1'} left margin='0'>
-            {title}
-          </Text>
-        </TransactionCardHeader>
-        <TransactionCardBody>{children}</TransactionCardBody>
-      </TransactionCard>
-      {bottomActions && (
-        <Bottom>
-          <BottomActions />
-        </Bottom>
-      )}
-    </ModalBackdrop>
-  );
-};
+  next: { location: string; text: string };
+  rootPath: string;
+  history: any;
+  location: string;
+}
 
-export default ModalWrapper;
+class ModalWrapper extends Component<ModalWrapperProps> {
+  constructor(props: ModalWrapperProps) {
+    super(props);
+    this.state = {
+      open: false
+    };
+  }
+
+  componentDidMount() {
+    this.setState({ open: true });
+  }
+
+  render() {
+    const {
+      title,
+      children,
+      bottomActions,
+      next,
+      history,
+      rootPath,
+      location
+    } = this.props;
+
+    return (
+      this.state.open && (
+        <ModalBackdrop>
+          <TransactionCard
+            bg='#FFF'
+            color='#000'
+            border={'none'}
+            borderRadius={2}
+            p={0}
+            display={'flex'}
+            flexDirection={'column'}
+            justifyContent={'space-between'}
+            flex={'1'}
+          >
+            <TransactionCardHeader>
+              <Text level={1} as={'h1'} left margin='0'>
+                {title}
+              </Text>
+            </TransactionCardHeader>
+            <TransactionCardBody>{children}</TransactionCardBody>
+          </TransactionCard>
+
+          <Bottom>
+            <Button
+              onClick={() => {
+                this.setState({ open: false });
+                history.push('/');
+              }}
+            >
+              Close
+            </Button>
+            {next && (
+              <Button
+                onClick={() => {
+                  history.push(next.location);
+                }}
+              >
+                {next.text}
+              </Button>
+            )}
+          </Bottom>
+        </ModalBackdrop>
+      )
+    );
+  }
+}
+
+export default withRouter(ModalWrapper);

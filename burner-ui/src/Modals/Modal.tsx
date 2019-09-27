@@ -1,23 +1,21 @@
 import React, { Component } from 'react';
-import { Link, Route, Switch, withRouter } from 'react-router-dom';
-import { Button, Portal } from 'rimble-ui';
+import { withRouter } from 'react-router-dom';
+import { Portal } from 'rimble-ui';
 
 import ModalWrapper from './ModalWrapper';
 import Sending from './Sending';
 import Receive from './Receive';
 
-import Text from '../components/Text';
-
 interface ModalProps {
   history: any;
   location: any;
   match: any;
+  close: Function;
 }
 
 class Modal extends Component<ModalProps> {
   constructor(props: ModalProps) {
     super(props);
-    const { location, history, match } = props;
   }
 
   close = () => {
@@ -30,18 +28,28 @@ class Modal extends Component<ModalProps> {
     return (
       <Portal>
         {location.pathname == '/send' ? (
-          <ModalWrapper title='Send'>
-            <Sending />
+          <ModalWrapper
+            title='Send'
+            rootPath='/'
+            location='/send'
+            history={history}
+            close
+            next={{ location: '/send/:amount/address', text: 'Next' }}
+          >
+            <Sending history={history} />
           </ModalWrapper>
         ) : (
           location.pathname == '/receive' && (
             <ModalWrapper
               title='Receive'
-              bottomActions={() => (
-                <Button onClick={() => this.close()}>Close</Button>
-              )}
+              rootPath='/'
+              location='/receive'
+              history={history}
+              close
+              next={{ location: '/receive/address', text: 'Next' }}
             >
-              <Receive address='0x12202020202020' />
+              {/* to do: add real address */}
+              <Receive address='0x12202020202020' history={history} />
             </ModalWrapper>
           )
         )}
