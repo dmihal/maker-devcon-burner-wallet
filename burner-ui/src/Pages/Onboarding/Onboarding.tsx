@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
+import { Route, Redirect, Link } from 'react-router-dom';
 import { Flex, Box, Button, Input } from 'rimble-ui';
 import Text from '../../components/Text';
 import styled, { createGlobalStyle } from 'styled-components';
-import { Redirect } from 'react-router-dom';
 
 const H1 = styled.h1`
   font-weight: 600;
@@ -91,13 +91,7 @@ const Step1: React.FC<Step1Props> = ({ next }) => {
         </P>
         <P>If you are in incognito mode, please enter regular browsing mode.</P>
       </Box>
-      <Button
-        width='100%'
-        children="I'm in regular browsing mode"
-        mb={0}
-        mt={'auto'}
-        onClick={() => next()}
-      />
+      <Link children="I'm in regular browsing mode" to='/welcome/name' />
     </>
   );
 };
@@ -121,13 +115,7 @@ const Step2: React.FC<Step2Props> = ({ next }) => {
       </Box>
       <KeyboardAwareBox marginTop='auto'>
         <Input width={'100%'} placeholder={'Give your wallet a name'} />
-        <Button
-          width='100%'
-          children='Create wallet &amp; claim funds!'
-          mb={0}
-          mt={12}
-          onClick={() => next()}
-        />
+        <Link children='Create your account' to='/welcome/creating' />
       </KeyboardAwareBox>
     </>
   );
@@ -169,7 +157,8 @@ class Loading extends Component<Step3Props> {
       setTimeout(() => {
         this.setState({ step: 3 });
         setTimeout(() => {
-          this.props.next();
+          // this is bad
+          <Redirect to='/' />;
         }, 4000);
       }, 2000);
     }, 2000);
@@ -194,16 +183,7 @@ interface OnboardingProps {
 class Onboarding extends Component<OnboardingProps> {
   constructor(props: OnboardingProps) {
     super(props);
-    this.state = {
-      step: 1
-    };
   }
-
-  goToStep = step => {
-    this.setState({
-      step: step
-    });
-  };
 
   render() {
     return (
@@ -213,10 +193,9 @@ class Onboarding extends Component<OnboardingProps> {
         flexDirection='column'
       >
         <BounceAnimation />
-        {this.state.step === 1 && <Step1 next={() => this.goToStep(2)} />}
-        {this.state.step === 2 && <Step2 next={() => this.goToStep(3)} />}
-        {this.state.step === 3 && <Loading next={() => this.goToStep(4)} />}
-        {this.state.step === 4 && <Redirect to='/' />}
+        <Route path='/welcome' exact component={Step1} />
+        <Route path='/welcome/name' exact component={Step2} />
+        <Route path='/welcome/creating' exact component={Loading} />
       </Flex>
     );
   }

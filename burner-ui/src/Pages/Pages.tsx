@@ -1,5 +1,5 @@
-import React from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import React, { Component } from 'react';
+import { Switch, Router, Route, Redirect, withRouter } from 'react-router-dom';
 import { BurnerPluginData } from '../Plugins';
 import AdvancedPage from './AdvancedPage';
 import ConfirmPage from './ConfirmPage';
@@ -13,27 +13,84 @@ import Onboarding from './Onboarding';
 
 interface PageProps {
   pluginData: BurnerPluginData;
+  match: any;
+  location: any;
+  history: any;
 }
 
-const Pages: React.FC<PageProps> = ({ pluginData }) => (
-  <Switch>
-    <Route path='/' exact component={HomePage} />
-    <Route path='/welcome' exact component={Onboarding} />
-    <Route path='/receive' component={ReceivePage} />
-    {/* <Route path='/request/display' component={DisplayRequestPage} />
-    <Route path='/request' component={CreateRequestPage} /> */}
-    <Route path='/confirm' component={ConfirmPage} />
-    <Route path='/receipt/:asset/:txHash' component={ReceiptPage} />
-    <Route path='/advanced' component={AdvancedPage} />
-    {pluginData.pages.map(({ path, Component, plugin }) => (
-      <Route
-        path={path}
-        key={path}
-        render={props => <Component plugin={plugin} {...props} />}
-      />
-    ))}
-    <Redirect to='/' />
-  </Switch>
-);
+const mainRoutes: {
+  path: string | any;
+  exact?: boolean;
+  component: any;
+  state?: Object;
+}[] = [
+  {
+    path: '/',
+    exact: true,
+    component: HomePage
+  },
+  {
+    path: '/send',
+    exact: true,
+    component: HomePage
+  },
+  {
+    path: '/receive',
+    exact: true,
+    component: HomePage,
+    state: { receive: true }
+  },
+  {
+    path: '/welcome',
+    component: Onboarding
+  },
+  {
+    path: '/confirm',
+    component: ConfirmPage
+  },
+  {
+    path: '/receipt/:asset/:txHash',
+    component: ReceiptPage
+  },
+  {
+    path: '/advanced',
+    component: AdvancedPage
+  }
+];
 
-export default Pages;
+class Pages extends Component<PageProps> {
+  constructor(props: PageProps) {
+    super(props);
+  }
+
+  render() {
+    const { match, location, history, pluginData } = this.props;
+
+    return (
+      <>
+        <Router history={history}>
+          {mainRoutes.map(({ path, exact, component }) => (
+            <Route
+              exact={exact || false}
+              path={path}
+              component={component}
+              location={location}
+              history={history}
+              match={match}
+            />
+          ))}
+          {pluginData.pages.map(({ path, Component, plugin }) => (
+            <Route
+              path={path}
+              key={path}
+              render={props => <Component plugin={plugin} {...props} />}
+            />
+          ))}
+          {/* <Redirect to='/' /> */}
+        </Router>
+      </>
+    );
+  }
+}
+
+export default withRouter(Pages);

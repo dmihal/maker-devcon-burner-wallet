@@ -13,6 +13,7 @@ import BalanceRow from '../../components/BalanceRow';
 import HistoryListEvent from './HistoryListEvent';
 import { L1, L2 } from '../../components/Text';
 import BottomActions from '../../components/BottomActions';
+import Modal from '../../Modals/Modal';
 
 const PositionedBottomActions = styled(BottomActions)`
   position: fixed;
@@ -46,6 +47,9 @@ interface HomePageProps {
   pluginData;
   classes;
   accounts;
+  history;
+  match;
+  location;
 }
 
 class HomePage extends Component<BurnerContext & HomePageProps, any> {
@@ -53,6 +57,8 @@ class HomePage extends Component<BurnerContext & HomePageProps, any> {
     super(props);
   }
   render() {
+    const { match, location, history, pluginData } = this.props;
+
     return (
       <StyledPage title={'My Wallet'}>
         <PluginElements position='home-top' />
@@ -80,11 +86,20 @@ class HomePage extends Component<BurnerContext & HomePageProps, any> {
         <Box margin='0 var(--page-margin)'>
           <Link to='/advanced'>Advanced</Link>
         </Box>
-        <PositionedBottomActions
+
+        <Link to='/receive'>Receive</Link>
+        <Link to='/send'>Send</Link>
+
+        {/* <PositionedBottomActions
           actions={this.props.actions}
           pluginData={this.props.pluginData}
+          state={this.state}
           defaultAccount={this.props.defaultAccount}
-        />
+          location={location}
+          history={history}
+        /> */}
+
+        <Modal match={match} location={location} history={history} />
       </StyledPage>
     );
   }
