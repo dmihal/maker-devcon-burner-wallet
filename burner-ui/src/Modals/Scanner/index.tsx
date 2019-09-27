@@ -3,7 +3,8 @@ import React, { useRef, useState, Fragment } from 'react';
 import QrReader from 'react-qr-reader';
 import { withBurner, BurnerContext } from '../../BurnerProvider';
 import styled from 'styled-components';
-import { Box, Flex, Text, Card, Button, Portal } from 'rimble-ui';
+import { Box, Flex, Card, Button, Portal } from 'rimble-ui';
+import Text from '../../components/Text';
 
 const ModalBackdrop = styled(Box)`
   & {
@@ -90,31 +91,18 @@ const Scanner: React.FC<BurnerContext & { classes: any }> = ({
           flexDirection={'column'}
           justifyContent={'center'}
         >
-          <Button.Text
-            icon={'Close'}
-            mainColor={'inherit'}
-            p={0}
-            borderRadius={'100%'}
-            position={'absolute'}
-            top={0}
-            right={0}
-            onClick={() => completeScan(null)}
-          />
-
+        <Flex alignItems={'center'} justifyContent={'center'}>
           <Text
-            color={'inherit'}
-            p={3}
-            borderBottom={1}
-            borderColor={'blacks.4'}
-            lineHeight={'solid'}
-            textAlign={'center'}
-            fontWeight={3}
+            level={1}
+            as={'h1'}
+            center
           >
-            Scan Qr Code
+          Scan QR Code
           </Text>
+          </Flex>
 
           <Box p={[3, 4]} overflow={'scroll'}>
-            <Text color={'inherit'} textAlign={'center'} mb={4}>
+            <Text level={3} color={'inherit'} center margin={'0'} >
               Place the code within the scanner
             </Text>
             <Box
@@ -122,12 +110,14 @@ const Scanner: React.FC<BurnerContext & { classes: any }> = ({
               width={1}
               maxWidth={'220px'}
               mx={'auto'}
+              mt={4}
               mb={4}
-              p={4}
+              p={3}
               bg={'white'}
               border={1}
               borderColor={'blacks.3'}
               boxShadow={2}
+              borderRadius={2}
             >
               {fallback && (
                 <Fragment>
@@ -164,6 +154,19 @@ const Scanner: React.FC<BurnerContext & { classes: any }> = ({
             </Box>
           </Box>
         </Card>
+        <Box position={'fixed'} width={'100%'} bottom={'16px'} left={'0px'} padding={'0px 8px'} backgroundColor={'transparent'}>
+        <Button
+          width={'100%'}
+          p={0}
+          borderRadius={1}
+          positionSelf={'center'}
+          backgroundColor={'var(--color-primary)'}
+          onClick={() => completeScan(null)}
+          boxShadow={2}
+        >
+        Close
+        </Button>
+        </Box>
       </ModalBackdrop>
     </Portal>
   );
