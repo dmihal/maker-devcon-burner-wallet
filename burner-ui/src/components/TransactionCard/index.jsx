@@ -25,7 +25,7 @@ export const TransactionCardBody = styled.div`
   flex: 1;
   flex-direction: column;
   align-items: center;
-  padding: 0px 16px;
+  overflow: scroll;
 `
 
 export const TransactionCardFooter = styled.div`
