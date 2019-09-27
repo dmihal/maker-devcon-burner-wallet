@@ -95,12 +95,8 @@ class ReceiveModal extends Component<AddressQrModalProps> {
     super(props);
   }
 
-  closeModal = () => {
-    this.props.hide();
-  };
-
   render() {
-    const { isOpen, address } = this.props;
+    const { address } = this.props;
 
     const text = {
       title: 'Receive',
@@ -119,7 +115,6 @@ class ReceiveModal extends Component<AddressQrModalProps> {
           {text.descriptionForAddress}
         </Text>
         <Box
-          // size={['100%', '200px']}
           width={1}
           maxWidth={'220px'}
           mx={'auto'}
