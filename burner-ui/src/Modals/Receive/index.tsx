@@ -12,6 +12,8 @@ import {
   Portal
 } from 'rimble-ui';
 import Text from '../../components/Text';
+
+import Tabs, { Tab } from '../../components/Tabs';
 import Clipboard from '../../components/Clipboard';
 
 const ModalBackdrop = styled(Box)`
@@ -61,8 +63,7 @@ class ReceiveModal extends Component<AddressQrModalProps> {
 
     const text = {
       title: 'Your Address',
-      description:
-        'Scan this code with your wallet to send money to it.'
+      description: 'Scan this code with your wallet to send money to it.'
     };
 
     const colors = {
@@ -85,6 +86,14 @@ class ReceiveModal extends Component<AddressQrModalProps> {
               justifyContent={'space-between'}
               flex={'1'}
             >
+              <Tabs>
+                <Tab title='tab 1'>
+                  <h1>Hello world</h1>
+                </Tab>
+                <Tab default title='tab 2'>
+                  <h1>I'm tab 2</h1>
+                </Tab>
+              </Tabs>
               <Button.Text
                 icon={'Close'}
                 mainColor={'inherit'}
@@ -96,75 +105,88 @@ class ReceiveModal extends Component<AddressQrModalProps> {
                 onClick={this.closeModal}
               />
 
-
               <Box p={[3, 4]} pt={0} overflow={'scroll'}>
-              <Text
-                level={1}
-                as={'h1'}
-                center
-              >
-                {text.title}
-              </Text>
+                <Text level={1} as={'h1'} center>
+                  {text.title}
+                </Text>
                 <Text level={3} as={'p'} margin={0} center>
                   {text.description}
                 </Text>
               </Box>
-                <Box
-                  // size={['100%', '200px']}
-                  width={1}
-                  maxWidth={'220px'}
-                  mx={'auto'}
-                  mt={3}
-                  mb={4}
-                  p={4}
-                  bg={'white'}
-                  border={1}
-                  borderColor={'blacks.3'}
-                  borderRadius={2}
-                  boxShadow={2}
-                >
-                  <QR value={address} size={'100%'} />
-                </Box>
-                <Box p={[3, 4]} pt={0} overflow={'scroll'}>
-                  <Clipboard text={address}>
-                    {isCopied => (
-                      <Box
-                        color={'inherit'}
-                        position={'relative'}
-                        display={'flex'}
-                        alignItems={'center'}
+              <Box
+                // size={['100%', '200px']}
+                width={1}
+                maxWidth={'220px'}
+                mx={'auto'}
+                mt={3}
+                mb={4}
+                p={4}
+                bg={'white'}
+                border={1}
+                borderColor={'blacks.3'}
+                borderRadius={2}
+                boxShadow={2}
+              >
+                <QR value={address} size={'100%'} />
+              </Box>
+              <Box p={[3, 4]} pt={0} overflow={'scroll'}>
+                <Clipboard text={address}>
+                  {isCopied => (
+                    <Box
+                      color={'inherit'}
+                      position={'relative'}
+                      display={'flex'}
+                      alignItems={'center'}
+                    >
+                      <StyledInput
+                        readOnly
+                        value={address}
+                        width={1}
+                        pr={'5rem'}
+                        fontWeight={3}
+                      />
+                      <Button
+                        size={'small'}
+                        width={'4rem'}
+                        mx={2}
+                        position={'absolute'}
+                        right={0}
                       >
-                        <StyledInput
-                          readOnly
-                          value={address}
-                          width={1}
-                          pr={'5rem'}
-                          fontWeight={3}
-                        />
-                        <Button
-                          size={'small'}
-                          width={'4rem'}
-                          mx={2}
-                          position={'absolute'}
-                          right={0}
-                        >
-                          {!isCopied ? 'Copy' : <Icon name={'Check'} />}
-                        </Button>
-                      </Box>
-                    )}
-                  </Clipboard>
-                </Box>
+                        {!isCopied ? 'Copy' : <Icon name={'Check'} />}
+                      </Button>
+                    </Box>
+                  )}
+                </Clipboard>
+              </Box>
             </Card>
-            <Card borderRadius={2} border={0} padding={2} marginTop='var(--page-margin)' backgroundColor={'var(--color-tertiary)'}>
+            <Card
+              borderRadius={2}
+              border={0}
+              padding={2}
+              marginTop='var(--page-margin)'
+              backgroundColor={'var(--color-tertiary)'}
+            >
               <Flex flexDirection={'row'} alignItems={'center'}>
-              <Box borderRadius={'100px'} backgroundColor={'var(--color-primary)'}>
-                <Icon name="Add" borderRadius={100} color={'var(--color-tertiary)'} />
-              </Box>
-              <Box width={'100%'}>
-                <Text level={3} as={'h3'} center color={'var(--color-primary)'}>
-                  Create Custom Request
-                </Text>
-              </Box>
+                <Box
+                  borderRadius={'100px'}
+                  backgroundColor={'var(--color-primary)'}
+                >
+                  <Icon
+                    name='Add'
+                    borderRadius={100}
+                    color={'var(--color-tertiary)'}
+                  />
+                </Box>
+                <Box width={'100%'}>
+                  <Text
+                    level={3}
+                    as={'h3'}
+                    center
+                    color={'var(--color-primary)'}
+                  >
+                    Create Custom Request
+                  </Text>
+                </Box>
               </Flex>
             </Card>
           </ModalBackdrop>
