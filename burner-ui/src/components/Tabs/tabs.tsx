@@ -1,10 +1,29 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { string } from 'prop-types';
+import { Flex } from 'rimble-ui'
+
+const TabWrapper = styled(Flex)`
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 0px 4px;
+`
 
 const StyledTab = styled.span`
-  color: ${props => (props.active ? 'blue' : 'red')};
+  padding: 8px 12px;
+  border-radius: 100px;
+  background: ${props => (props.active ? 'var(--color-primary)' : 'var(--color-secondary)')};
+  color: ${props => (props.active ? 'var(--color-tertiary)' : 'var(--color-primary)')};
+  font-size: 18px;
+  min-width: 160px;
+  text-align: center;
 `;
+
+const ChildWrapper = styled(Flex)`
+  flex-direction: column;
+  flex: 1;
+`
 
 interface TabProps {
   title: string;
@@ -67,8 +86,8 @@ class Tabs extends Component<TabsProps> {
     const { active } = this.state;
     const child = this.state.items[active].children;
     return (
-      <section>
-        <div>
+      <TabWrapper>
+        <Flex justifyContent="space-between" pt={3} pb={3}>
           {this.props.children.map(item => {
             return (
               <TabItem
@@ -79,10 +98,12 @@ class Tabs extends Component<TabsProps> {
               />
             );
           })}
-        </div>
+        </Flex>
 
-        <div>{child}</div>
-      </section>
+        <ChildWrapper>
+          {child}
+        </ChildWrapper>
+      </TabWrapper>
     );
   }
 }
