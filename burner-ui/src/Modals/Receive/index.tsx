@@ -11,10 +11,47 @@ import {
   QR,
   Portal
 } from 'rimble-ui';
+
+import {
+  TransactionCard,
+  TransactionCardHeader,
+  TransactionCardBody,
+  TransactionCardFooter
+} from '../../components/TransactionCard';
 import Text from '../../components/Text';
 
 import Tabs, { Tab } from '../../components/Tabs';
 import Clipboard from '../../components/Clipboard';
+import CurrencyInput from 'react-currency-input';
+import AssetSelector from '../../components/AssetSelector';
+import {
+  RimbleInput,
+  TransferMessageInput
+} from '../../components/RimbleInput';
+
+const AmountWrapper = styled(Flex)`
+  background: var(--modal-background);
+  padding: 0 var(--page-margin);
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+`;
+
+const AmountInput = styled(CurrencyInput)`
+  width: 100%;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  outline: none;
+  border: none;
+  font-size: 80px;
+  height: 80px;
+  margin-top: auto;
+  margin-bottom: auto;
+  background-color: transparent;
+  appearance: none;
+`;
 
 const ModalBackdrop = styled(Box)`
   & {
@@ -31,6 +68,12 @@ const ModalBackdrop = styled(Box)`
     place-items: center;
     place-content: center;
   }
+`;
+
+const SendButton = styled(Button)`
+  font-size: var(--l2-fs);
+  width: 100%;
+  margin-top: 1rem;
 `;
 
 ModalBackdrop.defaultProps = {
@@ -62,8 +105,9 @@ class ReceiveModal extends Component<AddressQrModalProps> {
     const { isOpen, address } = this.props;
 
     const text = {
-      title: 'Your Address',
-      description: 'Scan this code with your wallet to send money to it.'
+      title: 'Receive',
+      descriptionForAddress: 'Scan this QR code to obtain the address',
+      descriptionForRequest: 'How much do you want to request?'
     };
 
     const colors = {
@@ -71,11 +115,57 @@ class ReceiveModal extends Component<AddressQrModalProps> {
       background: 'white'
     };
 
+    const displayAddressQr = (
+      <>
+      <Text level={3} as={'p'} margin={0} center>
+        {text.descriptionForAddress}
+      </Text>
+      <Box
+        // size={['100%', '200px']}
+        width={1}
+        maxWidth={'220px'}
+        mx={'auto'}
+        mt={3}
+        mb={4}
+        p={4}
+        bg={'white'}
+        border={1}
+        borderColor={'blacks.3'}
+        borderRadius={2}
+        boxShadow={2}
+      >
+        <QR value={address} size={'100%'} />
+      </Box>
+      <Box p={[3, 4]} pt={0} overflow={'scroll'}>
+      </Box>
+      </>
+    );
+
+    const displayCustomRequest = (
+      <>
+      <Text level={3} as={'p'} margin={0} center>
+        {text.descriptionForRequest}
+      </Text>
+      <AmountWrapper>
+        <AmountInput
+          placeholder='00.00'
+        />
+        {/*
+        <AssetSelector
+          selected={asset}
+          onChange={newAsset => this.setState({ asset: newAsset })}
+          disabled={sending}
+        />
+        */}
+      </AmountWrapper>
+      </>
+    );
+
     return (
       isOpen && (
         <Portal>
           <ModalBackdrop>
-            <Card
+            <TransactionCard
               bg={colors.background}
               color={colors.foreground}
               border={'none'}
@@ -86,109 +176,36 @@ class ReceiveModal extends Component<AddressQrModalProps> {
               justifyContent={'space-between'}
               flex={'1'}
             >
-              <Tabs>
-                <Tab title='tab 1'>
-                  <h1>Hello world</h1>
-                </Tab>
-                <Tab default title='tab 2'>
-                  <h1>I'm tab 2</h1>
-                </Tab>
-              </Tabs>
-              <Button.Text
-                icon={'Close'}
-                mainColor={'inherit'}
-                p={0}
-                borderRadius={'100%'}
-                position={'absolute'}
-                top={0}
-                right={0}
-                onClick={this.closeModal}
-              />
-
-              <Box p={[3, 4]} pt={0} overflow={'scroll'}>
-                <Text level={1} as={'h1'} center>
-                  {text.title}
-                </Text>
-                <Text level={3} as={'p'} margin={0} center>
-                  {text.description}
-                </Text>
-              </Box>
-              <Box
-                // size={['100%', '200px']}
-                width={1}
-                maxWidth={'220px'}
-                mx={'auto'}
-                mt={3}
-                mb={4}
-                p={4}
-                bg={'white'}
-                border={1}
-                borderColor={'blacks.3'}
-                borderRadius={2}
-                boxShadow={2}
-              >
-                <QR value={address} size={'100%'} />
-              </Box>
-              <Box p={[3, 4]} pt={0} overflow={'scroll'}>
-                <Clipboard text={address}>
-                  {isCopied => (
-                    <Box
-                      color={'inherit'}
-                      position={'relative'}
-                      display={'flex'}
-                      alignItems={'center'}
-                    >
-                      <StyledInput
-                        readOnly
-                        value={address}
-                        width={1}
-                        pr={'5rem'}
-                        fontWeight={3}
-                      />
-                      <Button
-                        size={'small'}
-                        width={'4rem'}
-                        mx={2}
-                        position={'absolute'}
-                        right={0}
-                      >
-                        {!isCopied ? 'Copy' : <Icon name={'Check'} />}
-                      </Button>
-                    </Box>
-                  )}
-                </Clipboard>
-              </Box>
-            </Card>
-            <Card
-              borderRadius={2}
-              border={0}
-              padding={2}
-              marginTop='var(--page-margin)'
-              backgroundColor={'var(--color-tertiary)'}
-            >
-              <Flex flexDirection={'row'} alignItems={'center'}>
-                <Box
-                  borderRadius={'100px'}
-                  backgroundColor={'var(--color-primary)'}
-                >
-                  <Icon
-                    name='Add'
-                    borderRadius={100}
-                    color={'var(--color-tertiary)'}
-                  />
-                </Box>
-                <Box width={'100%'}>
-                  <Text
-                    level={3}
-                    as={'h3'}
-                    center
-                    color={'var(--color-primary)'}
-                  >
-                    Create Custom Request
+              <TransactionCardHeader>
+                  <Text level={1} as={'h1'} left margin="0">
+                    {text.title}
                   </Text>
-                </Box>
-              </Flex>
-            </Card>
+              </TransactionCardHeader>
+              <TransactionCardBody>
+                  <Tabs>
+                    <Tab title='Your Address' children={displayAddressQr}>
+                    </Tab>
+                    <Tab default title='Custom Request' children={displayCustomRequest}>
+                    </Tab>
+                  </Tabs>
+                  <Button.Text
+                    icon={'Close'}
+                    mainColor={'inherit'}
+                    p={0}
+                    borderRadius={'100%'}
+                    position={'absolute'}
+                    top={0}
+                    right={0}
+                    onClick={this.closeModal}
+                  />
+                  </TransactionCardBody>
+            </TransactionCard>
+            <SendButton
+                          onClick={() => this.send()}
+                          // disabled={!canSend || exceedsBalance}
+                        >
+                          Next
+            </SendButton>
           </ModalBackdrop>
         </Portal>
       )
@@ -224,51 +241,4 @@ const CopyButton = ({ clipboardText, ...props }) => {
   );
 };
 
-// class EthAddress extends Component {
-//   render() {
-//     return (
-//       <StyledWrapper {...this.props}>
-//         <StyledInput
-//           readOnly
-//           value={this.props.address}
-//           ref={this.inputRef}
-//           width={1}
-//           fontWeight={3}
-//           pr={this.props.textLabels ? '12rem' : '6rem'}
-//         />
-
-//         <Flex position={'absolute'} right={0} mr={2}>
-//           <CopyButton
-//             clipboardText={this.props.address}
-//             textLabels={this.props.textLabels}
-//           />
-//           <QRButton
-//             address={this.props.address}
-//             textLabels={this.props.textLabels}
-//           />
-//         </Flex>
-//       </StyledWrapper>
-//     );
-//   }
-// }
-
-// EthAddress.propTypes = {
-//   /**
-//    * Sets Ethereum address as the value of the field
-//    */
-//   address: PropTypes.string.isRequired,
-
-//   /**
-//    * Changes buttons to text from icons
-//    */
-//   textLabels: PropTypes.bool
-// };
-
-// EthAddress.defaultProps = {
-//   textLabels: false
-// };
-
-// EthAddress.displayName = 'EthAddress';
-
-// export { QRButton };
 export default ReceiveModal;
