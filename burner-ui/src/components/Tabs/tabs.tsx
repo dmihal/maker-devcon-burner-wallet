@@ -7,6 +7,7 @@ const TabWrapper = styled(Flex)`
   display: flex;
   flex: 1;
   flex-direction: column;
+  padding: 0px 4px;
 `
 
 const StyledTab = styled.span`
