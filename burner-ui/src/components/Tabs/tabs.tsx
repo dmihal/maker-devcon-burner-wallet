@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { string } from 'prop-types';
+import { Flex } from 'rimble-ui'
 
 const StyledTab = styled.span`
   color: ${props => (props.active ? 'blue' : 'red')};
+  font-size: 20px;
 `;
 
 interface TabProps {
@@ -68,7 +70,7 @@ class Tabs extends Component<TabsProps> {
     const child = this.state.items[active].children;
     return (
       <section>
-        <div>
+        <Flex justifyContent="space-between" pt={3} pb={3}>
           {this.props.children.map(item => {
             return (
               <TabItem
@@ -79,7 +81,7 @@ class Tabs extends Component<TabsProps> {
               />
             );
           })}
-        </div>
+        </Flex>
 
         <div>{child}</div>
       </section>
