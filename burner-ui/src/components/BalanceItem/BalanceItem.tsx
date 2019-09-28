@@ -10,8 +10,17 @@ interface BalanceItemProps {
   balance?: string | null;
 }
 
+const TokenIcon = styled.img`
+
+`
+
+const icoDai = require('../../static/images/IcoSvgDai.svg');
+const icoXdai = require('../../static/images/IcoSvgXdai.svg');
+const icoEth = require('../../static/images/IcoSvgEth.svg');
+
+
 const BalanceCard = styled(Card)`
-  display: inline-block;
+  display: flex;
   font-size: 48px;
   font-weight: 400;
   /* Use monospaced characters and leverage ch unit */
@@ -30,14 +39,17 @@ const BalanceItem: React.FC<BalanceItemProps> = ({
   usdBalance,
   balance
 }) => (
-  <BalanceCard flex={1} borderRadius={'8px'} p={'8px'}>
-    {!(usdBalance || balance) && '-'}
-    {usdBalance
-      ? `$${Number(usdBalance).toFixed(2)}`
-      : Number(balance).toFixed(2)}
-    <Text as={'span'} level={4}>
-      {asset.name}
-    </Text>
+  <BalanceCard flex={1} borderRadius={'8px'} p={'8px'} pr={3}>
+      <TokenIcon src={icoEth} />
+        <Flex flexDirection={'column'} textAlign={'right'} flex={'1'}>
+        {!(usdBalance || balance) && '-'}
+        {usdBalance
+          ? `$${Number(usdBalance).toFixed(2)}`
+          : Number(balance).toFixed(2)}
+        <Text width={'100%'} as={'span'} level={4}>
+          {asset.name}
+        </Text>
+        </Flex>
   </BalanceCard>
 );
 
