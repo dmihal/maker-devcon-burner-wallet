@@ -22,7 +22,7 @@ import { BurnerContext, withBurner, SendParams } from '../../BurnerProvider';
 import { Account } from '../../';
 import AddressInputField from '../../components/AddressInputField';
 import AddressInputSearchResults from '../../components/AddressInputSearchResults';
-// import AssetSelector from '../../components/AssetSelector';
+import AssetSelector from '../../components/AssetSelector';
 // import Button from '../../components/Button';
 import Text from '../../components/Text';
 import Page from '../../components/Page';
@@ -51,11 +51,10 @@ const ModalBackdrop = styled(Box)`
     left: 0;
     right: 0;
     z-index: 9999;
-    height: 100vh;
+    height: ${window.innerHeight};
     width: 100vw;
     display: flex;
     flex-direction: column;
-    align-items: center;
   }
 `;
 
@@ -71,6 +70,11 @@ ModalBackdrop.defaultProps = {
   p: 3
 };
 
+const StyledInput = styled(Input)`
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`;
+
 interface AddressQrModalProps {
   isOpen: boolean;
   hide: Function;
@@ -78,7 +82,6 @@ interface AddressQrModalProps {
 }
 
 const TitleBar = styled(Box)`
-  padding: 0 var(--page-margin);
 `;
 
 const AmountWrapper = styled(Flex)`
@@ -119,84 +122,9 @@ const MaxButton = styled(Button)`
   }
 `;
 
-// const AssetPicker = styled(select)`
-//   display: inline;
-//   outline: none;
-//   border: none;
-//   background: transparent;
-// `;
-
-interface AssetPickerProps {
-  assets?: any;
-  selected?: string;
-  onChange?: Function;
-  disabled?: boolean;
-}
-
-{
-  /* <AccountBalance
-  key={asset.id}
-  asset={asset.id}
-  account={account}
-  render={(data: AccountBalanceData | null) => (
-    <BalanceItem
-      asset={asset}
-      usdBalance={data && data.usdBalance}
-      balance={data && data.displayBalance}
-    />
-  )}
-/>; */
-}
-
-// const AssetSelector: React.FC<AssetPickerProps> = ({
-//   assets,
-//   selected,
-//   onChange
-// }) => {
-//   // console.log(AccountBalanceData);
-//   const vals = ['Volvo', 'Saab', 'Mercedes', 'Audi'];
-//   return (
-//     <select onChange={() => onChange}>
-//       {assets.map(asset => (
-//         <AccountBalance
-//           key={asset.id}
-//           asset={asset.id}
-//           account={Account}
-//           render={(data: AccountBalanceData | null) => {
-//             return (
-//               <select
-//                 value={asset.id}
-//                 children={`${asset.name}: ${asset.balance}`}
-//               />
-//             );
-//           }}
-//         />
-//       ))}
-//     </select>
-//   );
-// };
-
-const StyledWrapper = styled(Box)`
-  & {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    width: 100%;
-    position: relative;
-  }
-`;
-
-const StyledInput = styled(Input)`
-  text-overflow: ellipsis;
-  white-space: nowrap;
-`;
-
-const CopyButton = ({ clipboardText, ...props }) => {
-  const text = {
-    tooltip: 'Copy to clipboard',
-    button: 'Copy'
-  };
-};
+const SendButton = styled(Button)`
+  font-size: var(--l2-fs);
+`
 
 interface SendPageState {
   to: string;
@@ -207,30 +135,27 @@ interface SendPageState {
   txHash: string | null;
   account: Account | null;
   accounts: Account[];
-  assets;
   message: string;
   hide: Function;
   isOpen: boolean;
-  fieldValue?: string | Number;
 }
 
 type SendPageProps = BurnerContext & RouteComponentProps & { classes: any };
 
-class SendModal extends Component<SendPageProps, SendPageState, BurnerContext> {
+class SendModal extends Component<SendPageProps, SendPageState> {
   constructor(props: SendPageProps) {
     super(props);
     this.state = {
       // to: (props.location.state && props.location.state.address) || '',
       to: '',
       value: '',
-      fieldValue: '',
       maxVal: null,
       message: '',
       asset: props.assets[0],
       sending: false,
       txHash: null,
       account: null,
-      accounts: [],
+      accounts: []
     };
   }
 
@@ -283,9 +208,10 @@ class SendModal extends Component<SendPageProps, SendPageState, BurnerContext> {
       sending,
       txHash,
       account,
-      message,
+      accounts,
+      message
     } = this.state;
-    const { actions, classes, assets } = this.props;
+    const { actions, classes } = this.props;
 
     if (txHash && asset) {
       return <Redirect to={`/receipt/${asset.id}/${txHash}`} />;
@@ -295,120 +221,115 @@ class SendModal extends Component<SendPageProps, SendPageState, BurnerContext> {
 
     const colors = {
       foreground: 'black',
-      background: 'white',
+      background: 'white'
     };
 
-    const canSend = !sending && to.length === 42 && to && parseFloat(value) > 0;
+    const canSend = !sending && to.length == 42 && to;
     return (
       isOpen && (
-        <AccountBalance
-          asset={asset}
-          render={(data: AccountBalanceData | null) => {
-            const exceedsBalance = !!data
-              && parseFloat(value) > parseFloat(data.displayMaximumSendableBalance);
-            return (
-              <Portal>
-                <ModalBackdrop>
-                  <PurpleCard
-                    width={1}
-                    maxWidth={6}
-                    color={colors.foreground}
-                    border={'none'}
-                    borderRadius={2}
-                    p={0}
-                    display={'flex'}
-                    flexDirection={'column'}
-                    justifyContent={'center'}
-                  >
-                    <TitleBar>
-                      <Text level={2} as={'h1'}>
-                        Send To
-                      </Text>
+        <Portal>
+          <ModalBackdrop>
+            <TransactionCard
+              width={1}
+              maxWidth={6}
+              color={colors.foreground}
+              border={'none'}
+              borderRadius={2}
+              p={0}
+              display={'flex'}
+              flexDirection={'column'}
+              justifyContent={'center'}
+            >
+            <TransactionCardHeader>
+              <TitleBar pl={2}>
+                <Text level={1} as={'h1'} margin={'0'}>
+                  Sending
+                </Text>
+                <Button.Text
+                  icon={'Close'}
+                  mainColor={'inherit'}
+                  p={0}
+                  borderRadius={'100%'}
+                  position={'absolute'}
+                  top={0}
+                  right={0}
+                  onClick={this.closeModal}
+                />
+              </TitleBar>
 
-                      <Button.Text
-                        icon={'Close'}
-                        mainColor={'inherit'}
-                        p={0}
-                        borderRadius={'100%'}
-                        position={'absolute'}
-                        top={0}
-                        right={0}
-                        onClick={this.closeModal}
-                      />
-                    </TitleBar>
-
-                    <Box padding={'24px var(--page-margin)'}>
-                      <AddressInputField
-                        value={to}
-                        account={account}
-                        onChange={(_to: string, _account: Account | null) => {
-                          this.setState({ to: _to, account: _account });
-                          if (_account) {
-                            this.setState({ accounts: [] });
-                          } else {
-                            this.getAccounts(_to);
-                          }
-                        }}
-                        scan={() => this.scanCode()}
-                        disabled={sending}
-                      />
-                    </Box>
-
-                    <AmountWrapper>
-                      <Text level={3} as={'h2'}>
-                        How much do you want to send?
-                      </Text>
-                      <AmountInput
-                        // type='number'
-                        precision={2}
-                        pattern='\d*'
-                        value={value}
-                        placeholder='00.00'
-                        thousandSeparator=''
-                        maxLength='7'
-                        onChangeEvent={(e) => this.setState({ value: e.target.value, maxVal: null })}
-                      />
-                      <MaxButton
-                        onClick={() => this.setState({
-                          value: data.displayMaximumSendableBalance,
-                          maxVal: data.maximumSendableBalance,
-                        })}
-                      >
-                        Max
-                      </MaxButton>
-                      {/* <AssetSelector
-                        selected={asset}
-                        assets={assets}
-                        // onChange={() => this.setState({ asset: newAsset })}
-                        disabled={sending}
-                      /> */}
-                    </AmountWrapper>
-
-                    <TransactionCardFooter>
-                      {asset.supportsMessages() && (
-                        <Fragment>
-                          <Text level={3} as="h3" margin={0}>
-                            For:
-                          </Text>
-                          <TransferMessageInput
-                            placeholder="Optional"
-                            value={message}
-                            onChange={(e) => this.setState({ message: e.target.value })}
-                          />
-                        </Fragment>
-                      )}
-                    </TransactionCardFooter>
-                  </PurpleCard>
-                  <Button
-                    onClick={() => this.send()}
-                    disabled={!canSend || exceedsBalance}
-                  >
-                    Send
-                  </Button>
-                </ModalBackdrop>
-              </Portal>
-            );
-          }}/>
+              <Box pt={3} pl={2}>
+                <Text level={3} as={'p'} margin={'0'}>
+                Address
+                </Text>
+                <AddressInputField
+                  value={to}
+                  account={account}
+                  onChange={(to: string, account: Account | null) => {
+                    this.setState({ to, account });
+                    if (account) {
+                      this.setState({ accounts: [] });
+                    } else {
+                      this.getAccounts(to);
+                    }
+                  }}
+                  scan={() => this.scanCode()}
+                  disabled={sending}
+                />
+              </Box>
+              </TransactionCardHeader>
+              <TransactionCardBody>
+              <AmountWrapper>
+                <Text level={3} as={'h2'}>
+                  How much do you want to send?
+                </Text>
+                <AmountInput
+                  // type='number'
+                  precision={2}
+                  pattern='\d*'
+                  value={this.state.value}
+                  placeholder='00.00'
+                  onChangeEvent={e =>
+                    this.setState({
+                      value: e.target.value
+                    })
+                  }
+                />
+                <MaxButton
+                  onClick={() => this.setState({ value: asset.amount })}
+                >
+                  Max
+                </MaxButton>
+                <AssetSelector
+                  selected={asset}
+                  onChange={newAsset => this.setState({ asset: newAsset })}
+                  disabled={sending}
+                />
+              </AmountWrapper>
+              </TransactionCardBody>
+              <TransactionCardFooter>
+                {asset.supportsMessages() && (
+                  <Fragment>
+                    <Text level={3} as='h3' margin={0}>
+                      For:
+                    </Text>
+                    <TransferMessageInput
+                      placeholder='Optional'
+                      value={message}
+                      onChange={e => this.setState({ message: e.target.value })}
+                    />
+                  </Fragment>
+                )}
+              </TransactionCardFooter>
+            </TransactionCard>
+            <SendButton
+              mt={2}
+              onClick={() => this.send()}
+              // disabled={!canSend || exceedsBalance}
+            >
+              Send
+            </SendButton>
+          </ModalBackdrop>
+        </Portal>
       )
     );
   }
