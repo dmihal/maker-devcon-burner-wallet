@@ -58,8 +58,10 @@ const HistoryListEvent: React.FC<HistoryListEventProps> = ({
           </div>
 
           <div>
-            <Text level={2} as={'div'} right color="var(--color-primary)">
-              {event.to === account ? '\u2199  ' : '\u2197  '}
+            <Text level={2} as="div" right color={event.to === account ? '#28C081' : '#FD9D28'}>
+              {event.to === account
+                ? (<Text as="span" color="#28C081">{'\u2199'}</Text>)
+                : (<Text as="span" color="#FD9D28">{'\u2197'}</Text>)}
               {parseFloat(asset.getDisplayValue(event.value)).toFixed(2)}
             </Text>
             <Text level={4} right as={'div'}>
