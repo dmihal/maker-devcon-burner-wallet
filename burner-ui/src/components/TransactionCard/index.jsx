@@ -7,6 +7,7 @@ import { Card } from 'rimble-ui'
 export const TransactionCard = styled(Card)`
   display: flex;
   flex-direction: column;
+  flex: 1;
   border-radius: 8px;
   padding: 0px;
   color: #4E3FCE;
@@ -22,9 +23,10 @@ export const TransactionCardHeader = styled.div`
 
 export const TransactionCardBody = styled.div`
   display: flex;
+  flex: 1;
   flex-direction: column;
   align-items: center;
-  padding: 0px 16px;
+  overflow: scroll;
 `
 
 export const TransactionCardFooter = styled.div`
