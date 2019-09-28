@@ -11,7 +11,7 @@ import PluginElements from '../../components/PluginElements';
 import History from '../../data-providers/History';
 import BalanceRow from '../../components/BalanceRow';
 import HistoryListEvent from '../../components/HistoryListEvent';
-import { L1, L2 } from '../../components/Text';
+import Text from '../../components/Text';
 import BottomActions from '../../components/BottomActions';
 
 const PositionedBottomActions = styled(BottomActions)`
@@ -31,18 +31,14 @@ const StyledPage = styled(Page)`
   padding-bottom: 110px;
 `;
 
-const SubHeading = styled(L2)`
-  margin: 8px 0;
-  flex: 1;
-`;
 
 const ViewAllButton = styled(Link)`
   background: #F2F2F2;
   border-radius: 30px;
   display: flex;
   align-items: center;
-  color: #B6B6B6;
-  padding: 10px;
+  color: #555;
+  padding: 8px 12px;  
   text-decoration: none;
 
   &:after {
@@ -72,10 +68,10 @@ class HomePage extends Component<BurnerContext & HomePageProps, any> {
         <BalanceRow accounts={accounts} assets={assets} />
         <PluginElements position='home-middle' />
         <Box margin='0 var(--page-margin)'>
-          <Flex>
-            <SubHeading level={2} as="h2">
+          <Flex justifyContent={'space-between'} alignItems={'center'} my={2}>
+            <Text level={2} as="h2" margin={0}>
               Recent activity
-            </SubHeading>
+            </Text>
             <ViewAllButton to="/activity">View All</ViewAllButton>
           </Flex>
 
