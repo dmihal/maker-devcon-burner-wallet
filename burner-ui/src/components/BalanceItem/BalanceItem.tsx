@@ -23,6 +23,7 @@ const BalanceCard = styled(Card)`
   display: flex;
   font-size: 48px;
   font-weight: 400;
+  text-align: right;
   /* Use monospaced characters and leverage ch unit */
   min-width: calc(4ch + 24px);
   max-width: calc(6ch + 24px);
@@ -41,7 +42,7 @@ const BalanceItem: React.FC<BalanceItemProps> = ({
 }) => (
   <BalanceCard flex={1} borderRadius={'8px'} p={'8px'} pr={3}>
       <TokenIcon src={icoEth} />
-        <Flex flexDirection={'column'} textAlign={'right'} flex={'1'}>
+        <Flex flexDirection={'column'} flex={'1'}>
         {!(usdBalance || balance) && '-'}
         {usdBalance
           ? `$${Number(usdBalance).toFixed(2)}`
