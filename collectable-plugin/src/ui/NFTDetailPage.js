@@ -9,11 +9,11 @@ const NFTDetailPage = ({ burnerComponents, match, plugin }) => {
 
   const { Page } = burnerComponents;
   return (
-    <Page title={nft ? nft.name : 'Loading...'}>
+    <Page title={nft ? nft.name : 'Loading...'} back>
       {nft ? (
         <Fragment>
           <img src={nft.image} style={{ margin: '8px auto', display: 'block' }} />
-          <div>{nft.name}</div>
+          <div style={{ margin: '16px' }}>{nft.name}</div>
         </Fragment>
       ) : null}
     </Page>

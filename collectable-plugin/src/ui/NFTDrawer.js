@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Card from './Card';
 const classes = require('./NFTDrawer.module.css');
 
 const NFTDrawer = ({ accounts, actions, plugin }) => {
@@ -22,15 +23,9 @@ const NFTDrawer = ({ accounts, actions, plugin }) => {
       <h4 className={classes.heading}>Collectables</h4>
       <ul className={classes.nftList}>
         {nfts.map((nft, i) => (
-          <li
-            key={nft.id}
-            className={classes.nftIcon}
-            onClick={() => actions.navigateTo(`/nft/${nft.id}`)}
-            style={{
-              zIndex: nfts.length - i,
-              backgroundImage: nft.image && `url(${nft.image})`
-            }}
-          />
+          <li key={nft.id} className={classes.nftIcon}>
+            <Card name={nft.name} image={nft.image} onClick={() => actions.navigateTo(`/nft/${nft.id}`)} />
+          </li>
         ))}
       </ul>
     </div>

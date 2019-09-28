@@ -1,12 +1,10 @@
 import React, { Fragment, useEffect } from 'react';
 
-const NFTClonePage = ({ burnerComponents, match, plugin, actions, accounts }) => {
+const NFTClonePage = ({ burnerComponents, match, plugin, history, defaultAccount }) => {
   useEffect(() => {
-    if (accounts.length > 0) {
-      plugin.cloneNFT(match.params.id, accounts[0])
-        .then(newId => actions.navigateTo(`/nft/${newId}`));
-    }
-  }, [match, accounts]);
+    plugin.cloneNFT(match.params.id, defaultAccount)
+      .then(newId => history.replace(`/nft/${newId}`));
+  }, [match]);
 
   const { Page } = burnerComponents;
   return (

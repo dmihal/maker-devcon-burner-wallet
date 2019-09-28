@@ -6,7 +6,7 @@
 .nftList {
   display: flex;
   overflow-x: auto;
-  padding: 4px 0;
+  padding: 18px 0;
   margin: 0;
 }
 
@@ -15,21 +15,5 @@
 }
 
 .nftIcon {
-  transition: all 1s;
-  height: 75px;
-  width: 75px;
-  min-width: 75px;
-  border-radius: 50px;
-  color: red;
   list-style: none;
-  background: red;
-  margin-right: -10px;
-  box-shadow: 2px 3px 3px #999999;
-  background-size: contain;
-  background-repeat: no-repeat;
-}
-
-.nftIcon:hover {
-  margin-left: 20px;
-  margin-right: 10px;
 }
