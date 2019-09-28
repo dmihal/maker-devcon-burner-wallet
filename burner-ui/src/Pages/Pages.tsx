@@ -31,12 +31,12 @@ const mainRoutes: {
   },
   {
     path: '/send',
-    exact: true,
+    // exact: true,
     component: HomePage
   },
   {
     path: '/receive',
-    exact: true,
+    // exact: true,
     component: HomePage,
     state: { receive: true }
   },

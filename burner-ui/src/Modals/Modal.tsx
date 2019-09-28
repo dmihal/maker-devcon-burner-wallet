@@ -1,10 +1,61 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
-import { Portal } from 'rimble-ui';
+import { Switch, Route, withRouter } from 'react-router-dom';
+import { Portal, Box } from 'rimble-ui';
+import styled from 'styled-components';
 
-import ModalWrapper from './ModalWrapper';
-import Sending from './Sending';
+import {
+  TransactionCard,
+  TransactionCardHeader,
+  TransactionCardBody
+} from '../components/TransactionCard';
+
+import Text from '../components/Text';
+
+import Send from './Send';
 import Receive from './Receive';
+
+const ModalBackdrop = styled(Box)`
+  & {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    height: 100vh;
+    width: 100vw;
+    padding: var(--page-margin);
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    flex-flow: column;
+    place-items: center;
+    place-content: center;
+  }
+`;
+
+const ModalCard: React.FC<{ title: string; children: React.ReactNode }> = ({
+  title,
+  children
+}) => (
+  <TransactionCard
+    bg='#FFF'
+    color='#000'
+    border={'none'}
+    borderRadius={2}
+    p={0}
+    display={'flex'}
+    flexDirection={'column'}
+    justifyContent={'space-between'}
+    flex={'1'}
+  >
+    <TransactionCardHeader>
+      <Text level={1} as={'h1'} left margin='0'>
+        {title}
+      </Text>
+    </TransactionCardHeader>
+    <TransactionCardBody>{children}</TransactionCardBody>
+  </TransactionCard>
+);
 
 interface ModalProps {
   history: any;
@@ -18,44 +69,22 @@ class Modal extends Component<ModalProps> {
     super(props);
   }
 
-  close = () => {
-    this.props.history.go(-1);
-  };
-
   render() {
-    console.log(location);
-    const isOpen = location.pathname == '/send';
     return (
       <Portal>
-        {location.pathname == '/send' ? (
-          <ModalWrapper
-            title='Send'
-            rootPath='/'
-            location='/send'
-            history={history}
-            close
-            next={{ location: '/send/:amount/address', text: 'Next' }}
-          >
-            <Sending history={history} />
-          </ModalWrapper>
-        ) : (
-          location.pathname == '/receive' && (
-            <ModalWrapper
-              title='Receive'
-              rootPath='/'
-              location='/receive'
-              history={history}
-              close
-              next={{ location: '/receive/address', text: 'Next' }}
-            >
-              {/* to do: add real address */}
+        <Switch>
+          <Route path='/send' component={() => <Send />} />
+          <Route
+            path='/receive'
+            component={() => (
               <Receive address='0x12202020202020' history={history} />
-            </ModalWrapper>
-          )
-        )}
+            )}
+          />
+        </Switch>
       </Portal>
     );
   }
 }
 
+export { ModalCard, ModalBackdrop };
 export default withRouter(Modal);

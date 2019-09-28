@@ -87,26 +87,6 @@ class ModalWrapper extends Component<ModalWrapperProps> {
             </TransactionCardHeader>
             <TransactionCardBody>{children}</TransactionCardBody>
           </TransactionCard>
-
-          <Bottom>
-            <Button
-              onClick={() => {
-                this.setState({ open: false });
-                history.push('/');
-              }}
-            >
-              Close
-            </Button>
-            {next && (
-              <Button
-                onClick={() => {
-                  history.push(next.location);
-                }}
-              >
-                {next.text}
-              </Button>
-            )}
-          </Bottom>
         </ModalBackdrop>
       )
     );

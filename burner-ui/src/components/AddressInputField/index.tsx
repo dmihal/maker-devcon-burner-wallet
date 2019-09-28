@@ -60,7 +60,7 @@ interface AddressInputFieldProps {
   onChange: (address: string, account: Account | null) => void;
   scan?: () => any;
   disabled?: boolean;
-  classes: any;
+  className?: string;
 }
 
 const AddressInputField: React.FC<AddressInputFieldProps> = ({

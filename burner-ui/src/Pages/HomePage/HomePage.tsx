@@ -89,7 +89,7 @@ class HomePage extends Component<BurnerContext & HomePageProps, any> {
 
         <Link
           to={{
-            pathname: '/receive',
+            pathname: '/receive/address',
             state: {
               rootPath: '/'
             }

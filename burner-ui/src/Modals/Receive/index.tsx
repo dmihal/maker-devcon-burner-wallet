@@ -1,87 +1,38 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { BrowserRouter as Router, Route, withRouter } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  withRouter,
+  Redirect,
+  Link
+} from 'react-router-dom';
 import { Box, Flex, Tooltip, Button, Icon, Input, QR } from 'rimble-ui';
-
-import Text from '../../components/Text';
+import { ModalBackdrop, ModalCard } from '../Modal';
 
 import Tabs, { Tab } from '../../components/Tabs';
-import Clipboard from '../../components/Clipboard';
-import CurrencyInput from 'react-currency-input';
-import AssetSelector from '../../components/AssetSelector';
 
-const AmountWrapper = styled(Flex)`
-  background: var(--modal-background);
-  padding: 0 var(--page-margin);
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-`;
-
-const AmountInput = styled(CurrencyInput)`
-  width: 100%;
-  text-align: center;
-  margin: 0;
-  padding: 0;
-  outline: none;
-  border: none;
-  font-size: 80px;
-  height: 80px;
-  margin-top: auto;
-  margin-bottom: auto;
-  background-color: transparent;
-  appearance: none;
-`;
-
-const ModalBackdrop = styled(Box)`
-  & {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 9999;
-    height: 100vh;
-    width: 100vw;
-    display: flex;
-    flex-flow: column;
-    place-items: center;
-    place-content: center;
-  }
-`;
-
-const SendButton = styled(Button)`
-  font-size: var(--l2-fs);
-  width: 100%;
-  margin-top: 1rem;
-`;
-
-ModalBackdrop.defaultProps = {
-  bg: 'blacks.10',
-  p: 3
-};
-
-const StyledInput = styled(Input)`
-  text-overflow: ellipsis;
-  white-space: nowrap;
-`;
+import AddressOnly from './AddressOnly';
+import CustomRequestAmount from './CustomRequestAmount';
+import CustomRequestQr from './CustomRequestQr';
 
 interface AddressQrModalProps {
   address: string;
-  history: any;
 }
 
 const NewTabs = () => (
-  <Tabs history={history} location={location}>
+  <Tabs>
+    <Tab to='/receive/custom' location={location}>
+      Custom
+    </Tab>
     <Tab location={location} to='/receive/address'>
       Address
     </Tab>
-    <Tab location={location} to='/receive'>
-      Custom
-    </Tab>
   </Tabs>
 );
+
+const BackButtons = () => <Link to='/' />;
 
 class ReceiveModal extends Component<AddressQrModalProps> {
   constructor(props: AddressQrModalProps) {
@@ -91,97 +42,49 @@ class ReceiveModal extends Component<AddressQrModalProps> {
   render() {
     const { address } = this.props;
 
-    const text = {
-      title: 'Receive',
-      descriptionForAddress: 'Scan this QR code to obtain the address',
-      descriptionForRequest: 'How much do you want to request?'
-    };
-
-    const colors = {
-      foreground: 'black',
-      background: 'white'
-    };
-
-    const DisplayAddressQr = () => (
-      <>
-        <Text level={3} as={'p'} margin={0} center>
-          {text.descriptionForAddress}
-        </Text>
-        <Box
-          width={1}
-          maxWidth={'220px'}
-          mx={'auto'}
-          mt={3}
-          mb={4}
-          p={4}
-          bg={'white'}
-          border={1}
-          borderColor={'blacks.3'}
-          borderRadius={2}
-          boxShadow={2}
-        >
-          <QR value={address} size={'100%'} />
-        </Box>
-        <Box p={[3, 4]} pt={0} overflow={'scroll'}></Box>
-      </>
-    );
-
-    const DisplayCustomRequest = () => (
-      <>
-        <Text level={3} as={'p'} margin={0} center>
-          {text.descriptionForRequest}
-        </Text>
-        <AmountWrapper>
-          <AmountInput placeholder='00.00' />
-          {/*
-        <AssetSelector
-          selected={asset}
-          onChange={newAsset => this.setState({ asset: newAsset })}
-          disabled={sending}
-        />
-        */}
-        </AmountWrapper>
-      </>
-    );
-
     return (
-      <Router>
-        {/* always show this item, the tab bar */}
-        <Route path='/receive' component={NewTabs} />
-        {/* switch between children with exact={true} */}
-        <Route path='/receive' exact component={DisplayCustomRequest} />
-        <Route path='/receive/address' exact component={DisplayAddressQr} />
-      </Router>
+      <ModalBackdrop>
+        <ModalCard title='receive'>
+          <NewTabs location={location} />
+          <Switch>
+            {/* switch between children with exact={true} */}
+            <Route path='/receive/address' exact component={AddressOnly} />
+            <Route
+              path='/receive/custom'
+              exact
+              component={CustomRequestAmount}
+            />
+            <Route path='/receive/qr' exact component={CustomRequestQr} />
+          </Switch>
+        </ModalCard>
+        <Button as={Link} to='/'>
+          Close
+        </Button>
+        {/* Second switch for buttons */}
+        <Switch>
+          {/* switch between children with exact={true} */}
+          <Route
+            path='/receive/custom'
+            exact
+            component={() => (
+              <Button as={Link} to='/receive/qr'>
+                Next
+              </Button>
+            )}
+          />
+          <Route
+            path='/receive/receive/qr'
+            exact
+            component={() => (
+              <Button as={Link} to='/'>
+                Done
+              </Button>
+            )}
+          />
+        </Switch>
+      </ModalBackdrop>
     );
   }
 }
 
-const CopyButton = ({ clipboardText, ...props }) => {
-  const text = {
-    tooltip: 'Copy to clipboard',
-    button: 'Copy'
-  };
-
-  if (!props.textLabels) {
-    return (
-      <Clipboard text={clipboardText}>
-        {isCopied => (
-          <Tooltip message={text.tooltip}>
-            <Button size={'small'} p={0}>
-              <Icon name={isCopied ? 'Check' : 'Assignment'} />
-            </Button>
-          </Tooltip>
-        )}
-      </Clipboard>
-    );
-  }
-  return (
-    <Clipboard text={clipboardText}>
-      {isCopied => (
-        <Button size={'small'}>{!isCopied ? text.button : 'Copied!'}</Button>
-      )}
-    </Clipboard>
-  );
-};
-
-export default withRouter(ReceiveModal);
+export default ReceiveModal;

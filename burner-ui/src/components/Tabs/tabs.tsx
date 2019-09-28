@@ -31,7 +31,10 @@ const Tabs: React.FC<TabsProps> = ({ children }) => (
 );
 
 const Tab: React.FC<TabItemProps> = ({ active, to, children, location }) => (
-  <StyledTab active={location.pathname == to ? true : false} to={to}>
+  <StyledTab
+    active={location.pathname.lastIndexOf(to, 0) === 0 && true}
+    to={to}
+  >
     {children}
   </StyledTab>
 );
