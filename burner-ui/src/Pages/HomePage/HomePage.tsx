@@ -1,10 +1,11 @@
-import React, { useRef, useEffect, Component, useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import HistoryEvent from '@burner-wallet/core/HistoryEvent';
 
 import { BurnerContext, withBurner } from '../../BurnerProvider';
 import Button from '../../components/Button';
 import Page from '../../components/Page';
-import styled from 'styled-components';
 // import ActionRow from '../../components/ActionRow';
 import { Box, Flex } from 'rimble-ui';
 import PluginElements from '../../components/PluginElements';
@@ -38,7 +39,7 @@ const ViewAllButton = styled(Link)`
   display: flex;
   align-items: center;
   color: #555;
-  padding: 8px 12px;  
+  padding: 8px 12px;
   text-decoration: none;
 
   &:after {
@@ -47,59 +48,77 @@ const ViewAllButton = styled(Link)`
   }
 `;
 
-interface HomePageProps {
-  defaultAccount;
-  actions;
-  assets;
-  pluginData;
-  classes;
-  accounts;
-}
+const TabButton = styled.button`
+  background: ${(props) => (props.selected ? '#F7F7F7' : '#F2F2F2')};
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  color: #555;
+  padding: 8px 12px;
+  border: none;
+  outline: none;
+  margin: 0 4px;
+`;
 
-class HomePage extends Component<BurnerContext & HomePageProps, any> {
-  constructor(props: BurnerContext & HomePageProps) {
-    super(props);
-  }
-  render() {
-    const { accounts, defaultAccount, actions, pluginData, assets } = this.props;
-    return (
-      <StyledPage title={'My Wallet'}>
-        <PluginElements position='home-top' />
-        <BalanceRow accounts={accounts} assets={assets} />
-        <PluginElements position='home-middle' />
-        <Box margin='0 var(--page-margin)'>
-          <Flex justifyContent={'space-between'} alignItems={'center'} my={2}>
-            <Text level={2} as="h2" margin={0}>
-              Recent activity
-            </Text>
-            <ViewAllButton to="/activity">View All</ViewAllButton>
+const HomePage: React.FC<BurnerContext> = ({ defaultAccount, actions, pluginData }) => {
+  const [tab, setTab] = useState(0);
+
+  const homeTabs = [
+    { Component: BalanceRow, plugin: null, options: { title: 'Assets' } },
+    ...(pluginData.elements['home-tab'] || []),
+  ];
+  const { Component: TabComponent, plugin: tabPlugin } = homeTabs[tab];
+
+  return (
+    <StyledPage title="My Wallet">
+      <PluginElements position="home-top" />
+
+      <Box margin="0 var(--page-margin)">
+        <Flex justifyContent="space-between" alignItems="center" my={2}>
+          <Text level={2} as="h2" margin={0}>Balances</Text>
+          <Flex>
+            {homeTabs.map(({ options }: PluginElementData, i: number) => (
+              <TabButton key={options.title} onClick={() => setTab(i)} selected={tab === i}>
+                {options.title}
+              </TabButton>
+            ))}
           </Flex>
+        </Flex>
+      </Box>
 
-          <History
-            account={defaultAccount}
-            render={(events: any[]) =>
-              events.slice(0, 3).map(event => (
-                <HistoryListEvent
-                  key={JSON.stringify(event)}
-                  event={event}
-                  account={defaultAccount}
-                  navigateTo={actions.navigateTo}
-                />
-              ))
-            }
-          />
-        </Box>
-        <Box margin='0 var(--page-margin)'>
-          <Link to='/advanced'>Advanced</Link>
-        </Box>
-        <PositionedBottomActions
-          actions={actions}
-          pluginData={pluginData}
-          defaultAccount={defaultAccount}
+      <TabComponent plugin={tabPlugin} />
+
+      <PluginElements position="home-middle" />
+      <Box margin="0 var(--page-margin)">
+        <Flex justifyContent="space-between" alignItems="center" my={2}>
+          <Text level={2} as="h2" margin={0}>
+            Recent activity
+          </Text>
+          <ViewAllButton to="/activity">View All</ViewAllButton>
+        </Flex>
+
+        <History
+          account={defaultAccount}
+          render={(events: HistoryEvent[]) => events.slice(0, 3).map((event: HistoryEvent) => (
+            <HistoryListEvent
+              key={JSON.stringify(event)}
+              event={event}
+              account={defaultAccount}
+              navigateTo={actions.navigateTo}
+            />
+          ))}
         />
-      </StyledPage>
-    );
-  }
-}
+      </Box>
+      <Box margin="0 var(--page-margin)">
+        <Link to="/advanced">Advanced</Link>
+      </Box>
+      <PositionedBottomActions
+        actions={actions}
+        pluginData={pluginData}
+        defaultAccount={defaultAccount}
+      />
+    </StyledPage>
+  );
+};
 
 export default withBurner(HomePage);

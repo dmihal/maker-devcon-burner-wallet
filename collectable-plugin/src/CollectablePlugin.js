@@ -12,7 +12,7 @@ export default class CollectablePlugin {
 
   initializePlugin(pluginContext) {
     this.pluginContext = pluginContext;
-    pluginContext.addElement('home-middle', NFTDrawer);
+    pluginContext.addElement('home-tab', NFTDrawer, { title: 'Collectables' });
     pluginContext.addPage('/nft/:id', NFTDetailPage);
     pluginContext.addPage('/clone/:id', NFTClonePage);
   }

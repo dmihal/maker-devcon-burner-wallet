@@ -19,7 +19,7 @@ const NFTDrawer = ({ accounts, actions, plugin }) => {
 
   return (
     <div className={classes.container}>
-      <h4 className={classes.heading}>NFTs</h4>
+      <h4 className={classes.heading}>Collectables</h4>
       <ul className={classes.nftList}>
         {nfts.map((nft, i) => (
           <li
