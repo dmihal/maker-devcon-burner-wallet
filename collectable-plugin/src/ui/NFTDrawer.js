@@ -21,13 +21,17 @@ const NFTDrawer = ({ accounts, actions, plugin }) => {
   return (
     <div className={classes.container}>
       <h4 className={classes.heading}>Collectables</h4>
-      <ul className={classes.nftList}>
-        {nfts.map((nft, i) => (
-          <li key={nft.id} className={classes.nftIcon}>
-            <Card name={nft.name} image={nft.image} onClick={() => actions.navigateTo(`/nft/${nft.id}`)} />
-          </li>
-        ))}
-      </ul>
+      {nfts.length === 0 ? (
+        <div className={classes.empty}>No collectables yet... Go find some!</div>
+      ) : (
+        <ul className={classes.nftList}>
+          {nfts.map((nft, i) => (
+            <li key={nft.id} className={classes.nftIcon}>
+              <Card name={nft.name} image={nft.image} onClick={() => actions.navigateTo(`/nft/${nft.id}`)} />
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 };

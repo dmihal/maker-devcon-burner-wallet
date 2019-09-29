@@ -17,3 +17,9 @@
 .nftIcon {
   list-style: none;
 }
+
+.empty {
+  color: #919191;
+  padding: 18px 0;
+  text-align: center;
+}
