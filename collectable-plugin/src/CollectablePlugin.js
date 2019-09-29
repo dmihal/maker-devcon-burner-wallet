@@ -50,8 +50,20 @@ export default class CollectablePlugin {
     return this.nftCache[id];
   }
 
+  async canClone(id) {
+    const contract = this.getContract();
+    const { numClonesAllowed, numClonesInWild } = await contract.methods.getCollectablesById(id).call();
+    return numClonesInWild.lt(numClonesAllowed);
+  }
+
   async cloneNFT(id, account) {
     const contract = this.getContract();
+
+    const previouslyClonedId = await contract.methods.getClonedTokenByAddress(account, id).call();
+    if (previouslyClonedId.toNumber() !== 0) {
+      return previouslyClonedId;
+    }
+
     const receipt = await contract.methods.clone(account, id).send({ from: account });
     return receipt.events.Transfer.returnValues.tokenId.toNumber();
   }

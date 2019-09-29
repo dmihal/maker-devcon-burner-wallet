@@ -1,14 +1,30 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const NFTClonePage = ({ burnerComponents, match, plugin, history, defaultAccount }) => {
+  const [status, setStatus] = useState('');
+
+  const clone = async () => {
+    if (!(await plugin.canClone(match.params.id))) {
+      return setStatus('This collectable can\'t be claimed');
+    }
+
+    setStatus('Claiming...')
+    const newId = await plugin.cloneNFT(match.params.id, defaultAccount)
+    history.replace(`/nft/${newId}`);
+  };
+
   useEffect(() => {
-    plugin.cloneNFT(match.params.id, defaultAccount)
-      .then(newId => history.replace(`/nft/${newId}`));
+    clone().catch(err => {
+      console.error(err);
+      setStatus('Error claiming');
+    });
   }, [match]);
 
   const { Page } = burnerComponents;
   return (
-    <Page title="Unlocking..." />
+    <Page title="Claim Collectable" back={status !== 'Claiming...'}>
+      {status}
+    </Page>
   );
 };
 
