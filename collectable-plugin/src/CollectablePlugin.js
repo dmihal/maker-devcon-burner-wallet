@@ -41,8 +41,13 @@ export default class CollectablePlugin {
       const uri = await contract.methods.tokenURI(id).call();
       const response = await fetch(uri);
       const metadata = await response.json();
+      const attributes = metadata.attributes.reduce((obj, { trait_type, value }) => {
+        obj[trait_type] = value;
+        return obj;
+      }, {});
       this.nftCache[id] = {
         ...metadata,
+        attributes,
         id,
       };
     }

@@ -14,6 +14,8 @@ const NFTDetailPage = ({ burnerComponents, match, plugin }) => {
         <Fragment>
           <img src={nft.image} style={{ margin: '8px auto', display: 'block' }} />
           <div style={{ margin: '16px' }}>{nft.name}</div>
+          <div style={{ margin: '16px' }}>{nft.description}</div>
+          <div style={{ margin: '16px' }}>1 of {nft.attributes.supplyCap} copies</div>
         </Fragment>
       ) : null}
     </Page>
