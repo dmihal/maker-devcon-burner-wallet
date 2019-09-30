@@ -16,15 +16,18 @@ const QRWrapper = styled.div`
   border-radius: 8px;
 `;
 
-const CustomRequestQr = ({ history, actions }) => {
+const CustomRequestQr = props => {
+  console.log(props);
+  const sendUrl = `https://burner.io/send/${props.address}/${props.amount}`;
   return (
     <Flex flexDirection='column' p={3}>
       <TransactionCardBody>
         <QRWrapper>
-          <QRCode width={240} height={240} value='0x00000' renderAs='svg' />)
+          <QRCode width={240} height={240} value={sendUrl} renderAs='svg' />)
         </QRWrapper>
         <Text level={3} as='h2'>
-          Amount: 12345
+          Amount: {props.amount}
+          Address: {props.address}
         </Text>
       </TransactionCardBody>
     </Flex>

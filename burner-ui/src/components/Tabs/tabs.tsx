@@ -22,7 +22,7 @@ interface TabsProps {
 
 interface TabItemProps {
   to: string;
-  active?: boolean;
+  active?: string | null;
   location: any;
 }
 
@@ -32,7 +32,7 @@ const Tabs: React.FC<TabsProps> = ({ children }) => (
 
 const Tab: React.FC<TabItemProps> = ({ active, to, children, location }) => (
   <StyledTab
-    active={location.pathname.lastIndexOf(to, 0) === 0 && true}
+    active={location.pathname.lastIndexOf(to, 0) === 0 ? 'true' : null}
     to={to}
   >
     {children}

@@ -6,7 +6,7 @@ import AddressInputField from '../../components/AddressInputField';
 import Text from '../../components/Text';
 
 interface CustomRequestAmountProps {
-  value?: number | null;
+  amount: number | null;
 }
 
 const AmountWrapper = styled(Flex)`
@@ -35,12 +35,10 @@ const AmountInput = styled(CurrencyInput)`
 class CustomRequestAmount extends Component<CustomRequestAmountProps> {
   constructor(props: CustomRequestAmountProps) {
     super(props);
-    this.state = {
-      value: null
-    };
   }
 
   render() {
+    console.log(this.props);
     return (
       <>
         <AmountWrapper>
@@ -51,15 +49,11 @@ class CustomRequestAmount extends Component<CustomRequestAmountProps> {
             // type='number'
             precision={2}
             pattern='\d*'
-            value={this.state.value}
+            value={this.props.amount}
             placeholder='00.00'
             thousandSeparator=''
             maxLength='7'
-            onChangeEvent={e =>
-              this.setState({
-                value: e.target.value
-              })
-            }
+            onChangeEvent={e => this.props.updateValue(e.target.value)}
           />
         </AmountWrapper>
       </>
