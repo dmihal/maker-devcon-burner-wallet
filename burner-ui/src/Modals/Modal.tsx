@@ -75,7 +75,9 @@ class Modal extends Component<ModalProps> {
     return (
       <Portal>
         <Switch>
-          <Route path='/send' component={() => <Send />} />
+          <Route exact path='/send' component={Send} />
+          <Route exact path='/send/:to' component={Send} />
+          <Route exact path='/send/:to/:amount/:token' component={Send} />
           <Route
             path='/receive'
             component={() => (

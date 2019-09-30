@@ -44,8 +44,10 @@ const StyledWrapper = styled(Box)`
     display: flex;
     flex-direction: row;
     align-items: center;
-    width: 100%;
+    max-width: 100%;
+    overflow: ellipsis;
     position: relative;
+    width: 100%;
   }
 `;
 
@@ -76,34 +78,23 @@ const AddressInputField: React.FC<AddressInputFieldProps> = ({
   }
   return (
     <StyledWrapper>
-      {_account ? (
-        <>
-          <AddressInputAccount account={_account} />
-          <ButtonClear onClick={() => onChange('', null)}>
-            {'\u00D7'}
-          </ButtonClear>
-        </>
-      ) : (
-        <>
-          <StyledInput
-            value={value}
-            width={1}
-            fontWeight={3}
-            onChange={e => onChange(e.target.value, null)}
-          />
-          <Flex position={'absolute'} right={0} mr={2}>
-            <Button size={'small'} mx={2} p={0} onClick={scan}>
-              <Icon name='CenterFocusWeak' />
-            </Button>
-          </Flex>
-          {scan && (
-            <Flex position={'absolute'} right={0} mr={2}>
-              <Button size={'small'} mx={2} p={0} onClick={scan}>
-                <Icon name='CenterFocusWeak' />
-              </Button>
-            </Flex>
-          )}
-        </>
+      <StyledInput
+        value={value}
+        width={1}
+        fontWeight={3}
+        onChange={e => onChange(e.target.value, null)}
+      />
+      <Flex position={'absolute'} right={0} mr={2}>
+        <Button size={'small'} mx={2} p={0} onClick={scan}>
+          <Icon name='CenterFocusWeak' />
+        </Button>
+      </Flex>
+      {scan && (
+        <Flex position={'absolute'} right={0} mr={2}>
+          <Button size={'small'} mx={2} p={0} onClick={scan}>
+            <Icon name='CenterFocusWeak' />
+          </Button>
+        </Flex>
       )}
     </StyledWrapper>
   );

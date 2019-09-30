@@ -3,9 +3,9 @@ import styled from 'styled-components';
 import { RouteComponentProps, Link, withRouter } from 'react-router-dom';
 import { Asset } from '@burner-wallet/assets';
 import CurrencyInput from 'react-currency-input';
-import { Box, Flex, Button } from 'rimble-ui';
+import { Portal, Box, Flex, Button } from 'rimble-ui';
 
-import { ModalBackdrop, ModalCard } from '../Modal';
+import Modal, { ModalBackdrop, ModalCard } from '../Modal';
 
 import { BurnerContext, withBurner, SendParams } from '../../BurnerProvider';
 import { Account } from '../../';
@@ -20,6 +20,7 @@ import AccountBalance, {
 // import RimbleAmountInput from '../../components/RimbleAmountInput';
 import { TransferMessageInput } from '../../components/RimbleInput';
 import { TransactionCardFooter } from '../../components/TransactionCard';
+import AssetSelector from '../../components/AssetSelector';
 
 interface AddressQrModalProps {
   isOpen: boolean;
@@ -135,6 +136,8 @@ interface SendPageState {
   message?: string | null;
   fieldValue?: string | Number;
   location?: any;
+  params?;
+  match?;
 }
 
 type SendPageProps = BurnerContext & RouteComponentProps;
@@ -144,8 +147,7 @@ class SendModal extends Component<SendPageProps, SendPageState, BurnerContext> {
     super(props);
     this.state = {
       value: 0,
-      to: (props.location.state && props.location.state.address) || '',
-      fieldValue: '',
+      to: this.props.match.params.to || '',
       maxVal: null,
       message: null,
       asset: props.assets[0],
@@ -156,21 +158,25 @@ class SendModal extends Component<SendPageProps, SendPageState, BurnerContext> {
     };
   }
 
-  async getAccounts(search: string) {
-    const { pluginData } = this.props;
-    const _accounts = await Promise.all(
-      pluginData.accountSearches.map(searchFn => searchFn(search))
-    );
-    const accounts = Array.prototype.concat(..._accounts);
-    this.setState({ accounts });
-  }
+  // async getAccounts(search: string) {
+  //   const { pluginData } = this.props;
+  //   const _accounts = await Promise.all(
+  //     pluginData.accountSearches.map(searchFn => searchFn(search))
+  //   );
+  //   const accounts = Array.prototype.concat(..._accounts);
+  //   this.setState({ accounts });
+  // }
 
-  async scanCode() {
-    try {
-      const address = await this.props.actions.scanQrCode();
-      this.setState({ to: address });
-    } catch (e) {}
-  }
+  // async scanCode() {
+  //   try {
+  //     const address = await this.props.actions.scanQrCode();
+  //     this.setState({ to: address });
+  //   } catch (e) {}
+  // }
+
+  isValid = to => {
+    to.length > 0 ? true : false;
+  };
 
   render() {
     const {
@@ -190,91 +196,97 @@ class SendModal extends Component<SendPageProps, SendPageState, BurnerContext> {
     //   return <Redirect to={`/receipt/${asset.id}/${txHash}`} />;
     // }
 
+    console.log(this.state);
+
     return (
-      <ModalBackdrop>
-        <ModalCard title='Send'>
-          <Box padding={'24px var(--page-margin)'}>
-            <AddressInputField
-              value={this.state.to || ''}
-              account={account}
-              onChange={(to: string, account: Account | null) => {
-                this.setState({ to, account });
-                if (account) {
-                  this.setState({ accounts: [] });
-                } else {
-                  this.getAccounts(to);
+      <Portal>
+        <ModalBackdrop>
+          <ModalCard title='Send'>
+            <Box padding={'24px var(--page-margin)'} width={1}>
+              <AddressInputField
+                value={this.state.to}
+                account={account}
+                onChange={(to: string) => {
+                  this.setState({ to: to });
+                }}
+              />
+            </Box>
+
+            {/* //         // scan={() => this.scanCode()}
+      //         disabled={sending}
+      //       />
+      //     </Box> */}
+
+            <AmountWrapper>
+              <Text level={3} as={'h2'}>
+                How much do you want to send?
+              </Text>
+              <AmountInput
+                // type='number'
+                precision={2}
+                pattern='\d*'
+                value={this.state.value}
+                placeholder='00.00'
+                thousandSeparator=''
+                maxLength='7'
+                onChangeEvent={e =>
+                  this.setState({
+                    value: e.target.value
+                  })
+                }
+              />
+
+              {/* not functional */}
+              <MaxButton
+                onClick={() => this.setState({ value: asset[0].amount })}
+              >
+                Max
+              </MaxButton>
+              <AssetSelector
+                selected={asset}
+                assets={assets}
+                onChange={() => this.setState({ asset: newAsset })}
+                disabled={sending}
+              />
+              <TransactionCardFooter>
+                {asset.supportsMessages() && (
+                  <Fragment>
+                    <Text level={3} as='h3' margin={0}>
+                      For:
+                    </Text>
+                    <TransferMessageInput
+                      placeholder='Optional'
+                      value={message}
+                      onChange={e => this.setState({ message: e.target.value })}
+                    />
+                  </Fragment>
+                )}
+              </TransactionCardFooter>
+            </AmountWrapper>
+          </ModalCard>
+          <Flex width={1} pt={16}>
+            {/* Persist close button */}
+            <Button as={Link} to='/' style={{ width: '30%' }}>
+              Close
+            </Button>
+            <Button
+              as={Link}
+              disabled={this.isValid(this.state.to)}
+              to={{
+                pathname: '/confirm',
+                state: {
+                  to: to,
+                  asset: asset.id,
+                  message: message && (message.length > 0 && message)
                 }
               }}
-              scan={() => this.scanCode()}
-              disabled={sending}
+              children='Review &amp; Confirm'
             />
-          </Box>
-
-          <AmountWrapper>
-            <Text level={3} as={'h2'}>
-              How much do you want to send?
-            </Text>
-            <AmountInput
-              // type='number'
-              precision={2}
-              pattern='\d*'
-              value={this.state.value}
-              placeholder='00.00'
-              thousandSeparator=''
-              maxLength='7'
-              onChangeEvent={e =>
-                this.setState({
-                  value: e.target.value
-                })
-              }
-            />
-            <MaxButton
-              onClick={() => this.setState({ value: asset[0].amount })}
-            >
-              Max
-            </MaxButton>
-            {/* <AssetSelector
-                  selected={asset}
-                  assets={assets}
-                  // onChange={() => this.setState({ asset: newAsset })}
-                  disabled={sending}
-                /> */}
-          </AmountWrapper>
-
-          <TransactionCardFooter>
-            {asset.supportsMessages() && (
-              <Fragment>
-                <Text level={3} as='h3' margin={0}>
-                  For:
-                </Text>
-                <TransferMessageInput
-                  placeholder='Optional'
-                  value={message}
-                  onChange={e => this.setState({ message: e.target.value })}
-                />
-              </Fragment>
-            )}
-          </TransactionCardFooter>
-        </ModalCard>
-        <Button.outline as={Link} to='/'>
-          Close
-        </Button.outline>
-        <Button
-          as={Link}
-          to={{
-            pathname: '/confirm',
-            state: {
-              to: to,
-              asset: asset.id,
-              message: message && (message.length > 0 && message)
-            }
-          }}
-        >
-          Send
-        </Button>
-      </ModalBackdrop>
+          </Flex>
+        </ModalBackdrop>
+      </Portal>
     );
   }
 }
 
-export default withRouter(withBurner(SendModal));
+export default withBurner(SendModal);
