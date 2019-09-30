@@ -19,6 +19,10 @@ import CustomRequestQr from './CustomRequestQr';
 
 interface AddressQrModalProps {
   address: string;
+  location: any;
+  showBack?: boolean;
+  match?;
+  history?;
 }
 
 const NewTabs = () => (
@@ -37,14 +41,27 @@ const BackButtons = () => <Link to='/' />;
 class ReceiveModal extends Component<AddressQrModalProps> {
   constructor(props: AddressQrModalProps) {
     super(props);
+    this.state = {
+      showBack: false,
+      backTo: '/receive/custom'
+    };
   }
+
+  showBack = location => {
+    if (location.pathname == '/receive/qr') {
+      return '/receive/custom';
+    } else {
+      return null;
+    }
+  };
 
   render() {
     const { address } = this.props;
+    console.log(this.state);
 
     return (
       <ModalBackdrop>
-        <ModalCard title='receive'>
+        <ModalCard title='receive' backTo={this.showBack(this.props.location)}>
           <NewTabs location={location} />
           <Switch>
             {/* switch between children with exact={true} */}
@@ -66,11 +83,13 @@ class ReceiveModal extends Component<AddressQrModalProps> {
           <Route
             path='/receive/custom'
             exact
-            component={() => (
-              <Button as={Link} to='/receive/qr'>
-                Next
-              </Button>
-            )}
+            component={() => {
+              return (
+                <Button as={Link} to='/receive/qr'>
+                  Next
+                </Button>
+              );
+            }}
           />
           <Route
             path='/receive/receive/qr'
@@ -87,4 +106,4 @@ class ReceiveModal extends Component<AddressQrModalProps> {
   }
 }
 
-export default ReceiveModal;
+export default withRouter(ReceiveModal);

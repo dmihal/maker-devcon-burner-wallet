@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Switch, Route, withRouter } from 'react-router-dom';
-import { Portal, Box } from 'rimble-ui';
+import { Switch, Route, withRouter, Link } from 'react-router-dom';
+import { Portal, Box, Icon } from 'rimble-ui';
 import styled from 'styled-components';
 
 import {
@@ -10,6 +10,7 @@ import {
 } from '../components/TransactionCard';
 
 import Text from '../components/Text';
+import IconButton from '../components/IconButton';
 
 import Send from './Send';
 import Receive from './Receive';
@@ -33,10 +34,11 @@ const ModalBackdrop = styled(Box)`
   }
 `;
 
-const ModalCard: React.FC<{ title: string; children: React.ReactNode }> = ({
-  title,
-  children
-}) => (
+const ModalCard: React.FC<{
+  title: string;
+  children: React.ReactNode;
+  backTo?: string | null;
+}> = ({ title, children, backTo }) => (
   <TransactionCard
     bg='#FFF'
     color='#000'
@@ -49,6 +51,7 @@ const ModalCard: React.FC<{ title: string; children: React.ReactNode }> = ({
     flex={'1'}
   >
     <TransactionCardHeader>
+      {backTo && backTo.length && <IconButton icon='back' to={backTo} />}
       <Text level={1} as={'h1'} left margin='0'>
         {title}
       </Text>
