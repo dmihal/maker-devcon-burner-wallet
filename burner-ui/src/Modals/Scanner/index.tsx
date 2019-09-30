@@ -81,33 +81,33 @@ const Scanner: React.FC<BurnerContext & { classes: any }> = ({
     <Portal>
       <ModalBackdrop>
         <Card
-          bg={colors.background}
-          color={colors.foreground}
-          border={'none'}
-          borderRadius={2}
-          p={0}
-          display={'flex'}
-          flexDirection={'column'}
-          justifyContent={'center'}
+        // bg={colors.background}
+        // color={colors.foreground}
+        // border={'none'}
+        // borderRadius={2}
+        // p={0}
+        // display={'flex'}
+        // flexDirection={'column'}
+        // justifyContent={'center'}
         >
           <Button.Text
-            icon={'Close'}
-            mainColor={'inherit'}
-            p={0}
-            borderRadius={'100%'}
-            position={'absolute'}
-            top={0}
-            right={0}
+            // icon={'Close'}
+            // mainColor={'inherit'}
+            // p={0}
+            // borderRadius={'100%'}
+            // position={'absolute'}
+            // top={0}
+            // right={0}
             onClick={() => completeScan(null)}
           />
 
           <Text
-            color={'inherit'}
-            p={3}
-            borderBottom={1}
-            borderColor={'blacks.4'}
-            lineHeight={'solid'}
-            textAlign={'center'}
+            // color={'inherit'}
+            // p={3}
+            // borderBottom={1}
+            // borderColor={'blacks.4'}
+            // lineHeight={'solid'}
+            // textAlign={'center'}
             fontWeight={3}
           >
             Scan Qr Code

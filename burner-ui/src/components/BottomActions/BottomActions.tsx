@@ -95,11 +95,7 @@ class BottomActions extends Component<BottomActionsProps> {
         <Box margin={'0 var(--page-margin)'} className={className}>
           <Card width='auto' padding={0} borderRadius={2}>
             <Flex justifyContent='space-between' alignItems='center'>
-              <BottomButton
-                as={Link}
-                to='/receive/address'
-                children='Receive'
-              />
+              <BottomButton as={Link} to='/receive' children='Receive' />
               <ScanButton
                 onClick={async () => {
                   try {

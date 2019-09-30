@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import QRCode from 'qrcode.react';
 import { TransactionCardBody } from '../../components/TransactionCard';
+import { BurnerContext, withBurner } from '../../BurnerProvider';
 import Text from '../../components/Text';
 import { Flex, Box } from 'rimble-ui';
 
@@ -27,14 +28,15 @@ interface CustomRequestQrProps {
   location: any;
   match: any;
   props: any;
+  defaultAccount: string;
 }
 
-class CustomRequestQr extends Component<CustomRequestQrProps, { props: any }> {
+class CustomRequestQr extends Component<CustomRequestQrProps> {
   constructor(props: CustomRequestQrProps) {
     super(props);
   }
   render() {
-    const sendUrl = `https://burner.io/send/0x0000/${this.props.match.params.amount}/${this.props.match.params.token}`;
+    const sendUrl = `https://burner.io/send/${this.props.defaultAccount}/${this.props.match.params.amount}/${this.props.match.params.token}`;
     const infoText = 'Show this QR code to somebody else with a Burner Wallet';
     return (
       <Flex flexDirection='column' p={3}>
@@ -56,4 +58,4 @@ class CustomRequestQr extends Component<CustomRequestQrProps, { props: any }> {
   }
 }
 
-export default CustomRequestQr;
+export default withBurner(CustomRequestQr);
