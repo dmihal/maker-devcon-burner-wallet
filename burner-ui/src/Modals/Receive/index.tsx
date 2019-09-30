@@ -25,10 +25,14 @@ interface AddressQrModalProps {
   history?;
   amount?: number | null;
   defaultAccount: any;
+  token: string;
+  props: any;
 }
 
 type StateProps = {
   amount: number;
+  token: string;
+  update: any;
 };
 
 const NewTabs = ({ location }) => (
@@ -36,47 +40,19 @@ const NewTabs = ({ location }) => (
     <Tab to='/receive/custom' location={location}>
       Custom
     </Tab>
-    <Tab location={location} to='/receive/address'>
+    <Tab location={location} to='/receive'>
       Address
     </Tab>
   </Tabs>
-);
-
-const BottomButtons = ({ location }) => (
-  <Flex width={1} pt={16}>
-    {/* Persist close button */}
-    <Button as={Link} to='/' style={{ width: '30%' }}>
-      Close
-    </Button>
-    {/* Switch between next/done */}
-    {location.pathname == '/receive/custom' ? (
-      <Button
-        as={Link}
-        to='/receive/custom/qr'
-        style={{ flex: 1, marginLeft: 'var(--page-margin)' }}
-      >
-        {' '}
-        Next
-      </Button>
-    ) : (
-      location.pathname == '/receive/custom/qr' && (
-        <Button
-          as={Link}
-          to='/'
-          style={{ flex: 1, marginLeft: 'var(--page-margin)' }}
-        >
-          Done
-        </Button>
-      )
-    )}
-  </Flex>
 );
 
 class ReceiveModal extends Component<AddressQrModalProps, StateProps> {
   constructor(props: AddressQrModalProps) {
     super(props);
     this.state = {
-      amount: 0
+      amount: 0,
+      token: 'xDai',
+      update: 'no'
     };
   }
 
@@ -94,14 +70,55 @@ class ReceiveModal extends Component<AddressQrModalProps, StateProps> {
     }
   };
 
+  componentDidUpdate(prevProps) {
+    () => this.setState({ update: 'yes' });
+  }
+
   render() {
+    const bottomButtons = (location, amount, token) => (
+      <Flex width={1} pt={16}>
+        {/* Persist close button */}
+        <Button as={Link} to='/' style={{ width: '30%' }}>
+          Close
+        </Button>
+        {/* Switch between next/done */}
+        <Switch>
+          <Route
+            path='/receive/custom/'
+            exact
+            render={() => (
+              <Button
+                as={Link}
+                to={`/receive/custom/${amount}/${token}`}
+                style={{ flex: 1, marginLeft: 'var(--page-margin)' }}
+                children='Next'
+              />
+            )}
+          />
+          <Route
+            path='/receive/custom/:amount/:token'
+            exact
+            render={() => (
+              <Button
+                as={Link}
+                to='/'
+                style={{ flex: 1, marginLeft: 'var(--page-margin)' }}
+              >
+                Done
+              </Button>
+            )}
+          />
+        </Switch>
+      </Flex>
+    );
+
     return (
       <ModalBackdrop>
         <ModalCard title='Receive' backTo={this.showBack(this.props.location)}>
           <NewTabs location={this.props.location} />
           <Switch>
             {/* switch between children with exact={true} */}
-            <Route path='/receive/address' exact component={AddressOnly} />
+            <Route path='/receive' exact component={AddressOnly} />
             <Route
               path='/receive/custom'
               exact
@@ -113,19 +130,17 @@ class ReceiveModal extends Component<AddressQrModalProps, StateProps> {
               )}
             />
             <Route
-              path='/receive/custom/qr'
-              props
+              path='/receive/custom/:amount/:token'
               exact
-              render={() => (
-                <CustomRequestQr
-                  amount={this.state.amount}
-                  address={'1x0000000000'}
-                />
-              )}
+              component={CustomRequestQr}
             />
           </Switch>
         </ModalCard>
-        <BottomButtons location={this.props.location} />
+        {bottomButtons(
+          this.props.location,
+          this.state.amount,
+          this.state.token
+        )}
       </ModalBackdrop>
     );
   }

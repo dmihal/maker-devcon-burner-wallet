@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
 import QRCode from 'qrcode.react';
-import { withBurner } from '../../BurnerProvider';
 import { TransactionCardBody } from '../../components/TransactionCard';
 import Text from '../../components/Text';
 import { Flex, Box } from 'rimble-ui';
@@ -20,24 +19,41 @@ const QR = styled(QRCode)`
   height: 70vw;
 `;
 
-const CustomRequestQr = ({ defaultAccount, amount }) => {
-  const sendUrl = `https://burner.io/send/${defaultAccount}/${amount}`;
-  const infoText = 'Show this QR code to somebody else with a Burner Wallet';
-  return (
-    <Flex flexDirection='column' p={3}>
-      <TransactionCardBody>
-        <Text level={3} as='h2'>
-          {infoText}
-        </Text>
-        <QR value={sendUrl} renderAs='svg' />
-        <Box>
-          <Text level={3} as='p'>
-            Amount: {amount}
-          </Text>
-        </Box>
-      </TransactionCardBody>
-    </Flex>
-  );
-};
+interface CustomRequestQrProps {
+  amount?: number;
+  address?: string;
+  token?: string;
+  history: any;
+  location: any;
+  match: any;
+  props: any;
+}
 
-export default withBurner(CustomRequestQr);
+class CustomRequestQr extends Component<CustomRequestQrProps, { props: any }> {
+  constructor(props: CustomRequestQrProps) {
+    super(props);
+  }
+  render() {
+    const sendUrl = `https://burner.io/send/0x0000/${this.props.match.params.amount}/${this.props.match.params.token}`;
+    const infoText = 'Show this QR code to somebody else with a Burner Wallet';
+    return (
+      <Flex flexDirection='column' p={3}>
+        <TransactionCardBody>
+          <Text level={3} as='h2'>
+            {infoText}
+          </Text>
+          <QR value={sendUrl} renderAs='svg' />
+          <Box>
+            <Text level={3} as='p'>
+              Amount: {this.props.match.params.amount}
+              <br />
+              Token: {this.props.match.params.token}
+            </Text>
+          </Box>
+        </TransactionCardBody>
+      </Flex>
+    );
+  }
+}
+
+export default CustomRequestQr;

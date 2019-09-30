@@ -71,6 +71,7 @@ class Pages extends Component<PageProps> {
         <Router history={history}>
           {mainRoutes.map(({ path, exact, component }) => (
             <Route
+              key={path}
               exact={exact || false}
               path={path}
               component={component}
@@ -81,8 +82,8 @@ class Pages extends Component<PageProps> {
           ))}
           {pluginData.pages.map(({ path, Component, plugin }) => (
             <Route
-              path={path}
               key={path}
+              path={path}
               render={props => <Component plugin={plugin} {...props} />}
             />
           ))}

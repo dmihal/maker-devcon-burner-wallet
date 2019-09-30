@@ -39,6 +39,7 @@ class CustomRequestAmount extends Component<CustomRequestAmountProps> {
   }
 
   render() {
+    console.log(this.props);
     return (
       <>
         <AmountWrapper>

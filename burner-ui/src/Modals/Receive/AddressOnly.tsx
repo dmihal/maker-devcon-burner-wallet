@@ -58,7 +58,7 @@ const AddressOnly = ({ defaultAccount }) => {
         <Text level={3} as='h2'>
           {infoText}
         </Text>
-        <QR value={sendUrl} renderAs='svg' />)
+        <QR value={sendUrl} renderAs='svg' />
       </TransactionCardBody>
     </Flex>
   );
