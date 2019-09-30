@@ -1,11 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import QRCode from 'qrcode.react';
-import { BurnerContext, withBurner } from '../../BurnerProvider';
+import { withBurner } from '../../BurnerProvider';
 import { TransactionCardBody } from '../../components/TransactionCard';
 import Text from '../../components/Text';
-import { Flex } from 'rimble-ui';
-import { Redirect } from 'react-router-dom';
+import { Flex, Box } from 'rimble-ui';
 
 const QRWrapper = styled.div`
   display: flex;
@@ -16,19 +15,26 @@ const QRWrapper = styled.div`
   border-radius: 8px;
 `;
 
-const CustomRequestQr = props => {
-  console.log(props);
-  const sendUrl = `https://burner.io/send/${props.address}/${props.amount}`;
+const QR = styled(QRCode)`
+  width: 70vw;
+  height: 70vw;
+`;
+
+const CustomRequestQr = ({ defaultAccount, amount }) => {
+  const sendUrl = `https://burner.io/send/${defaultAccount}/${amount}`;
+  const infoText = 'Show this QR code to somebody else with a Burner Wallet';
   return (
     <Flex flexDirection='column' p={3}>
       <TransactionCardBody>
-        <QRWrapper>
-          <QRCode width={240} height={240} value={sendUrl} renderAs='svg' />)
-        </QRWrapper>
         <Text level={3} as='h2'>
-          Amount: {props.amount}
-          Address: {props.address}
+          {infoText}
         </Text>
+        <QR value={sendUrl} renderAs='svg' />
+        <Box>
+          <Text level={3} as='p'>
+            Amount: {amount}
+          </Text>
+        </Box>
       </TransactionCardBody>
     </Flex>
   );

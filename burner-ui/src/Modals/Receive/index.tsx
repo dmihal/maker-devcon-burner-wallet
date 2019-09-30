@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
+import { withBurner, BurnerContext } from '../../BurnerProvider';
 import styled from 'styled-components';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   withRouter,
-  Redirect,
   Link
 } from 'react-router-dom';
-import { Box, Flex, Tooltip, Button, Icon, Input, QR } from 'rimble-ui';
+import { Flex, Button } from 'rimble-ui';
 import { ModalBackdrop, ModalCard } from '../Modal';
 
 import Tabs, { Tab } from '../../components/Tabs';
@@ -24,15 +24,12 @@ interface AddressQrModalProps {
   match?;
   history?;
   amount?: number | null;
+  defaultAccount: any;
 }
 
-const CloseButton = styled(Button)`
-  /* width: 30%; */
-`;
-
-const MainButton = styled(Button)`
-  /* flex: 1; */
-`;
+type StateProps = {
+  amount: number;
+};
 
 const NewTabs = ({ location }) => (
   <Tabs>
@@ -75,7 +72,7 @@ const BottomButtons = ({ location }) => (
   </Flex>
 );
 
-class ReceiveModal extends Component<AddressQrModalProps> {
+class ReceiveModal extends Component<AddressQrModalProps, StateProps> {
   constructor(props: AddressQrModalProps) {
     super(props);
     this.state = {
@@ -100,7 +97,7 @@ class ReceiveModal extends Component<AddressQrModalProps> {
   render() {
     return (
       <ModalBackdrop>
-        <ModalCard title='receive' backTo={this.showBack(this.props.location)}>
+        <ModalCard title='Receive' backTo={this.showBack(this.props.location)}>
           <NewTabs location={this.props.location} />
           <Switch>
             {/* switch between children with exact={true} */}
@@ -122,7 +119,7 @@ class ReceiveModal extends Component<AddressQrModalProps> {
               render={() => (
                 <CustomRequestQr
                   amount={this.state.amount}
-                  address={'0x0000000000'}
+                  address={'1x0000000000'}
                 />
               )}
             />
@@ -134,4 +131,5 @@ class ReceiveModal extends Component<AddressQrModalProps> {
   }
 }
 
-export default withRouter(ReceiveModal);
+// @ts-ignore withBurner causes ts issues. Try to cut it for routing etc, and instead only use it for account information.
+export default withRouter(withBurner(ReceiveModal));

@@ -7,6 +7,7 @@ import Text from '../../components/Text';
 
 interface CustomRequestAmountProps {
   amount: number | null;
+  updateValue: Function;
 }
 
 const AmountWrapper = styled(Flex)`
@@ -38,7 +39,6 @@ class CustomRequestAmount extends Component<CustomRequestAmountProps> {
   }
 
   render() {
-    console.log(this.props);
     return (
       <>
         <AmountWrapper>

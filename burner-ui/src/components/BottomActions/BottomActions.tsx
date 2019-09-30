@@ -55,25 +55,25 @@ const BottomButton = styled(Link)`
 `;
 
 // override default styles
-const BottomButtonButton = styled(Button)`
-  color: var(--color-primary);
-  background-color: transparent;
-  width: calc((100% - 72px - 8px) / 2);
-  font-size: 18px;
-  z-index: 10;
-  border: none;
-  box-shadow: none;
-  &:hover,
-  &:focus,
-  &:active {
-    outline: none;
-    background: transparent;
-    box-shadow: none;
-  }
-  &:before {
-    display: none;
-  }
-`;
+// const BottomButton = styled(Button)`
+//   color: var(--color-primary);
+//   background-color: transparent;
+//   width: calc((100% - 72px - 8px) / 2);
+//   font-size: 18px;
+//   z-index: 10;
+//   border: none;
+//   box-shadow: none;
+//   &:hover,
+//   &:focus,
+//   &:active {
+//     outline: none;
+//     background: transparent;
+//     box-shadow: none;
+//   }
+//   &:before {
+//     display: none;
+//   }
+// `;
 
 interface BottomActionsProps {
   actions: any;
@@ -85,35 +85,8 @@ interface BottomActionsProps {
 class BottomActions extends Component<BottomActionsProps> {
   constructor(props: BottomActionsProps) {
     super(props);
-    this.state = {
-      receiveModalVisible: false,
-      sendModalVisible: false
-    };
+    this.state = {};
   }
-
-  openReceiveModal = () => {
-    this.setState({
-      receiveModalVisible: true
-    });
-  };
-
-  openSendModal = () => {
-    this.setState({
-      sendModalVisible: true
-    });
-  };
-
-  closeReceiveModal = () => {
-    this.setState({
-      receiveModalVisible: false
-    });
-  };
-
-  closeSendModal = () => {
-    this.setState({
-      sendModalVisible: false
-    });
-  };
   render() {
     const { actions, pluginData, defaultAccount, className } = this.props;
 
@@ -122,10 +95,10 @@ class BottomActions extends Component<BottomActionsProps> {
         <Box margin={'0 var(--page-margin)'} className={className}>
           <Card width='auto' padding={0} borderRadius={2}>
             <Flex justifyContent='space-between' alignItems='center'>
-              <BottomButtonButton
-                onClick={() => this.openReceiveModal()}
-                children='Request'
-                shadow
+              <BottomButton
+                as={Link}
+                to='/receive/address'
+                children='Receive'
               />
               <ScanButton
                 onClick={async () => {
@@ -143,27 +116,14 @@ class BottomActions extends Component<BottomActionsProps> {
                   } catch (e) {}
                 }}
               />
-              <BottomButtonButton
-                onClick={() => this.openSendModal()}
-                children='Send'
-                shadow
-              />
+
+              <BottomButton as={Link} to='/send' children='Send' />
             </Flex>
           </Card>
           {pluginData.homeButtons.map(({ title, path }) => (
             <Link children={title} to={path} key={title} />
           ))}
         </Box>
-        <ReceiveModal
-          address={this.props.defaultAccount}
-          isOpen={this.state.receiveModalVisible}
-          hide={() => this.closeReceiveModal()}
-        />
-        <SendModal
-          address={this.props.defaultAccount}
-          isOpen={this.state.sendModalVisible}
-          hide={() => this.closeSendModal()}
-        />
       </>
     );
   }

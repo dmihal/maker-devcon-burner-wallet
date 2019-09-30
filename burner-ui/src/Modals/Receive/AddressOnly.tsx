@@ -1,87 +1,67 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { Box, Tooltip, Button, Icon, Input, QR } from 'rimble-ui';
-
+import QRCode from 'qrcode.react';
+import { BurnerContext, withBurner } from '../../BurnerProvider';
+import { TransactionCardBody } from '../../components/TransactionCard';
 import Text from '../../components/Text';
-import Clipboard from '../../components/Clipboard';
+import { Flex, Box } from 'rimble-ui';
+import { Redirect } from 'react-router-dom';
 
-const ModalBackdrop = styled(Box)`
-  & {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 9999;
-    height: 100vh;
-    width: 100vw;
-    display: flex;
-    flex-flow: column;
-    place-items: center;
-    place-content: center;
-  }
+const QRWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  padding: 16px;
+  margin: 16px;
+  border: 1px solid #999;
+  border-radius: 8px;
 `;
 
-ModalBackdrop.defaultProps = {
-  bg: 'blacks.10',
-  p: 3
-};
-
-const StyledInput = styled(Input)`
-  text-overflow: ellipsis;
-  white-space: nowrap;
+const QR = styled(QRCode)`
+  width: 70vw;
+  height: 70vw;
 `;
 
-interface AddressQrModalProps {
-  address: string;
-  history: any;
-}
+// const CopyButton = ({ clipboardText, ...props }) => {
+//   const text = {
+//     tooltip: 'Copy to clipboard',
+//     button: 'Copy'
+//   };
 
-class ReceiveModal extends Component<AddressQrModalProps> {
-  constructor(props: AddressQrModalProps) {
-    super(props);
-  }
+//   if (!props.textLabels) {
+//     return (
+//       <Clipboard text={clipboardText}>
+//         {isCopied => (
+//           <Tooltip message={text.tooltip}>
+//             <Button size={'small'} p={0}>
+//               <Icon name={isCopied ? 'Check' : 'Assignment'} />
+//             </Button>
+//           </Tooltip>
+//         )}
+//       </Clipboard>
+//     );
+//   }
+//   return (
+//     <Clipboard text={clipboardText}>
+//       {isCopied => (
+//         <Button size={'small'}>{!isCopied ? text.button : 'Copied!'}</Button>
+//       )}
+//     </Clipboard>
+//   );
+// };
 
-  render() {
-    const { address } = this.props;
-
-    return (
-      <>
-        <Text level={3} as={'p'} margin={0} center>
-          Custom request text here
-        </Text>
-        <h1>Request</h1>
-      </>
-    );
-  }
-}
-
-const CopyButton = ({ clipboardText, ...props }) => {
-  const text = {
-    tooltip: 'Copy to clipboard',
-    button: 'Copy'
-  };
-
-  if (!props.textLabels) {
-    return (
-      <Clipboard text={clipboardText}>
-        {isCopied => (
-          <Tooltip message={text.tooltip}>
-            <Button size={'small'} p={0}>
-              <Icon name={isCopied ? 'Check' : 'Assignment'} />
-            </Button>
-          </Tooltip>
-        )}
-      </Clipboard>
-    );
-  }
+const AddressOnly = ({ defaultAccount }) => {
+  const sendUrl = `https://burner.io/send/${defaultAccount}`;
+  const infoText = 'Show this QR code to somebody else with a Burner Wallet';
   return (
-    <Clipboard text={clipboardText}>
-      {isCopied => (
-        <Button size={'small'}>{!isCopied ? text.button : 'Copied!'}</Button>
-      )}
-    </Clipboard>
+    <Flex flexDirection='column' p={3}>
+      <TransactionCardBody>
+        <Text level={3} as='h2'>
+          {infoText}
+        </Text>
+        <QR value={sendUrl} renderAs='svg' />)
+      </TransactionCardBody>
+    </Flex>
   );
 };
 
-export default ReceiveModal;
+export default withBurner(AddressOnly);

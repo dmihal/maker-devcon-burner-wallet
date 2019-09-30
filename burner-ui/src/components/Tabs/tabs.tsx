@@ -11,13 +11,21 @@ const StyledTab = styled(Link)`
   color: ${props =>
     props.active ? 'var(--color-tertiary)' : 'var(--color-primary)'};
   font-size: 18px;
-  min-width: 160px;
   text-align: center;
+  flex: 1;
+  text-decoration: none;
+  &:not(:only-child) {
+    &:not(:last-of-type) {
+      margin-right: calc(0.5 * var(--page-margin));
+    }
+  }
+  &:not(:first-of-type) {
+    margin-left: calc(0.5 * var(--page-margin));
+  }
 `;
 
 interface TabsProps {
   children: React.ReactNodeArray;
-  location: any;
 }
 
 interface TabItemProps {
@@ -27,7 +35,13 @@ interface TabItemProps {
 }
 
 const Tabs: React.FC<TabsProps> = ({ children }) => (
-  <Flex justifyContent='space-between' pt={3} pb={3} children={children} />
+  <Flex
+    pt={3}
+    pb={3}
+    children={children}
+    width={1}
+    padding={'0 var(--page-margin)'}
+  />
 );
 
 const Tab: React.FC<TabItemProps> = ({ active, to, children, location }) => (

@@ -83,32 +83,21 @@ class HomePage extends Component<BurnerContext & HomePageProps, any> {
             }
           />
         </Box>
+
         <Box margin='0 var(--page-margin)'>
           <Link to='/advanced'>Advanced</Link>
         </Box>
 
-        <Link
-          to={{
-            pathname: '/receive/address',
-            state: {
-              rootPath: '/'
-            }
-          }}
-        >
-          Receive
-        </Link>
-        <Link to='/send'>Send</Link>
-
-        {/* <PositionedBottomActions
+        <PositionedBottomActions
           actions={this.props.actions}
           pluginData={this.props.pluginData}
           state={this.state}
           defaultAccount={this.props.defaultAccount}
           location={location}
           history={history}
-        /> */}
+        />
 
-        <Modal match={match} location={location} history={history} />
+        <Modal />
       </StyledPage>
     );
   }

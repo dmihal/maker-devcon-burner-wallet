@@ -137,7 +137,7 @@ interface SendPageState {
   location?: any;
 }
 
-type SendPageProps = BurnerContext & RouteComponentProps & { classes: any };
+type SendPageProps = BurnerContext & RouteComponentProps;
 
 class SendModal extends Component<SendPageProps, SendPageState, BurnerContext> {
   constructor(props: SendPageProps) {
@@ -184,7 +184,7 @@ class SendModal extends Component<SendPageProps, SendPageState, BurnerContext> {
       message
     } = this.state;
 
-    const { actions, classes, assets } = this.props;
+    const { actions, assets } = this.props;
 
     // if (txHash && asset) {
     //   return <Redirect to={`/receipt/${asset.id}/${txHash}`} />;

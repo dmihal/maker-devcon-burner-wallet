@@ -64,7 +64,6 @@ interface ModalProps {
   history: any;
   location: any;
   match: any;
-  close: Function;
 }
 
 class Modal extends Component<ModalProps> {
