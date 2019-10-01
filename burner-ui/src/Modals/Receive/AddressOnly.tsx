@@ -4,22 +4,9 @@ import QRCode from 'qrcode.react';
 import { BurnerContext, withBurner } from '../../BurnerProvider';
 import { TransactionCardBody } from '../../components/TransactionCard';
 import Text from '../../components/Text';
-import { Flex, Box } from 'rimble-ui';
+import { Flex, Box, Card } from 'rimble-ui';
 import { Redirect } from 'react-router-dom';
-
-const QRWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  padding: 16px;
-  margin: 16px;
-  border: 1px solid #999;
-  border-radius: 8px;
-`;
-
-const QR = styled(QRCode)`
-  width: 70vw;
-  height: 70vw;
-`;
+import { QrWrapper } from '../../components/TransactionCard';
 
 // const CopyButton = ({ clipboardText, ...props }) => {
 //   const text = {
@@ -59,10 +46,12 @@ const AddressOnly = ({ defaultAccount }) => {
   return (
     <Flex flexDirection='column' p={3}>
       <TransactionCardBody>
-        <Text level={3} as='h2'>
+        <Text level={3} as='h2' margin='0 0 16px 0'>
           {infoText}
         </Text>
-        <QR value={sendUrl} renderAs='svg' />
+        <QrWrapper>
+          <QRCode value={sendUrl} renderAs='svg' />
+        </QrWrapper>
       </TransactionCardBody>
     </Flex>
   );

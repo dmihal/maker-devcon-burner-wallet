@@ -25,7 +25,8 @@ const ModalBackdrop = styled(Box)`
     right: 0;
     z-index: 9999;
     height: 100vh;
-    height: ${window.innerHeight}px;
+    /* height: ${window.innerHeight}px; */
+    height: -webkit-fill-available;
     width: 100vw;
     padding: var(--page-margin);
     background-color: rgba(0, 0, 0, 0.8);
@@ -40,23 +41,15 @@ const ModalCard: React.FC<{
   title: string;
   children: React.ReactNode;
   backTo?: string | null;
-}> = ({ title, children, backTo }) => (
-  <TransactionCard
-    bg='#FFF'
-    color='#000'
-    border={'none'}
-    borderRadius={2}
-    p={0}
-    display={'flex'}
-    flexDirection={'column'}
-    justifyContent={'space-between'}
-    flex={'1'}
-  >
+  tabs?: React.ReactNode;
+}> = ({ title, children, backTo, tabs }) => (
+  <TransactionCard>
     <TransactionCardHeader>
       {backTo && backTo.length && <IconButton icon='back' to={backTo} />}
       <Text level={1} as={'h1'} left margin='0'>
         {title}
       </Text>
+      {tabs && tabs}
     </TransactionCardHeader>
     <TransactionCardBody>{children}</TransactionCardBody>
   </TransactionCard>

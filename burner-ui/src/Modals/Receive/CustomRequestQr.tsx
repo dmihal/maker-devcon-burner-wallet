@@ -1,19 +1,13 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import QRCode from 'qrcode.react';
-import { TransactionCardBody } from '../../components/TransactionCard';
+import {
+  TransactionCardBody,
+  QrWrapper
+} from '../../components/TransactionCard';
 import { BurnerContext, withBurner } from '../../BurnerProvider';
 import Text from '../../components/Text';
 import { Flex, Box } from 'rimble-ui';
-
-const QRWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  padding: 16px;
-  margin: 16px;
-  border: 1px solid #999;
-  border-radius: 8px;
-`;
 
 const QR = styled(QRCode)`
   width: 70vw;
@@ -43,14 +37,16 @@ class CustomRequestQr extends Component<CustomRequestQrProps> {
   }
   render() {
     const sendUrl = `${domain}/send/${this.props.defaultAccount}/${this.props.match.params.amount}/${this.props.match.params.token}`;
-    const infoText = 'Show this QR code to somebody else with a Burner Wallet';
+    const infoText = 'Display this code to somebody with a Burner Wallet';
     return (
       <Flex flexDirection='column' p={3}>
         <TransactionCardBody>
-          <Text level={3} as='h2'>
+          <Text level={3} as='h2' margin='0 0 16px 0'>
             {infoText}
           </Text>
-          <QR value={sendUrl} renderAs='svg' />
+          <QrWrapper>
+            <QRCode value={sendUrl} renderAs='svg' />
+          </QrWrapper>
           <Box>
             <Text level={3} as='p'>
               Amount: {this.props.match.params.amount}

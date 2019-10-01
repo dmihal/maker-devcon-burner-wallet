@@ -25,8 +25,6 @@ interface AddressQrModalProps {
 }
 
 const AmountWrapper = styled(Flex)`
-  background: var(--modal-background);
-  padding: 0 var(--page-margin);
   align-items: center;
   flex-direction: column;
   flex: 1;
@@ -133,7 +131,7 @@ class SendModal extends Component<SendPageProps, SendPageState, BurnerContext> {
       <Portal>
         <ModalBackdrop>
           <ModalCard title='Send'>
-            <Box padding={'24px var(--page-margin)'} width={1}>
+            <Box width={1} px={3}>
               <AddressInputField
                 value={this.state.to || ''}
                 account={account}
@@ -173,6 +171,8 @@ class SendModal extends Component<SendPageProps, SendPageState, BurnerContext> {
               >
                 Max
               </MaxButton>
+            </AmountWrapper>
+            <Flex px={3} width={1} flexDirection='column'>
               <AssetSelector
                 selected={asset}
                 assets={assets}
@@ -193,7 +193,7 @@ class SendModal extends Component<SendPageProps, SendPageState, BurnerContext> {
                   </Fragment>
                 )}
               </TransactionCardFooter>
-            </AmountWrapper>
+            </Flex>
           </ModalCard>
           <Flex width={1} pt={16}>
             {/* Persist close button */}

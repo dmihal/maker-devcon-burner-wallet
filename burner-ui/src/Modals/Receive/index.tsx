@@ -114,8 +114,11 @@ class ReceiveModal extends Component<AddressQrModalProps, StateProps> {
 
     return (
       <ModalBackdrop>
-        <ModalCard title='Receive' backTo={this.showBack(this.props.location)}>
-          <NewTabs location={this.props.location} />
+        <ModalCard
+          title='Receive'
+          backTo={this.showBack(this.props.location)}
+          tabs={<NewTabs location={this.props.location} />}
+        >
           <Switch>
             {/* switch between children with exact={true} */}
             <Route path='/receive' exact component={AddressOnly} />

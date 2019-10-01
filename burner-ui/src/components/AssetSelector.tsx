@@ -1,13 +1,12 @@
 // @ts-ignore
-import React, { useState, useEffect } from "react";
-import styled from "styled-components";
-import { Asset } from "@burner-wallet/assets";
+import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import { Asset } from '@burner-wallet/assets';
 import AccountBalance, {
   AccountBalanceData
-} from "../data-providers/AccountBalance";
-import Assets from "../data-providers/Assets";
+} from '../data-providers/AccountBalance';
+import Assets from '../data-providers/Assets';
 import Text from '../components/Text';
-
 
 const Wrapper = styled.div`
   display: flex;
@@ -28,14 +27,12 @@ const TextAssetName = styled(Text)`
 const TextAssetBalance = styled(Text)`
   color: #777;
   margin: 0px 8px;
-
 `;
 
 const SelectWrapper = styled.div`
   position: relative;
   width: 100%;
-  margin: 8px;
-  background: #D1CCFC;
+  background: #d1ccfc;
   border-radius: 8px;
 `;
 
@@ -46,7 +43,7 @@ const TextContainer = styled.div`
   border-top-left-radius: 8px;
   border-bottom-left-radius: 8px;
   width: 50%;
-  background: #CAC4FF;
+  background: #cac4ff;
 `;
 
 const AssetContainer = styled.div`
@@ -67,7 +64,7 @@ const Selected = styled.div`
   display: flex;
   align-items: center;
   &:after {
-    content: "\25be";
+    content: '\25be';
     margin: 4px;
     color: #555;
     display: block;
@@ -79,7 +76,7 @@ const IcoArrowDown = styled.span`
   line-height: 0;
   justify-self: flex-end;
   margin: 0px 8px;
-`
+`;
 
 const ItemWrapper = styled.div`
   position: absolute;
@@ -105,22 +102,26 @@ const Item = styled.div`
 const AssetElement: React.FC<{ asset: Asset }> = ({ asset }) => (
   <Wrapper>
     <TextContainer>
-      <Text level={3} as="p" margin={0}>Currency</Text>
+      <Text level={3} as='p' margin={0}>
+        Currency
+      </Text>
     </TextContainer>
     <AssetContainer>
-      <TextAssetName level={3} as="p">{asset.name}</TextAssetName>
+      <TextAssetName level={3} as='p'>
+        {asset.name}
+      </TextAssetName>
       <AccountBalance
         asset={asset}
         render={(data: AccountBalanceData | null) =>
           data && (
-            <TextAssetBalance level={4} as="p" margin={0} color={999999}>
+            <TextAssetBalance level={4} as='p' margin={0} color={999999}>
               {data.usdBalance ? `$${data.usdBalance}` : data.displayBalance}
             </TextAssetBalance>
           )
         }
       />
     </AssetContainer>
-    <IcoArrowDown>{ '\u25BE' }</IcoArrowDown>
+    <IcoArrowDown>{'\u25BE'}</IcoArrowDown>
   </Wrapper>
 );
 
@@ -143,8 +144,8 @@ const AssetSelector: React.FC<AssetSelectorProps> = ({
 
   useEffect(() => {
     const clickListener = () => setOpen(false);
-    document.addEventListener("click", clickListener);
-    return () => document.removeEventListener("click", clickListener);
+    document.addEventListener('click', clickListener);
+    return () => document.removeEventListener('click', clickListener);
   });
 
   const Dropdown = (assets: Asset[]) => {

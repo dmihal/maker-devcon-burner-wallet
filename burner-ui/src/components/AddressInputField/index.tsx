@@ -10,38 +10,48 @@ import { Flex, Input, Icon, Button, Box } from 'rimble-ui';
 
 const ADDRESS_REGEX = /^(0x)?[0-9a-f]{40}$/i;
 
-const styles = {
-  scanBtn: {
-    backgroundImage: `url("${SCAN_QR_DATAURI}")`,
-    width: 40,
-    height: 40
-  }
-};
+// const styles = {
+//   scanBtn: {
+//     backgroundImage: `url("${SCAN_QR_DATAURI}")`,
+//     width: 40,
+//     height: 40
+//   }
+// };
 
-const InputContainer = styled.div`
-  border-radius: 8px;
-  display: flex;
-`;
+// const InputContainer = styled.div`
+//   border-radius: 8px;
+//   display: flex;
+// `;
 
-const InputField = styled(RimbleInput)`
-  order: none;
-  flex: 1 0;
-  font-size: 20px;
-  padding: 4px;
-`;
+// const InputField = styled(RimbleInput)`
+//   order: none;
+//   flex: 1 0;
+//   font-size: 20px;
+//   padding: 4px;
+// `;
 const ButtonScan = styled(Link)`
-  background-image: url("${SCAN_QR_DATAURI}");
+  background-color: var(--color-primary);
   width: 40px;
   height: 40px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  margin-top: -20px;
 `;
 
-const ButtonClear = styled.button`
-  font-size: 32px;
-  color: #4e3fce;
-`;
+// const ButtonClear = styled.button`
+//   font-size: 32px;
+//   color: #4e3fce;
+// `;
 
 const StyledWrapper = styled(Box)`
-  & {
+  position: relative;
+  /* & {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -49,12 +59,13 @@ const StyledWrapper = styled(Box)`
     overflow: ellipsis;
     position: relative;
     width: 100%;
-  }
+  } */
 `;
 
 const StyledInput = styled(Input)`
   text-overflow: ellipsis;
   white-space: nowrap;
+  padding-right: 50px;
 `;
 
 interface AddressInputFieldProps {
@@ -87,39 +98,19 @@ const AddressInputField: React.FC<AddressInputFieldProps> = ({
         fontWeight={3}
         onChange={e => onChange(e.target.value, null)}
       />
-      <Flex position={'absolute'} right={0} mr={2}>
-        <ButtonScan
-          size={'small'}
-          mx={2}
-          p={0}
-          to={{
-            pathname: '/scan',
-            state: {
-              backTo: backTo || ''
-            }
-          }}
-        >
-          <Icon name='CenterFocusWeak' />
-        </ButtonScan>
-      </Flex>
-      {/* {scan && (
-        <Flex position={'absolute'} right={0} mr={2}>
-          <ButtonScan
-            as={Link}
-            size={'small'}
-            mx={2}
-            p={0}
-            to={{
-              pathname: '/scan',
-              state: {
-                backTo: backTo || ''
-              }
-            }}
-          >
-            <Icon name='CenterFocusWeak' />
-          </ButtonScan>
-        </Flex>
-      )} */}
+      <ButtonScan
+        size={'small'}
+        mx={2}
+        p={0}
+        to={{
+          pathname: '/scan',
+          state: {
+            backTo: backTo || ''
+          }
+        }}
+      >
+        <Icon name='CenterFocusWeak' />
+      </ButtonScan>
     </StyledWrapper>
   );
 };

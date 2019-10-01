@@ -78,60 +78,57 @@ class Scanner extends Component<ScannerProps, ScannerState> {
             }
           >
             <Box padding={'24px var(--page-margin)'} width={1}></Box>
-            <Text fontWeight={3}>Scan Qr Code</Text>
+            <Text level={3} as='h2' margin='0 0 16px 0'>
+              Place the QR code within the scanner
+            </Text>
 
-            <Box p={[3, 4]} overflow={'scroll'}>
-              <Text color={'inherit'} textAlign={'center'} mb={4}>
-                Place the code within the scanner
-              </Text>
-              <Box
-                // size={['100%', '200px']}
-                width={1}
-                maxWidth={'220px'}
-                mx={'auto'}
-                mb={4}
-                p={4}
-                bg={'white'}
-                border={1}
-                borderColor={'blacks.3'}
-                boxShadow={2}
-              >
-                {this.state.cameraEnabled ? (
-                  <ReaderContainer>
-                    <Reader
-                      delay={300}
-                      legacyMode={!this.state.cameraEnabled}
-                      onError={err => {
-                        this.setState({ cameraEnabled: false });
-                      }}
-                      onScan={contents => {
-                        // TO DO: HANDLE DIFFERENT SCENARIOS.
-                        contents &&
-                          (isAddress(contents)
-                            ? (window.location.href = `${domain}/send/${contents}`)
-                            : (window.location.href = `${domain}${contents.replace(
-                                /https?:\/\/[^\/]+/i,
-                                ''
-                              )}`));
-                      }}
-                    />
-                  </ReaderContainer>
-                ) : (
-                  <Fragment>
-                    {/* <TextInstruction>Take a photo of a QR code</TextInstruction>
+            <Box
+              // size={['100%', '200px']}
+              width={1}
+              maxWidth={'220px'}
+              mx={'auto'}
+              mb={4}
+              p={4}
+              bg={'white'}
+              border={1}
+              borderColor={'blacks.3'}
+              boxShadow={2}
+            >
+              {this.state.cameraEnabled ? (
+                <ReaderContainer>
+                  <Reader
+                    delay={300}
+                    legacyMode={!this.state.cameraEnabled}
+                    onError={err => {
+                      this.setState({ cameraEnabled: false });
+                    }}
+                    onScan={contents => {
+                      // TO DO: HANDLE DIFFERENT SCENARIOS.
+                      contents &&
+                        (isAddress(contents)
+                          ? (window.location.href = `${domain}/send/${contents}`)
+                          : (window.location.href = `${domain}${contents.replace(
+                              /https?:\/\/[^\/]+/i,
+                              ''
+                            )}`));
+                    }}
+                  />
+                </ReaderContainer>
+              ) : (
+                <Fragment>
+                  {/* <TextInstruction>Take a photo of a QR code</TextInstruction>
                         <CameraIconContainer
                           onClick={() => reader.current!.openImageDialog()}
                         > */}
-                    <CameraIcon viewBox='0 0 24 24'>
-                      <path
-                        fill='#ffffff'
-                        d='M4,4H7L9,2H15L17,4H20A2,2 0 0,1 22,6V18A2,2 0 0,1 20,20H4A2,2 0 0,1 2,18V6A2,2 0 0,1 4,4M12,7A5,5 0 0,0 7,12A5,5 0 0,0 12,17A5,5 0 0,0 17,12A5,5 0 0,0 12,7M12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9Z'
-                      />
-                    </CameraIcon>
-                    {/* </CameraIconContainer> */}
-                  </Fragment>
-                )}
-              </Box>
+                  <CameraIcon viewBox='0 0 24 24'>
+                    <path
+                      fill='#ffffff'
+                      d='M4,4H7L9,2H15L17,4H20A2,2 0 0,1 22,6V18A2,2 0 0,1 20,20H4A2,2 0 0,1 2,18V6A2,2 0 0,1 4,4M12,7A5,5 0 0,0 7,12A5,5 0 0,0 12,17A5,5 0 0,0 17,12A5,5 0 0,0 12,7M12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9Z'
+                    />
+                  </CameraIcon>
+                  {/* </CameraIconContainer> */}
+                </Fragment>
+              )}
             </Box>
           </ModalCard>
           <Flex width={1} pt={16}>
