@@ -10,14 +10,10 @@ import Modal, { ModalBackdrop, ModalCard } from '../Modal';
 import { BurnerContext, withBurner, SendParams } from '../../BurnerProvider';
 import { Account } from '../../';
 import AddressInputField from '../../components/AddressInputField';
-// import AddressInputSearchResults from '../../components/AddressInputSearchResults';
-// import AssetSelector from '../../components/AssetSelector';
-// import Button from '../../components/Button';
 import Text from '../../components/Text';
 import AccountBalance, {
   AccountBalanceData
 } from '../../data-providers/AccountBalance';
-// import RimbleAmountInput from '../../components/RimbleAmountInput';
 import { TransferMessageInput } from '../../components/RimbleInput';
 import { TransactionCardFooter } from '../../components/TransactionCard';
 import AssetSelector from '../../components/AssetSelector';
@@ -66,66 +62,16 @@ const MaxButton = styled(Button)`
   }
 `;
 
-// const AssetPicker = styled(select)`
-//   display: inline;
-//   outline: none;
-//   border: none;
-//   background: transparent;
-// `;
-
-// interface AssetPickerProps {
-//   assets?: any;
-//   selected?: string;
-//   onChange?: Function;
-//   disabled?: boolean;
-// }
-
-{
-  /* <AccountBalance
-  key={asset.id}
-  asset={asset.id}
-  account={account}
-  render={(data: AccountBalanceData | null) => (
-    <BalanceItem
-      asset={asset}
-      usdBalance={data && data.usdBalance}
-      balance={data && data.displayBalance}
-    />
-  )}
-/>; */
-}
-
-// const AssetSelector: React.FC<AssetPickerProps> = ({
-//   assets,
-//   selected,
-//   onChange
-// }) => {
-//   // console.log(AccountBalanceData);
-//   const vals = ['Volvo', 'Saab', 'Mercedes', 'Audi'];
-//   return (
-//     <select onChange={() => onChange}>
-//       {assets.map(asset => (
-//         <AccountBalance
-//           key={asset.id}
-//           asset={asset.id}
-//           account={Account}
-//           render={(data: AccountBalanceData | null) => {
-//             return (
-//               <select
-//                 value={asset.id}
-//                 children={`${asset.name}: ${asset.balance}`}
-//               />
-//             );
-//           }}
-//         />
-//       ))}
-//     </select>
-//   );
-// };
+// Have to pass object because Button as='', with styled component
+// will delete all button/link styles.
+const buttonSend = {
+  flex: '1',
+  marginLeft: 'var(--page-margin)'
+};
 
 interface SendPageState {
   to?: string | null;
-  value?: number | string;
+  value?: string;
   maxVal?: number | string | null;
   sending?: boolean;
   txHash?: string | null;
@@ -138,15 +84,22 @@ interface SendPageState {
   location?: any;
   params?;
   match?;
+  buttonDisabled: boolean;
+  displayVal: number;
 }
 
 type SendPageProps = BurnerContext & RouteComponentProps;
 
+const isValid = to => {
+  const ADDRESS_REGEX = /^(?:0x)?[0-9a-f]{40}$/i;
+  return !ADDRESS_REGEX.test(to);
+};
 class SendModal extends Component<SendPageProps, SendPageState, BurnerContext> {
   constructor(props: SendPageProps) {
     super(props);
+
     this.state = {
-      value: 0,
+      value: '',
       to: this.props.match.params.to || '',
       maxVal: null,
       message: null,
@@ -154,29 +107,11 @@ class SendModal extends Component<SendPageProps, SendPageState, BurnerContext> {
       sending: false,
       txHash: null,
       account: null,
-      accounts: []
+      accounts: [],
+      buttonDisabled: isValid(this.props.match.params.to || ''),
+      displayVal: 0
     };
   }
-
-  // async getAccounts(search: string) {
-  //   const { pluginData } = this.props;
-  //   const _accounts = await Promise.all(
-  //     pluginData.accountSearches.map(searchFn => searchFn(search))
-  //   );
-  //   const accounts = Array.prototype.concat(..._accounts);
-  //   this.setState({ accounts });
-  // }
-
-  // async scanCode() {
-  //   try {
-  //     const address = await this.props.actions.scanQrCode();
-  //     this.setState({ to: address });
-  //   } catch (e) {}
-  // }
-
-  isValid = to => {
-    to.length > 0 ? true : false;
-  };
 
   render() {
     const {
@@ -187,16 +122,11 @@ class SendModal extends Component<SendPageProps, SendPageState, BurnerContext> {
       txHash,
       account,
       accounts,
-      message
+      message,
+      buttonDisabled
     } = this.state;
 
     const { actions, assets } = this.props;
-
-    // if (txHash && asset) {
-    //   return <Redirect to={`/receipt/${asset.id}/${txHash}`} />;
-    // }
-
-    console.log(this.state);
 
     return (
       <Portal>
@@ -204,18 +134,16 @@ class SendModal extends Component<SendPageProps, SendPageState, BurnerContext> {
           <ModalCard title='Send'>
             <Box padding={'24px var(--page-margin)'} width={1}>
               <AddressInputField
-                value={this.state.to}
+                value={this.state.to || ''}
                 account={account}
                 onChange={(to: string) => {
-                  this.setState({ to: to });
+                  this.setState({
+                    to: to,
+                    buttonDisabled: isValid(to)
+                  });
                 }}
               />
             </Box>
-
-            {/* //         // scan={() => this.scanCode()}
-      //         disabled={sending}
-      //       />
-      //     </Box> */}
 
             <AmountWrapper>
               <Text level={3} as={'h2'}>
@@ -231,7 +159,8 @@ class SendModal extends Component<SendPageProps, SendPageState, BurnerContext> {
                 maxLength='7'
                 onChangeEvent={e =>
                   this.setState({
-                    value: e.target.value
+                    value: e.target.value,
+                    displayVal: e.target.value
                   })
                 }
               />
@@ -269,19 +198,24 @@ class SendModal extends Component<SendPageProps, SendPageState, BurnerContext> {
             <Button as={Link} to='/' style={{ width: '30%' }}>
               Close
             </Button>
-            <Button
-              as={Link}
-              disabled={this.isValid(this.state.to)}
-              to={{
-                pathname: '/confirm',
-                state: {
-                  to: to,
-                  asset: asset.id,
-                  message: message && (message.length > 0 && message)
-                }
-              }}
-              children='Review &amp; Confirm'
-            />
+            {!buttonDisabled && (
+              <Button
+                style={buttonSend}
+                as={Link}
+                disabled={buttonDisabled}
+                to={{
+                  pathname: '/confirm',
+                  state: {
+                    from: this.props.defaultAccount,
+                    to: to,
+                    value: value,
+                    asset: asset.id,
+                    message: message && (message.length > 0 && message)
+                  }
+                }}
+                children='Review &amp; Confirm'
+              />
+            )}
           </Flex>
         </ModalBackdrop>
       </Portal>

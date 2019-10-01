@@ -9,6 +9,7 @@ export interface PageProps {
   back?: boolean;
   dark?: boolean;
   className?: string;
+  to?: Object | string;
 }
 
 const Page: React.FC<PageProps> = ({
@@ -17,13 +18,15 @@ const Page: React.FC<PageProps> = ({
   close,
   back,
   dark,
-  className
+  className,
+  to
 }) => {
   const TitleBarProps = {
     back: back,
     close: close,
     title: title,
-    dark: dark
+    dark: dark,
+    to: to
   };
   return (
     <main className={className}>

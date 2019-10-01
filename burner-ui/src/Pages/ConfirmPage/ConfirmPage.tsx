@@ -4,8 +4,9 @@ import { BurnerContext, withBurner } from '../../BurnerProvider';
 import Button from '../../components/Button';
 import Page from '../../components/Page';
 import LineItem from '../../components/LineItem';
-import { Flex, Box, Card} from 'rimble-ui';
+import { Flex, Box, Card } from 'rimble-ui';
 import Text from '../../components/Text';
+import BigNumber from 'bignumber.js';
 
 const ConfirmPage: React.FC<BurnerContext & RouteComponentProps> = ({
   history,
@@ -30,14 +31,27 @@ const ConfirmPage: React.FC<BurnerContext & RouteComponentProps> = ({
     id
   } = history.location.state;
   const [asset] = assets.filter(a => a.id === assetId);
+  console.log(history.location.state);
 
-  const amount = ether || asset.getDisplayValue(value);
+  // HAVE TO DO THIS TO GET THE VALUE TO BE PASSED
+  // NEEDS FIX
+  const newVal = Math.round(value);
+  // prettier-ignore
+  // THIS LINE IS CAUSING ISSUES. Value can be a decimal.
+  const amount = ether || asset.getDisplayValue( newVal.toString(16) );
 
+  console.log(amount);
   const send = async () => {
     setSending(true);
     try {
       actions.setLoading('Sending...');
-      const receipt = await asset.send({ from, to, ether, value, message });
+      const receipt = await asset.send({
+        from,
+        to,
+        ether,
+        amount,
+        message
+      });
 
       actions.setLoading(null);
       const redirect = pluginData.sent({
@@ -48,7 +62,7 @@ const ConfirmPage: React.FC<BurnerContext & RouteComponentProps> = ({
         message,
         receipt,
         hash: receipt.transactionHash,
-        id,
+        id
       });
 
       history.push(
@@ -61,24 +75,30 @@ const ConfirmPage: React.FC<BurnerContext & RouteComponentProps> = ({
   };
 
   return (
-    <Page title='Confirm' back>
-    <Box p={3}>
-    <Card p={2} borderRadius={2}>
-      <Flex flexDirection="column">
-      <Text level={2} as={'h2'}>From</Text>
-      <LineItem  value={from} />
-      <Text level={2} as={'h2'}>To</Text>
-      <LineItem  value={to} />
-      <Text level={2} as={'h2'}>Amount</Text>
-      <LineItem value={`${amount} ${asset.name}`} />
-      {message && <LineItem name='Message' value={message} />}
-      </Flex>
-    </Card>
-      <Flex mt={2}>
-        <Button disabled={sending} onClick={send}>
-          Send
-        </Button>
-      </Flex>
+    <Page title='Confirm' back to={`/send/${to}/${amount}/${asset.id}`}>
+      <Box p={3}>
+        <Card p={2} borderRadius={2}>
+          <Flex flexDirection='column'>
+            <Text level={2} as={'h2'}>
+              From
+            </Text>
+            <LineItem value={from} />
+            <Text level={2} as={'h2'}>
+              To
+            </Text>
+            <LineItem value={to} />
+            <Text level={2} as={'h2'}>
+              Amount
+            </Text>
+            <LineItem value={`${amount} ${asset.name}`} />
+            {message && <LineItem name='Message' value={message} />}
+          </Flex>
+        </Card>
+        <Flex mt={2}>
+          <Button disabled={sending} onClick={send}>
+            Send
+          </Button>
+        </Flex>
       </Box>
     </Page>
   );

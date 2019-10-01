@@ -68,7 +68,7 @@ const Close: React.FC<IconProps> = ({ color }) => (
 );
 
 export interface IconLinkProps {
-  to: string;
+  to: object | string;
   icon: 'close' | 'back';
   color?: string | null | undefined | false;
   className?: string;

@@ -23,6 +23,7 @@ export interface PageProps {
   back?: boolean;
   dark?: boolean;
   closeAction?: any;
+  to?: Object | string;
 }
 
 const PageTitleBar: React.FC<PageProps> = ({
@@ -30,11 +31,17 @@ const PageTitleBar: React.FC<PageProps> = ({
   close,
   back,
   dark,
-  closeAction
+  closeAction,
+  to
 }) => (
   <TitleBar back={back}>
     {back && (
-      <IconButton color={dark && '#FFF'} icon='back' to='/' marginleft={-12} />
+      <IconButton
+        color={dark && '#FFF'}
+        icon='back'
+        to={to || '/'}
+        marginleft={-12}
+      />
     )}
     <L1 as={'h1'} margin={0}>
       {title}
