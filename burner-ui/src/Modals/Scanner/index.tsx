@@ -5,19 +5,25 @@ import { withRouter, Redirect, Link } from 'react-router-dom';
 import { withBurner, BurnerContext } from '../../BurnerProvider';
 import styled from 'styled-components';
 import { Box, Flex, Text, Card, Button, Portal } from 'rimble-ui';
-
 import { ModalBackdrop, ModalCard } from '../Modal';
 
 const CameraIcon = styled.svg`
   flex: 1;
 `;
 
-const ReaderContainer = styled.div`
+const ReaderContainer = styled(Card)`
+  width: 75%;
+  margin: 0 auto;
   overflow: 'hidden';
 `;
 
 const Reader = styled(QrReader)`
   flex: '1 0';
+  background: pink;
+  & > section > div {
+    border: 20px solid rgba(78, 63, 206, 0.2) !important;
+    box-shadow: rgba(78, 63, 206, 0.7) 0px 0px 0px 5px inset !important;
+  }
 `;
 
 const isAddress = to => {
@@ -82,18 +88,7 @@ class Scanner extends Component<ScannerProps, ScannerState> {
               Place the QR code within the scanner
             </Text>
 
-            <Box
-              // size={['100%', '200px']}
-              width={1}
-              maxWidth={'220px'}
-              mx={'auto'}
-              mb={4}
-              p={4}
-              bg={'white'}
-              border={1}
-              borderColor={'blacks.3'}
-              boxShadow={2}
-            >
+            <Flex alignItems='center' justifyContent='center' width={1}>
               {this.state.cameraEnabled ? (
                 <ReaderContainer>
                   <Reader
@@ -129,7 +124,7 @@ class Scanner extends Component<ScannerProps, ScannerState> {
                   {/* </CameraIconContainer> */}
                 </Fragment>
               )}
-            </Box>
+            </Flex>
           </ModalCard>
           <Flex width={1} pt={16}>
             {/* Persist close button */}

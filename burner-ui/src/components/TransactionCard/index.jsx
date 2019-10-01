@@ -44,7 +44,6 @@ export const QrWrapper = styled(Card)`
   display: flex;
   justify-content: center;
   width: 75%;
-
   padding: 24px;
   margin: 16px;
   border: 1px solid rgba(0, 0, 0, 0.1);
