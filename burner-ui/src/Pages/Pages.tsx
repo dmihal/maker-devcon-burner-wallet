@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
 import { Switch, Router, Route, Redirect, withRouter } from 'react-router-dom';
 import { BurnerPluginData } from '../Plugins';
+import ActivityPage from './ActivityPage';
 import AdvancedPage from './AdvancedPage';
 import ConfirmPage from './ConfirmPage';
-// import CreateRequestPage from './CreateRequestPage';
-// import DisplayRequestPage from './DisplayRequestPage';
 import HomePage from './HomePage';
 import ReceiptPage from './ReceiptPage';
-import ReceivePage from './ReceivePage';
-// import SendPage from './SendPage';
 import Onboarding from './Onboarding';
 
 interface PageProps {
@@ -17,7 +14,6 @@ interface PageProps {
   location: any;
   history: any;
 }
-
 const mainRoutes: {
   path: string | any;
   exact?: boolean;
@@ -33,6 +29,11 @@ const mainRoutes: {
     path: '/send',
     // exact: true,
     component: HomePage
+  },
+  {
+    path: '/activity',
+    exact: true,
+    component: ActivityPage
   },
   {
     path: '/receive',
@@ -62,7 +63,6 @@ const mainRoutes: {
     component: AdvancedPage
   }
 ];
-
 class Pages extends Component<PageProps> {
   constructor(props: PageProps) {
     super(props);

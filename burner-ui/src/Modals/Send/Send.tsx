@@ -1,6 +1,11 @@
 import React, { Component, Fragment } from 'react';
 import styled from 'styled-components';
-import { RouteComponentProps, Link, withRouter } from 'react-router-dom';
+import {
+  RouteComponentProps,
+  Link,
+  withRouter,
+  Redirect
+} from 'react-router-dom';
 import { Asset } from '@burner-wallet/assets';
 import CurrencyInput from 'react-currency-input';
 import { Portal, Box, Flex, Button } from 'rimble-ui';
@@ -80,8 +85,12 @@ interface SendPageState {
   message?: string | null;
   fieldValue?: string | Number;
   location?: any;
-  params?;
-  match?;
+  match?: {
+    params?: {
+      to: string;
+      amount: number | string;
+    };
+  };
   buttonDisabled: boolean;
   displayVal: number;
   backTo?: string | null;
@@ -107,10 +116,38 @@ class SendModal extends Component<SendPageProps, SendPageState, BurnerContext> {
       txHash: null,
       account: null,
       accounts: [],
-      buttonDisabled: isValid(this.props.match.params.to || ''),
-      displayVal: 0
+      buttonDisabled:
+        isValid(this.props.match.params.to) && this.props.match.amount > 0
     };
   }
+
+  async getAccounts(search: string) {
+    const { pluginData } = this.props;
+    const _accounts = await Promise.all(
+      pluginData.accountSearches.map(searchFn => searchFn(search))
+    );
+    const accounts = Array.prototype.concat(..._accounts);
+    this.setState({ accounts });
+  }
+
+  // send() {
+  //   const { asset, to, value, message, maxVal } = this.state;
+  //   const { actions } = this.props;
+  //   if (!asset) {
+  //     throw new Error('Asset not selected');
+  //   }
+  //   const sendProps: SendParams = {
+  //     to,
+  //     asset: asset.id,
+  //     message: message.length > 0 ? message : null
+  //   };
+  // }
+
+  // <AccountBalance
+  //         asset={asset}
+  //         render={(data: AccountBalanceData | null) => {
+  //           const exceedsBalance = !!data
+  //             && parseFloat(value) > parseFloat(data.displayMaximumSendableBalance);
 
   render() {
     const {
@@ -120,12 +157,14 @@ class SendModal extends Component<SendPageProps, SendPageState, BurnerContext> {
       sending,
       txHash,
       account,
-      accounts,
       message,
       buttonDisabled
     } = this.state;
-
     const { actions, assets } = this.props;
+
+    if (txHash && asset) {
+      return <Redirect to={`/receipt/${asset.id}/${txHash}`} />;
+    }
 
     return (
       <Portal>
@@ -166,11 +205,23 @@ class SendModal extends Component<SendPageProps, SendPageState, BurnerContext> {
               />
 
               {/* not functional */}
-              <MaxButton
-                onClick={() => this.setState({ value: asset[0].amount })}
-              >
-                Max
-              </MaxButton>
+              <AccountBalance
+                asset={asset}
+                render={(data: AccountBalanceData | null) => {
+                  return (
+                    <MaxButton
+                      onClick={() =>
+                        this.setState({
+                          value: data.displayMaximumSendableBalance || '0'
+                          // maxVal: data.maximumSendableBalance
+                        })
+                      }
+                    >
+                      Max
+                    </MaxButton>
+                  );
+                }}
+              />
             </AmountWrapper>
             <Flex px={3} width={1} flexDirection='column'>
               <AssetSelector
