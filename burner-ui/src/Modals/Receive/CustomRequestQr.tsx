@@ -20,6 +20,12 @@ const QR = styled(QRCode)`
   height: 70vw;
 `;
 
+const domain =
+  location.protocol +
+  '//' +
+  location.hostname +
+  (location.port ? ':' + location.port : '');
+
 interface CustomRequestQrProps {
   amount?: number;
   address?: string;
@@ -36,7 +42,7 @@ class CustomRequestQr extends Component<CustomRequestQrProps> {
     super(props);
   }
   render() {
-    const sendUrl = `https://burner.io/send/${this.props.defaultAccount}/${this.props.match.params.amount}/${this.props.match.params.token}`;
+    const sendUrl = `${domain}/send/${this.props.defaultAccount}/${this.props.match.params.amount}/${this.props.match.params.token}`;
     const infoText = 'Show this QR code to somebody else with a Burner Wallet';
     return (
       <Flex flexDirection='column' p={3}>

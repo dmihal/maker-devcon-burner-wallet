@@ -41,6 +41,11 @@ const mainRoutes: {
     state: { receive: true }
   },
   {
+    path: '/scan',
+    exact: true,
+    component: HomePage
+  },
+  {
     path: '/welcome',
     component: Onboarding
   },

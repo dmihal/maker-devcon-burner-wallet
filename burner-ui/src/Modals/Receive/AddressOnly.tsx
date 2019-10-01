@@ -48,9 +48,13 @@ const QR = styled(QRCode)`
 //     </Clipboard>
 //   );
 // };
-
+const domain =
+  location.protocol +
+  '//' +
+  location.hostname +
+  (location.port ? ':' + location.port : '');
 const AddressOnly = ({ defaultAccount }) => {
-  const sendUrl = `https://burner.io/send/${defaultAccount}`;
+  const sendUrl = `${domain}/send/${defaultAccount}`;
   const infoText = 'Show this QR code to somebody else with a Burner Wallet';
   return (
     <Flex flexDirection='column' p={3}>

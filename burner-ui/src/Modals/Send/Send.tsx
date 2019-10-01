@@ -86,6 +86,7 @@ interface SendPageState {
   match?;
   buttonDisabled: boolean;
   displayVal: number;
+  backTo?: string | null;
 }
 
 type SendPageProps = BurnerContext & RouteComponentProps;
@@ -99,7 +100,7 @@ class SendModal extends Component<SendPageProps, SendPageState, BurnerContext> {
     super(props);
 
     this.state = {
-      value: '',
+      value: this.props.match.params.amount || '',
       to: this.props.match.params.to || '',
       maxVal: null,
       message: null,
@@ -136,6 +137,7 @@ class SendModal extends Component<SendPageProps, SendPageState, BurnerContext> {
               <AddressInputField
                 value={this.state.to || ''}
                 account={account}
+                backTo={this.props.location.pathname || ''}
                 onChange={(to: string) => {
                   this.setState({
                     to: to,

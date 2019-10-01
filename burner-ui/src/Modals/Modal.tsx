@@ -13,6 +13,7 @@ import Text from '../components/Text';
 import IconButton from '../components/IconButton';
 
 import Send from './Send';
+import Scanner from './Scanner';
 import Receive from './Receive';
 
 const ModalBackdrop = styled(Box)`
@@ -24,6 +25,7 @@ const ModalBackdrop = styled(Box)`
     right: 0;
     z-index: 9999;
     height: 100vh;
+    height: ${window.innerHeight}px;
     width: 100vw;
     padding: var(--page-margin);
     background-color: rgba(0, 0, 0, 0.8);
@@ -76,6 +78,7 @@ class Modal extends Component<ModalProps> {
       <Portal>
         <Switch>
           <Route exact path='/send' component={Send} />
+          <Route exact path='/scan' component={Scanner} />
           <Route exact path='/send/:to' component={Send} />
           <Route exact path='/send/:to/:amount/:token' component={Send} />
           <Route

@@ -17,6 +17,7 @@ const ScanButton = styled(Button)`
     width: 72px;
     border-radius: 50%;
     border: none;
+    background-color: var(--color-primary);
     order: 3;
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
     z-index: 20;
@@ -96,23 +97,7 @@ class BottomActions extends Component<BottomActionsProps> {
           <Card width='auto' padding={0} borderRadius={2}>
             <Flex justifyContent='space-between' alignItems='center'>
               <BottomButton as={Link} to='/receive' children='Receive' />
-              <ScanButton
-                onClick={async () => {
-                  try {
-                    const result = await actions.scanQrCode();
-                    if (pluginData.tryHandleQR(result, { actions })) {
-                      return;
-                    } else if (ADDRESS_REGEX.test(result)) {
-                      actions.navigateTo('/send', { address: result });
-                    } else if (PK_REGEX.test(result)) {
-                      actions.callSigner('writeKey', defaultAccount, result);
-                    } else if (result.indexOf(location.origin) === 0) {
-                      actions.navigateTo(result.substr(location.origin.length));
-                    }
-                  } catch (e) {}
-                }}
-              />
-
+              <ScanButton as={Link} to='/scan' />
               <BottomButton as={Link} to='/send' children='Send' />
             </Flex>
           </Card>

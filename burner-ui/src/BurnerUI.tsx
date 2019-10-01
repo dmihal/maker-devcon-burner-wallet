@@ -5,7 +5,6 @@ import BurnerCore from '@burner-wallet/core';
 import burnerComponents from './components/BurnerComponents';
 import Header from './components/Header';
 import Loading from './components/Loading';
-import Scanner from './Modals/Scanner';
 import BurnerProvider from './BurnerProvider';
 import Pages from './Pages';
 import Template from './Template';
@@ -59,7 +58,6 @@ export default class BurnerUI extends Component<BurnerUIProps, any> {
           <HistoryProvider core={this.props.core}>
             <Template theme={this.props.theme}>
               <Loading />
-              <Scanner />
               <Pages pluginData={this.state.pluginData} />
             </Template>
           </HistoryProvider>

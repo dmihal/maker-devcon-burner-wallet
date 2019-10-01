@@ -2,6 +2,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Account } from '../../';
+import { Link } from 'react-router-dom';
 import AddressInputAccount from '../AddressInputAccount';
 import { RimbleInput } from '../../components/RimbleInput';
 import { SCAN_QR_DATAURI } from '../../constants';
@@ -28,7 +29,7 @@ const InputField = styled(RimbleInput)`
   font-size: 20px;
   padding: 4px;
 `;
-const ButtonScan = styled.button`
+const ButtonScan = styled(Link)`
   background-image: url("${SCAN_QR_DATAURI}");
   width: 40px;
   height: 40px;
@@ -60,9 +61,10 @@ interface AddressInputFieldProps {
   value: string;
   account?: Account | null;
   onChange: (address: string, account: Account | null) => void;
-  scan?: () => any;
+  // scan?: () => any;
   disabled?: boolean;
   className?: string;
+  backTo?: string | null;
 }
 
 const AddressInputField: React.FC<AddressInputFieldProps> = ({
@@ -70,6 +72,7 @@ const AddressInputField: React.FC<AddressInputFieldProps> = ({
   account,
   onChange,
   scan,
+  backTo,
   disabled
 }) => {
   let _account = account;
@@ -85,17 +88,38 @@ const AddressInputField: React.FC<AddressInputFieldProps> = ({
         onChange={e => onChange(e.target.value, null)}
       />
       <Flex position={'absolute'} right={0} mr={2}>
-        <Button size={'small'} mx={2} p={0} onClick={scan}>
+        <ButtonScan
+          size={'small'}
+          mx={2}
+          p={0}
+          to={{
+            pathname: '/scan',
+            state: {
+              backTo: backTo || ''
+            }
+          }}
+        >
           <Icon name='CenterFocusWeak' />
-        </Button>
+        </ButtonScan>
       </Flex>
-      {scan && (
+      {/* {scan && (
         <Flex position={'absolute'} right={0} mr={2}>
-          <Button size={'small'} mx={2} p={0} onClick={scan}>
+          <ButtonScan
+            as={Link}
+            size={'small'}
+            mx={2}
+            p={0}
+            to={{
+              pathname: '/scan',
+              state: {
+                backTo: backTo || ''
+              }
+            }}
+          >
             <Icon name='CenterFocusWeak' />
-          </Button>
+          </ButtonScan>
         </Flex>
-      )}
+      )} */}
     </StyledWrapper>
   );
 };
