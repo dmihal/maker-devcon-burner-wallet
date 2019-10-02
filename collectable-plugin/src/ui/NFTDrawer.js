@@ -30,7 +30,7 @@ const NFTDrawer = ({ accounts, actions, plugin }) => {
   }, [accounts]);
 
   return (
-    <Row justifyItems={'center'}>
+    <Row justifyContent={'center'}>
       {nfts.length === 0 ? (
         <Text level={2} as="h2">No collectables yet... Go find some!</Text>
       ) : (
