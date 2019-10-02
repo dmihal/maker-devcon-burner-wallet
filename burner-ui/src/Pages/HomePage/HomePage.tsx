@@ -49,22 +49,28 @@ const ViewAllButton = styled(Link)`
 `;
 
 const TabButton = styled.button`
-  background: ${(props) => (props.selected ? '#F7F7F7' : '#F2F2F2')};
+  background: ${(props) => (props.selected ? 'var(--color-primary)' : 'var(--color-tertiary)')};
   border-radius: 30px;
   display: flex;
+  font-size: 16px;
   align-items: center;
-  color: #555;
+  color: ${(props) => (props.selected ? 'var(--color-tertiary)' : 'var(--color-primary)')};
   padding: 8px 12px;
   border: none;
   outline: none;
   margin: 0 4px;
+  transition: 0.15s ease-in-out;
+
+  &:first-child {
+    margin-left: 0px;
+  }
 `;
 
 const HomePage: React.FC<BurnerContext> = ({ defaultAccount, actions, pluginData }) => {
   const [tab, setTab] = useState(0);
 
   const homeTabs = [
-    { Component: BalanceRow, plugin: null, options: { title: 'Assets' } },
+    { Component: BalanceRow, plugin: null, options: { title: 'Cash' } },
     ...(pluginData.elements['home-tab'] || []),
   ];
   const { Component: TabComponent, plugin: tabPlugin } = homeTabs[tab];
@@ -75,7 +81,6 @@ const HomePage: React.FC<BurnerContext> = ({ defaultAccount, actions, pluginData
 
       <Box margin="0 var(--page-margin)">
         <Flex justifyContent="space-between" alignItems="center" my={2}>
-          <Text level={2} as="h2" margin={0}>Balances</Text>
           <Flex>
             {homeTabs.map(({ options }: PluginElementData, i: number) => (
               <TabButton key={options.title} onClick={() => setTab(i)} selected={tab === i}>
