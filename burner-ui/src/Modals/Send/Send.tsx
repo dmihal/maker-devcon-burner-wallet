@@ -29,7 +29,7 @@ import Page from '../../components/Page';
 import AccountBalance, {
   AccountBalanceData
 } from '../../data-providers/AccountBalance';
-// import RimbleAmountInput from '../../components/RimbleAmountInput';
+import RimbleAmountInput from '../../components/RimbleAmountInput';
 import {
   RimbleInput,
   TransferMessageInput
@@ -358,15 +358,11 @@ class SendModal extends Component<SendPageProps, SendPageState, BurnerContext> {
                       <Text level={3} as={'h2'}>
                         How much do you want to send?
                       </Text>
-                      <AmountInput
-                        // type='number'
-                        precision={2}
-                        pattern='\d*'
+                      <RimbleAmountInput
+                        asset={asset}
                         value={value}
-                        placeholder='00.00'
-                        thousandSeparator=''
-                        maxLength='7'
-                        onChangeEvent={(e) => this.setState({ value: e.target.value, maxVal: null })}
+                        onChange={(e) => this.setState({ value: e.target.value })}
+                        disabled={sending}
                       />
                       <MaxButton
                         onClick={() => this.setState({
