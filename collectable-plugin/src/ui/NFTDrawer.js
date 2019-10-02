@@ -1,6 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import Card from './Card';
 const classes = require('./NFTDrawer.module.css');
+import styled from 'styled-components';
+import Text from '../../../burner-ui/src/components/Text';
+import { Flex, Box } from 'rimble-ui';
+
+const Row = styled(Flex)`
+  padding: 32px var(--page-margin);
+  min-height: 160px;
+  width: 100%;
+  overflow-x: scroll;
+  white-space: nowrap;
+`;
 
 const NFTDrawer = ({ accounts, actions, plugin }) => {
   const [nfts, setNfts] = useState([]);
@@ -19,10 +30,9 @@ const NFTDrawer = ({ accounts, actions, plugin }) => {
   }, [accounts]);
 
   return (
-    <div className={classes.container}>
-      <h4 className={classes.heading}>Collectables</h4>
+    <Row justifyItems={'center'}>
       {nfts.length === 0 ? (
-        <div className={classes.empty}>No collectables yet... Go find some!</div>
+        <Text level={2} as="h2">No collectables yet... Go find some!</Text>
       ) : (
         <ul className={classes.nftList}>
           {nfts.map((nft, i) => (
@@ -32,7 +42,7 @@ const NFTDrawer = ({ accounts, actions, plugin }) => {
           ))}
         </ul>
       )}
-    </div>
+    </Row>
   );
 };
 

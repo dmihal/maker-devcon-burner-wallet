@@ -12,6 +12,7 @@
 
 .container {
   margin: 10px;
+  min-height: 140px;
 }
 
 .nftIcon {
