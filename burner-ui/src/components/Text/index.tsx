@@ -25,7 +25,6 @@ interface LevelProps {
   center?: Boolean;
   left?: Boolean;
   right?: Boolean;
-  level: number;
   margin?: string | number;
   color?: string;
 }
