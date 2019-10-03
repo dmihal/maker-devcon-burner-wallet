@@ -92,7 +92,7 @@ const Scanner: React.FC<BurnerContext & ScannerProps> = ({
           {/* Persist close button */}
           <Button
             to='/'
-            style={{ width: '30%' }}
+            style={{ width: '100%' }}
             onClick={() => completeScan(null)}
           >
             Cancel
