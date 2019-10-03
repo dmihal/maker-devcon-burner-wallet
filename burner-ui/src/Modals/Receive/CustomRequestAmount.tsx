@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Flex, Card } from 'rimble-ui';
+import { Flex } from 'rimble-ui';
 import CurrencyInput from 'react-currency-input';
-import { Asset } from '@burner-wallet/assets';
-import { BurnerContext, withBurner, SendParams } from '../../BurnerProvider';
-import AddressInputField from '../../components/AddressInputField';
+import { withBurner } from '../../BurnerProvider';
 import Text from '../../components/Text';
 import AssetSelector from '../../components/AssetSelector';
 
@@ -12,7 +10,6 @@ interface CustomRequestAmountProps {
   amount: number | null;
   updateValue: Function;
   assets;
-  asset;
 }
 
 const AmountWrapper = styled(Flex)`
@@ -37,10 +34,7 @@ const AmountInput = styled(CurrencyInput)`
   appearance: none;
 `;
 
-class CustomRequestAmount extends Component<
-  CustomRequestAmountProps,
-  BurnerContext
-> {
+class CustomRequestAmount extends Component<CustomRequestAmountProps> {
   constructor(props: CustomRequestAmountProps) {
     super(props);
   }

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { withBurner, BurnerContext } from '../../BurnerProvider';
-import styled from 'styled-components';
 import {
   BrowserRouter as Router,
   Switch,
@@ -27,11 +26,12 @@ interface AddressQrModalProps {
   defaultAccount: any;
   token: string;
   props: any;
+  assets;
 }
 
 type StateProps = {
   amount: number;
-  token: string;
+  token: string | null;
   update: any;
 };
 
@@ -46,13 +46,17 @@ const NewTabs = ({ location }) => (
   </Tabs>
 );
 
-class ReceiveModal extends Component<AddressQrModalProps, StateProps> {
+class ReceiveModal extends Component<
+  AddressQrModalProps,
+  StateProps,
+  BurnerContext
+> {
   constructor(props: AddressQrModalProps) {
     super(props);
     this.state = {
       amount: 0,
-      token: 'xDai',
-      update: 'no'
+      token: null,
+      update: Function
     };
   }
 
@@ -75,6 +79,7 @@ class ReceiveModal extends Component<AddressQrModalProps, StateProps> {
   }
 
   render() {
+    const { assets } = this.props;
     const bottomButtons = (location, amount, token) => (
       <Flex width={1} pt={16}>
         {/* Persist close button */}
@@ -89,7 +94,7 @@ class ReceiveModal extends Component<AddressQrModalProps, StateProps> {
             render={() => (
               <Button
                 as={Link}
-                to={`/receive/custom/${amount}/${token}`}
+                to={`/receive/custom/${amount}/${token || assets[0].id}`}
                 style={{ flex: 1, marginLeft: 'var(--page-margin)' }}
                 children='Next'
               />
@@ -127,7 +132,7 @@ class ReceiveModal extends Component<AddressQrModalProps, StateProps> {
               exact
               render={() => (
                 <CustomRequestAmount
-                  asset={this.props.assets[0]}
+                  assets={this.props.assets}
                   amount={this.state.amount}
                   updateValue={this.handleValue}
                 />

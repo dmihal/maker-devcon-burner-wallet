@@ -10,7 +10,7 @@ import { Asset } from '@burner-wallet/assets';
 import CurrencyInput from 'react-currency-input';
 import { Portal, Box, Flex, Button } from 'rimble-ui';
 
-import Modal, { ModalBackdrop, ModalCard } from '../Modals';
+import { ModalBackdrop, ModalCard } from '../Modals';
 
 import { BurnerContext, withBurner, SendParams } from '../../BurnerProvider';
 import { Account } from '../../';
@@ -22,12 +22,6 @@ import AccountBalance, {
 import { TransferMessageInput } from '../../components/RimbleInput';
 import { TransactionCardFooter } from '../../components/TransactionCard';
 import AssetSelector from '../../components/AssetSelector';
-
-interface AddressQrModalProps {
-  isOpen: boolean;
-  hide: Function;
-  address: string;
-}
 
 const AmountWrapper = styled(Flex)`
   align-items: center;
@@ -102,7 +96,7 @@ const isValid = to => {
   return !ADDRESS_REGEX.test(to);
 };
 
-class SendModal extends Component<SendPageProps, SendPageState, BurnerContext> {
+class SendModal extends Component<SendPageProps, SendPageState> {
   constructor(props: SendPageProps) {
     super(props);
 
@@ -236,12 +230,12 @@ class SendModal extends Component<SendPageProps, SendPageState, BurnerContext> {
               />
             </AmountWrapper>
             <Flex px={3} width={1} flexDirection='column'>
-              <AssetSelector
+              {/* <AssetSelector
                 selected={asset}
                 assets={assets}
                 onChange={() => this.setState({ asset: newAsset })}
                 disabled={sending}
-              />
+              /> */}
               <TransactionCardFooter>
                 {asset.supportsMessages() && (
                   <Fragment>

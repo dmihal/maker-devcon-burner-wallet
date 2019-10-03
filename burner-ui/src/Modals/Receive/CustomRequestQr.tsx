@@ -1,18 +1,14 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import QRCode from 'qrcode.react';
+import { withBurner } from '../../BurnerProvider';
+import { Asset } from '@burner-wallet/assets';
 import {
   TransactionCardBody,
   QrWrapper
 } from '../../components/TransactionCard';
-import { withBurner } from '../../BurnerProvider';
 import Text from '../../components/Text';
 import { Flex, Box } from 'rimble-ui';
-
-const QR = styled(QRCode)`
-  width: 70vw;
-  height: 70vw;
-`;
 
 const domain =
   location.protocol +
@@ -23,7 +19,7 @@ const domain =
 interface CustomRequestQrProps {
   amount?: number;
   address?: string;
-  token?: string;
+  asset?: Asset;
   history: any;
   location: any;
   match: any;
