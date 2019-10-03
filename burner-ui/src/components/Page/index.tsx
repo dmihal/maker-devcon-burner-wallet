@@ -1,7 +1,7 @@
 // @ts-ignore
 import React from 'react';
 import PageTitleBar from '../PageTitleBar';
-
+import Modals from '../../Modals';
 export interface PageProps {
   children: React.ReactNode;
   title?: string;
@@ -29,6 +29,7 @@ const Page: React.FC<PageProps> = ({
     <main className={className}>
       {title && <PageTitleBar {...TitleBarProps} />}
       <div>{children}</div>
+      <Modals />
     </main>
   );
 };

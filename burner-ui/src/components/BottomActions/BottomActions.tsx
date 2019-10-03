@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import { Box, Card, Flex } from 'rimble-ui';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import ReceiveModal from '../../Modals/Receive';
-import SendModal from '../../Modals/Send';
-import Button, { Link } from '../../components/Button';
+import Button from '../../components/Button';
 import { SCAN_QR_DATAURI } from '../../constants';
 
 const ADDRESS_REGEX = /^(?:0x)?[0-9a-f]{40}$/i;
 const PK_REGEX = /^(?:0x)?[0-9a-f]{64}$/i;
 
 const ScanButton = styled(Button)`
+    align-self: center;
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
@@ -36,29 +36,13 @@ const ScanButton = styled(Button)`
 // override default styles
 const BottomButton = styled(Link)`
   color: var(--color-primary);
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: transparent;
   width: calc((100% - 72px - 8px) / 2);
-  font-size: 18px;
-  z-index: 10;
-  border: none;
-  box-shadow: none;
-  &:hover,
-  &:focus,
-  &:active {
-    outline: none;
-    background: transparent;
-    box-shadow: none;
-  }
-  &:before {
-    display: none;
-  }
-`;
-
-// override default styles
-const BottomButtonButton = styled(Button)`
-  color: var(--color-primary);
-  background-color: transparent;
-  width: calc((100% - 72px - 8px) / 2);
+  text-decoration: none;
   font-size: 18px;
   z-index: 10;
   border: none;
@@ -85,35 +69,7 @@ interface BottomActionsProps {
 class BottomActions extends Component<BottomActionsProps> {
   constructor(props: BottomActionsProps) {
     super(props);
-    this.state = {
-      receiveModalVisible: false,
-      sendModalVisible: false
-    };
   }
-
-  openReceiveModal = () => {
-    this.setState({
-      receiveModalVisible: true
-    });
-  };
-
-  openSendModal = () => {
-    this.setState({
-      sendModalVisible: true
-    });
-  };
-
-  closeReceiveModal = () => {
-    this.setState({
-      receiveModalVisible: false
-    });
-  };
-
-  closeSendModal = () => {
-    this.setState({
-      sendModalVisible: false
-    });
-  };
   render() {
     const { actions, pluginData, defaultAccount, className } = this.props;
 
@@ -121,10 +77,15 @@ class BottomActions extends Component<BottomActionsProps> {
       <>
         <Box margin={'0 var(--page-margin)'} className={className}>
           <Card width='auto' padding={0} borderRadius={2}>
-            <Flex justifyContent='space-between' alignItems='center'>
-              <BottomButtonButton
-                onClick={() => this.openReceiveModal()}
-                children='Request'
+            <Flex
+              justifyContent='space-between'
+              alignItems='stretch'
+              height={48}
+            >
+              <BottomButton
+                as={Link}
+                to={'/receive'}
+                children='Receive'
                 shadow
               />
               <ScanButton
@@ -143,27 +104,13 @@ class BottomActions extends Component<BottomActionsProps> {
                   } catch (e) {}
                 }}
               />
-              <BottomButtonButton
-                onClick={() => this.openSendModal()}
-                children='Send'
-                shadow
-              />
+              <BottomButton to={'/send'} children='Send' shadow />
             </Flex>
           </Card>
           {pluginData.homeButtons.map(({ title, path }) => (
             <Link children={title} to={path} key={title} />
           ))}
         </Box>
-        <ReceiveModal
-          address={this.props.defaultAccount}
-          isOpen={this.state.receiveModalVisible}
-          hide={() => this.closeReceiveModal()}
-        />
-        <SendModal
-          address={this.props.defaultAccount}
-          isOpen={this.state.sendModalVisible}
-          hide={() => this.closeSendModal()}
-        />
       </>
     );
   }

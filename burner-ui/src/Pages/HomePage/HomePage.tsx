@@ -2,7 +2,6 @@ import React, { useRef, useEffect, Component, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { BurnerContext, withBurner } from '../../BurnerProvider';
-import Button from '../../components/Button';
 import Page from '../../components/Page';
 import styled from 'styled-components';
 // import ActionRow from '../../components/ActionRow';
@@ -31,14 +30,13 @@ const StyledPage = styled(Page)`
   padding-bottom: 110px;
 `;
 
-
 const ViewAllButton = styled(Link)`
-  background: #F2F2F2;
+  background: #f2f2f2;
   border-radius: 30px;
   display: flex;
   align-items: center;
   color: #555;
-  padding: 8px 12px;  
+  padding: 8px 12px;
   text-decoration: none;
 
   &:after {
@@ -61,7 +59,13 @@ class HomePage extends Component<BurnerContext & HomePageProps, any> {
     super(props);
   }
   render() {
-    const { accounts, defaultAccount, actions, pluginData, assets } = this.props;
+    const {
+      accounts,
+      defaultAccount,
+      actions,
+      pluginData,
+      assets
+    } = this.props;
     return (
       <StyledPage title={'My Wallet'}>
         <PluginElements position='home-top' />
@@ -69,23 +73,25 @@ class HomePage extends Component<BurnerContext & HomePageProps, any> {
         <PluginElements position='home-middle' />
         <Box margin='0 var(--page-margin)'>
           <Flex justifyContent={'space-between'} alignItems={'center'} my={2}>
-            <Text level={2} as="h2" margin={0}>
+            <Text level={2} as='h2' margin={0}>
               Recent activity
             </Text>
-            <ViewAllButton to="/activity">View All</ViewAllButton>
+            <ViewAllButton to='/activity'>View All</ViewAllButton>
           </Flex>
 
           <History
             account={defaultAccount}
             render={(events: any[]) =>
-              events.slice(0, 3).map(event => (
-                <HistoryListEvent
-                  key={JSON.stringify(event)}
-                  event={event}
-                  account={defaultAccount}
-                  navigateTo={actions.navigateTo}
-                />
-              ))
+              events
+                .slice(0, 3)
+                .map(event => (
+                  <HistoryListEvent
+                    key={JSON.stringify(event)}
+                    event={event}
+                    account={defaultAccount}
+                    navigateTo={actions.navigateTo}
+                  />
+                ))
             }
           />
         </Box>
