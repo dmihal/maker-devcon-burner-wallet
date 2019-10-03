@@ -47,6 +47,23 @@ const ViewAllButton = styled(Link)`
   }
 `;
 
+const AppCard = styled(Card)`
+  display: flex;
+  flex: 1;
+  border-radius: 8px;
+  padding: 16px;
+  padding-right: 12px;
+  margin: 8px 0px;
+  font-weight: 400;
+  align-items: center;
+  &:not(:first-of-type) {
+    margin-left: 12px;
+  }
+  & > span {
+    display: block;
+  }
+`;
+
 interface HomePageProps {
   defaultAccount;
   actions;
@@ -89,6 +106,19 @@ class HomePage extends Component<BurnerContext & HomePageProps, any> {
           />
         </Box>
         <Box margin='0 var(--page-margin)'>
+        <AppCard>
+              <Box width={'60%'}>
+                <Text level={2} as={'h3'} margin={'0'} color={'#444'}>
+                  Sablier
+                </Text>
+                <Text level={3} as={'p'} margin={'0'} textAlign={'left'} color={'#999'}>
+                  Continuous payment streams you can access instantly.
+                </Text>
+              </Box>
+                <Flex width={'40%'} flexDirection={'column'} alignItems={'center'}>
+                  <Box borderRadius={100} width={'64px'} height={'64px'} backgroundColor={'#999999'}></Box>
+                </Flex>
+              </AppCard>
           <Link to='/advanced'>Advanced</Link>
         </Box>
         <PositionedBottomActions
