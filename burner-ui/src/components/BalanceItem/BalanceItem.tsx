@@ -32,6 +32,7 @@ const DAI = styled(Dai)`
 const assetIcons = {
   eth: <ETH />,
   geth: <ETH />,
+  keth: <ETH />,
   xdai: <XDAI />,
   dai: <DAI />
 };
