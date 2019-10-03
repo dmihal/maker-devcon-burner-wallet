@@ -7,7 +7,7 @@ import { BurnerContext, withBurner } from '../../BurnerProvider';
 import Button from '../../components/Button';
 import Page from '../../components/Page';
 // import ActionRow from '../../components/ActionRow';
-import { Box, Flex } from 'rimble-ui';
+import { Box, Flex, Card } from 'rimble-ui';
 import PluginElements from '../../components/PluginElements';
 import History from '../../data-providers/History';
 import BalanceRow from '../../components/BalanceRow';
