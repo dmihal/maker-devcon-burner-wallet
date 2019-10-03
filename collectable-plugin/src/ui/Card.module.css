@@ -1,0 +1,28 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  margin-right: 12px;
+
+  border: 1px solid transparent;
+  border-color: #eee;
+  border-radius: 8px;
+  box-shadow: 0px 8px 16px rgba(0,0,0,0.1);
+  height: 100px;
+  width: 120px;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+.img {
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  flex: 1;
+  margin-bottom: 4px;
+}
+.title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+}
