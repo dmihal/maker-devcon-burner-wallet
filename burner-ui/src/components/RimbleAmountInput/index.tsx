@@ -14,7 +14,8 @@ export interface AmountInputProps {
 }
 
 const Wrapper = styled.div`
-
+  display: flex;
+  align-content: center;
 `;
 
 const Unit = styled.div`
