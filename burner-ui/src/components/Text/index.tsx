@@ -19,17 +19,6 @@ const StyledText = styled.p`
   color: ${props => props.color};
 `;
 
-interface TextProps {
-  as: string;
-  className?: string;
-  center?: Boolean;
-  left?: Boolean;
-  right?: Boolean;
-  level: number;
-  margin?: string | number;
-  color: string;
-}
-
 interface LevelProps {
   as: string;
   className?: string;
@@ -37,6 +26,11 @@ interface LevelProps {
   left?: Boolean;
   right?: Boolean;
   margin?: string | number;
+  color?: string;
+}
+
+interface TextProps extends LevelProps {
+  level: number;
 }
 
 const Text: React.FC<TextProps> = ({
@@ -63,73 +57,9 @@ const Text: React.FC<TextProps> = ({
   />
 );
 
-const L1: React.FC<LevelProps> = ({
-  as,
-  className,
-  center,
-  left,
-  right,
-  children,
-  margin,
-  color
-}) => (
-  <Text
-    level={1}
-    as={as}
-    className={className}
-    left={left}
-    right={right}
-    center={center}
-    children={children}
-    margin={margin}
-    color={color}
-  />
-);
-
-const L2: React.FC<TextProps> = ({
-  as,
-  className,
-  center,
-  left,
-  right,
-  children,
-  margin,
-  color
-}) => (
-  <Text
-    level={2}
-    as={as}
-    className={className}
-    left={left}
-    right={right}
-    center={center}
-    children={children}
-    margin={margin}
-    color={color}
-  />
-);
-
-const L3: React.FC<TextProps> = ({
-  as,
-  className,
-  center,
-  left,
-  right,
-  children,
-  margin
-}) => (
-  <Text
-    level={3}
-    as={as}
-    className={className}
-    left={left}
-    right={right}
-    center={center}
-    children={children}
-    margin={margin}
-    color={color}
-  />
-);
+const L1: React.FC<LevelProps> = props => <Text level={1} {...props} />;
+const L2: React.FC<TextProps> = props => <Text level={2} {...props} />;
+const L3: React.FC<TextProps> = props => <Text level={3} {...props} />;
 
 export { L1, L2, L3 };
 export default Text;
