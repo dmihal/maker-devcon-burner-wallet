@@ -26,7 +26,6 @@ export const TransactionCardBody = styled(Flex)`
   flex-direction: column;
   align-items: center;
   justify-items: center;
-  padding: 0px 16px;
 `
 
 export const TransactionCardFooter = styled(Flex)`
