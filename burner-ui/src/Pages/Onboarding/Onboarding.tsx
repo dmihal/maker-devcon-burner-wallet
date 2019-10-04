@@ -7,12 +7,16 @@ import { Redirect } from 'react-router-dom';
 const H1 = styled.h1`
   font-weight: 600;
   font-size: 3.3ch;
+  margin: 0;
+  color: ${props => props.color}
 `;
 
 const P = styled.p`
   font-weight: 400;
   font-size: 2.1ch;
+  line-height: 140%;
 `;
+
 
 const LoadingWrapper = styled.div`
   animation: fadeInOut 2s;
@@ -25,6 +29,13 @@ const KeyboardAwareBox = styled(Box)`
   }
 `;
 
+const IcoArrow = styled.span`
+display: inline-block;
+margin-right: 8px;
+color: var(--color-primary);
+font-weight: 600;
+`
+
 const BigEmoji = styled.div`
   font-size: 110px;
   text-align: center;
@@ -33,6 +44,21 @@ const BigEmoji = styled.div`
   -moz-animation: bounce 2s infinite;
   -o-animation: bounce 2s infinite;
 `;
+
+const MakerLogo = () => (
+  <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect x="4" y="4" width="72" height="72" rx="36" fill="url(#paint0_linear)"/>
+  <path d="M36.222 54.9477C35.1892 54.9477 34.4281 54.2083 34.4281 53.2576V39.8946L19.5878 29.9649V53.2576C19.5878 54.2083 18.7724 54.9477 17.7939 54.9477C16.8154 54.9477 16 54.2083 16 53.2576V26.6902C16 25.7394 16.8154 25 17.7939 25C18.1744 25 18.5549 25.1056 18.8267 25.3169L37.2549 37.7291C37.7441 38.046 38.0159 38.5214 38.0159 39.1024V53.3104C38.0159 54.2083 37.2005 54.9477 36.222 54.9477Z" fill="#1AAB9B"/>
+  <path d="M43.7783 54.9474C42.7454 54.9474 41.9844 54.2079 41.9844 53.2572V39.102C41.9844 38.5739 42.3105 38.0457 42.7454 37.7288L61.1736 25.3694C61.4997 25.1581 61.8259 25.0525 62.2064 25.0525C63.0762 25.0525 64.0003 25.6863 64.0003 26.7427V53.31C64.0003 54.2608 63.1849 55.0002 62.2064 55.0002C61.2279 55.0002 60.4125 54.2608 60.4125 53.31V30.0174L45.5722 39.8943V53.2572C45.5722 54.2079 44.7567 54.9474 43.7783 54.9474Z" fill="#1AAB9B"/>
+  <defs>
+  <linearGradient id="paint0_linear" x1="40" y1="4" x2="40" y2="76" gradientUnits="userSpaceOnUse">
+  <stop stop-color="#B6EDE7" stop-opacity="0.38"/>
+  <stop offset="1" stop-color="#FDC134" stop-opacity="0.15"/>
+  </linearGradient>
+  </defs>
+  </svg>
+
+);
 
 const BounceAnimation = createGlobalStyle`
 
@@ -51,17 +77,17 @@ const BounceAnimation = createGlobalStyle`
   }
 
   @-webkit-keyframes bounce {
-    0%, 20%, 50%, 80%, 100% {-webkit-transform: translateY(0);}	
+    0%, 20%, 50%, 80%, 100% {-webkit-transform: translateY(0);}
     40% {-webkit-transform: translateY(-30px);}
     60% {-webkit-transform: translateY(-15px);}
   }
-  
+
   @-moz-keyframes bounce {
     0%, 20%, 50%, 80%, 100% {-moz-transform: translateY(0);}
     40% {-moz-transform: translateY(-30px);}
     60% {-moz-transform: translateY(-15px);}
   }
-  
+
   @-o-keyframes bounce {
     0%, 20%, 50%, 80%, 100% {-o-transform: translateY(0);}
     40% {-o-transform: translateY(-30px);}
@@ -81,14 +107,15 @@ const Step1: React.FC<Step1Props> = ({ next }) => {
   return (
     <>
       <Box mt='auto' mb='auto'>
+      <MakerLogo />
         <H1>
-          Claim your <br />
-          burner wallet
+          Claim your
         </H1>
-        <P>
-          Your burner wallet is browser-based &amp; built specifically to use
-          with different vendors at events here.
-        </P>
+        <Flex alignItems={'center'} my={3}>
+        <H1 margin={'0'}>
+        Maker burner wallet
+        </H1>
+        </Flex>
         <P>If you are in incognito mode, please enter regular browsing mode.</P>
       </Box>
       <Button
@@ -109,26 +136,27 @@ interface Step2Props {
 const Step2: React.FC<Step2Props> = ({ next }) => {
   return (
     <>
-      <Box mt='auto' mb='auto'>
-        <H1>
-          Claim your <br />
-          burner wallet
-        </H1>
-        <P>
-          Remember not to clear your cache, otherwise you could lose your
-          wallet.
-        </P>
-      </Box>
-      <KeyboardAwareBox marginTop='auto'>
-        <Input width={'100%'} placeholder={'Give your wallet a name'} />
-        <Button
-          width='100%'
-          children='Create wallet &amp; claim funds!'
-          mb={0}
-          mt={12}
-          onClick={() => next()}
-        />
-      </KeyboardAwareBox>
+    <Box mt='auto' mb='auto'>
+      <H1>
+        What can you do?
+      </H1>
+      <P>
+        <IcoArrow>{'\u2192'}</IcoArrow>Find and scan physical Dai tokens to load up on xDai
+      </P>
+      <P>
+        <IcoArrow>{'\u2192'}</IcoArrow>Use your xDai to buy swag from the Maker booth.
+      </P>
+      <P>
+        <IcoArrow>{'\u2192'}</IcoArrow>Look for special QR codes scattered around Devcon to get rare NFTs
+      </P>
+    </Box>
+    <Button
+      width='100%'
+      children="Create Wallet"
+      mb={0}
+      mt={'auto'}
+      onClick={() => next()}
+    />
     </>
   );
 };
