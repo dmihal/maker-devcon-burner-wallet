@@ -107,7 +107,8 @@ const MaxButton = styled(Button)`
   text-align: center;
   border-radius: 100px;
   font-size: 18px;
-  color: #e1deff;
+  color: var(--color-primary);
+  background: var(--color-tertiary);
   padding: 4px 16px;
   margin: 8px 0px;
   border: 0px;
@@ -116,7 +117,26 @@ const MaxButton = styled(Button)`
   &:focus {
     outline: none;
   }
+
+  &:before {
+    background: var(--color-tertiary);
+  }
 `;
+
+const SendButton = styled(Button)`
+  background: var(--color-primary);
+  color: var(--color-tertiary);
+
+  &:before {
+    background: var(--color-primary);
+    color: var(--color-tertiary);
+  }
+
+  &:disabled {
+  opacity: 1;
+  background: var(--color-disabled);
+  }
+`
 
 // const AssetPicker = styled(select)`
 //   display: inline;
@@ -321,7 +341,7 @@ class SendModal extends Component<SendPageProps, SendPageState, BurnerContext> {
                   >
                     <TransactionCardHeader>
                     <TitleBar>
-                      <Text level={1} as={'h1'} m={0}>
+                      <Text level={1} as={'h1'} m={0} color={'var(--color-primary)'}>
                         Send To
                       </Text>
 
@@ -356,7 +376,7 @@ class SendModal extends Component<SendPageProps, SendPageState, BurnerContext> {
                     </TransactionCardHeader>
                     <TransactionCardBody>
                     <AmountWrapper>
-                      <Text level={2} as={'h2'}>
+                      <Text level={2} as={'h2'} color={'var(--color-nearblack)'}>
                         How much do you want to send?
                       </Text>
                       <RimbleAmountInput
@@ -396,14 +416,14 @@ class SendModal extends Component<SendPageProps, SendPageState, BurnerContext> {
                       )}
                     </TransactionCardFooter>
                   </TransactionCard>
-                  <Button
+                  <SendButton
                     width={'100%'}
                     my={2}
                     onClick={() => this.send()}
                     disabled={!canSend || exceedsBalance}
                   >
                     Send
-                  </Button>
+                  </SendButton>
                 </ModalBackdrop>
               </Portal>
             );
