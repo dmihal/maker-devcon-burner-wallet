@@ -4,7 +4,6 @@ import { Redirect, RouteComponentProps } from 'react-router-dom';
 import injectSheet from 'react-jss';
 import { Asset } from '@burner-wallet/assets';
 import Color from 'color';
-import CurrencyInput from 'react-currency-input';
 import {
   Box,
   Card,
@@ -88,20 +87,6 @@ const AmountWrapper = styled(Flex)`
   flex: 1;
 `;
 
-const AmountInput = styled(CurrencyInput)`
-  width: 100%;
-  text-align: center;
-  margin: 0;
-  padding: 0;
-  outline: none;
-  border: none;
-  font-size: 80px;
-  height: 80px;
-  margin-top: auto;
-  margin-bottom: auto;
-  background-color: transparent;
-  appearance: none;
-`;
 
 const MaxButton = styled(Button)`
   text-align: center;
