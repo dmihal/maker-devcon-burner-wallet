@@ -22,7 +22,7 @@ import { BurnerContext, withBurner, SendParams } from '../../BurnerProvider';
 import { Account } from '../../';
 import AddressInputField from '../../components/AddressInputField';
 import AddressInputSearchResults from '../../components/AddressInputSearchResults';
-// import AssetSelector from '../../components/AssetSelector';
+import AssetSelector from '../../components/AssetSelector';
 // import Button from '../../components/Button';
 import Text from '../../components/Text';
 import Page from '../../components/Page';
@@ -78,11 +78,10 @@ interface AddressQrModalProps {
 }
 
 const TitleBar = styled(Box)`
-  padding: 0 var(--page-margin);
+  padding: 0;
 `;
 
 const AmountWrapper = styled(Flex)`
-  background: var(--modal-background);
   padding: 0 var(--page-margin);
   align-items: center;
   flex-direction: column;
@@ -309,7 +308,7 @@ class SendModal extends Component<SendPageProps, SendPageState, BurnerContext> {
             return (
               <Portal>
                 <ModalBackdrop>
-                  <PurpleCard
+                  <TransactionCard
                     width={1}
                     maxWidth={6}
                     color={colors.foreground}
@@ -320,8 +319,9 @@ class SendModal extends Component<SendPageProps, SendPageState, BurnerContext> {
                     flexDirection={'column'}
                     justifyContent={'center'}
                   >
+                    <TransactionCardHeader>
                     <TitleBar>
-                      <Text level={2} as={'h1'}>
+                      <Text level={1} as={'h1'} m={0}>
                         Send To
                       </Text>
 
@@ -337,7 +337,7 @@ class SendModal extends Component<SendPageProps, SendPageState, BurnerContext> {
                       />
                     </TitleBar>
 
-                    <Box padding={'24px var(--page-margin)'}>
+                    <Box>
                       <AddressInputField
                         value={to}
                         account={account}
@@ -353,9 +353,10 @@ class SendModal extends Component<SendPageProps, SendPageState, BurnerContext> {
                         disabled={sending}
                       />
                     </Box>
-
+                    </TransactionCardHeader>
+                    <TransactionCardBody>
                     <AmountWrapper>
-                      <Text level={3} as={'h2'}>
+                      <Text level={2} as={'h2'}>
                         How much do you want to send?
                       </Text>
                       <RimbleAmountInput
@@ -372,14 +373,14 @@ class SendModal extends Component<SendPageProps, SendPageState, BurnerContext> {
                       >
                         Max
                       </MaxButton>
-                      {/* <AssetSelector
+                      <AssetSelector
                         selected={asset}
                         assets={assets}
-                        // onChange={() => this.setState({ asset: newAsset })}
+                        onChange={newAsset => this.setState({ asset: newAsset })}
                         disabled={sending}
-                      /> */}
+                      />
                     </AmountWrapper>
-
+                    </TransactionCardBody>
                     <TransactionCardFooter>
                       {asset.supportsMessages() && (
                         <Fragment>
@@ -394,8 +395,10 @@ class SendModal extends Component<SendPageProps, SendPageState, BurnerContext> {
                         </Fragment>
                       )}
                     </TransactionCardFooter>
-                  </PurpleCard>
+                  </TransactionCard>
                   <Button
+                    width={'100%'}
+                    my={2}
                     onClick={() => this.send()}
                     disabled={!canSend || exceedsBalance}
                   >
