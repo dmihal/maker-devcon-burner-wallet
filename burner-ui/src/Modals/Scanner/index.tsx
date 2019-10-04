@@ -89,26 +89,28 @@ const Scanner: React.FC<BurnerContext & { classes: any }> = ({
           p={0}
           display={'flex'}
           flexDirection={'column'}
-          justifyContent={'center'}
+          justifyContent={'flex-start'}
+          alignContent={'flex-start'}
+          flex={'1'}
         >
-        <Flex alignItems={'center'} justifyContent={'center'}>
+        <Flex alignItems={'center'} p={3} pb={0}>
           <Text
             level={1}
             as={'h1'}
-            center
+            left
           >
-          Scan QR Code
+          Scan
           </Text>
           </Flex>
 
-          <Box p={[3, 4]} overflow={'scroll'}>
-            <Text level={3} color={'inherit'} center margin={'0'} >
-              Place the code within the scanner
+          <Box p={[3, 4]} pt={0} overflow={'scroll'}>
+            <Text level={3} color={'inherit'} left margin={'0'} >
+              Place the QR code within the scanner
             </Text>
             <Box
               // size={['100%', '200px']}
               width={1}
-              maxWidth={'220px'}
+              // maxWidth={'220px'}
               mx={'auto'}
               mt={4}
               mb={4}
@@ -116,12 +118,12 @@ const Scanner: React.FC<BurnerContext & { classes: any }> = ({
               bg={'white'}
               border={1}
               borderColor={'blacks.3'}
-              boxShadow={2}
+              // boxShadow={2}
               borderRadius={2}
             >
               {fallback && (
                 <Fragment>
-                  <TextInstruction>Take a photo of a QR code</TextInstruction>
+                  <Text>Take a photo of a QR code</Text>
                   <CameraIconContainer
                     onClick={() => reader.current!.openImageDialog()}
                   >
@@ -154,7 +156,7 @@ const Scanner: React.FC<BurnerContext & { classes: any }> = ({
             </Box>
           </Box>
         </Card>
-        <Box position={'fixed'} width={'100%'} bottom={'16px'} left={'0px'} padding={'0px 8px'} backgroundColor={'transparent'}>
+        <Box position={'relative'} width={'100%'} my={2} backgroundColor={'transparent'}>
         <Button
           width={'100%'}
           p={0}
