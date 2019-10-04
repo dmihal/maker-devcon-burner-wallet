@@ -10,6 +10,7 @@ import Text from '../../components/Text';
 import { BurnerContext, withBurner } from '../../BurnerProvider';
 import BalanceItem from '../../components/BalanceItem';
 import { Link } from '../../components/Button';
+import { Asset } from '@burner-wallet/assets';
 
 interface MatchParams {
   asset: string;
@@ -92,10 +93,9 @@ const ReceiptPage: React.FC<RouteComponentProps<MatchParams>> = ({ match }) => (
               <Text level={2} as={'h2'}>
                 {Address === tx.from ? 'Sent' : 'Received'}
               </Text>
-              <BalanceItem
-                asset={{ name: tx.assetName }}
-                balance={tx.displayValue}
-              />{' '}
+              <Text leve={3} as={'p'}>
+                {tx.displayValue} {tx.assetName}
+              </Text>
             </Box>
             <Box mt={24}>
               <Text level={2} as={'h2'}>
