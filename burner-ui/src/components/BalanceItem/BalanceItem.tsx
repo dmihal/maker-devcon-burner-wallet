@@ -52,6 +52,7 @@ const BalanceCard = styled(Card)`
   max-width: calc(6ch + 24px);
   text-align: right;
   padding: 8px 16px 8px 8px;
+  border-radius: 8px;
   &:not(:first-of-type) {
     margin-left: 12px;
   }
