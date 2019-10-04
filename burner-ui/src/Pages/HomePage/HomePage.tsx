@@ -2,18 +2,20 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import HistoryEvent from '@burner-wallet/core/HistoryEvent';
+import { Box, Flex } from 'rimble-ui';
 
 import { BurnerContext, withBurner } from '../../BurnerProvider';
 import Button from '../../components/Button';
 import Page from '../../components/Page';
 // import ActionRow from '../../components/ActionRow';
-import { Box, Flex, Card } from 'rimble-ui';
+import PluginButtons from '../../components/PluginButtons';
 import PluginElements from '../../components/PluginElements';
 import History from '../../data-providers/History';
 import BalanceRow from '../../components/BalanceRow';
 import HistoryListEvent from '../../components/HistoryListEvent';
 import Text from '../../components/Text';
 import BottomActions from '../../components/BottomActions';
+import AppButton from './AppButton';
 
 const PositionedBottomActions = styled(BottomActions)`
   position: fixed;
@@ -45,20 +47,6 @@ const ViewAllButton = styled(Link)`
   &:after {
     content: '\\203A';
     margin-left: 10px;
-  }
-`;
-
-const AppCard = styled(Card)`
-  display: flex;
-  flex: 1;
-  border-radius: 8px;
-  padding: 16px;
-  padding-right: 12px;
-  margin: 8px 0px;
-  font-weight: 400;
-  align-items: center;
-  & > span {
-    display: block;
   }
 `;
 
@@ -143,20 +131,11 @@ const HomePage: React.FC<BurnerContext> = ({ defaultAccount, actions, pluginData
             Apps
           </Text>
         </Flex>
-        <AppCard>
-            <Box width={'60%'}>
-              <Text level={2} as={'h3'} margin={'0'} color={'#444'}>
-                Sablier
-              </Text>
-              <Text level={3} as={'p'} margin={'0'} textAlign={'left'} color={'#999'}>
-                Continuous payment streams you can access instantly.
-              </Text>
-            </Box>
-            <Flex width={'40%'} flexDirection={'column'} alignItems={'center'}>
-              <Box borderRadius={100} width={'64px'} height={'64px'} backgroundColor={'#999999'}></Box>
-            </Flex>
-          </AppCard>
-        <Link to='/advanced'>Advanced</Link>
+
+        <PluginButtons position="apps" component={AppButton} />
+
+        <PluginButtons position="home" component={({ path, title }) => <Link to={path} style={{display:'block'}}>{title}</Link>} />
+        <Link to="/advanced">Advanced</Link>
       </Box>
       <PositionedBottomActions
         actions={actions}

@@ -172,8 +172,8 @@ class WithdrawFromStream extends Component {
   }
 
   render() {
-    const { burnerComponents } = this.props;
-    const { Page } = burnerComponents;
+    const { burnerComponents, actions } = this.props;
+    const { Page, Button } = burnerComponents;
     const { loading, stream, streamed, withdrawn } = this.state;
 
     if (loading) {
@@ -188,7 +188,7 @@ class WithdrawFromStream extends Component {
 
     if (!stream) {
       return (
-        <Page title="Withdraw">
+        <Page title="Withdraw" back>
           <div className="WithdrawFromStreamContainer">
             <span>Stream Not Found</span>
           </div>
@@ -204,13 +204,14 @@ class WithdrawFromStream extends Component {
     };
 
     return (
-      <Page title="Withdraw">
+      <Page title="Withdraw" back>
         <MediaQuery query="(min-width: 812px)">
           <Watcher onClickWithdraw={this.onClickWithdraw} size={450} {...data} />
         </MediaQuery>
         <MediaQuery query="(max-width: 812px)">
           <Watcher onClickWithdraw={this.onClickWithdraw} size={350} {...data} />
         </MediaQuery>
+        <Button onClick={() => actions.navigateTo('sablier-follow-us')}>Follow us on Twitter</Button>
       </Page>
     );
   }

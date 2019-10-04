@@ -1,4 +1,3 @@
-import ConfigStyle from "./config/Config.scss";
 import FollowUsOnTwitter from "./plugins/FollowUsOnTwitter/FollowUsOnTwitter";
 import WithdrawFromStream from "./plugins/WithdrawFromStream/WithdrawFromStream";
 
@@ -11,10 +10,12 @@ class SablierPlugin {
     this.pluginContext = pluginContext;
 
     pluginContext.addPage("/stream/:id?", WithdrawFromStream);
-    pluginContext.addHomeButton("Withdraw from Stream", "/stream");
+    pluginContext.addButton("apps", "Sablier", "/stream", {
+      description: 'Continuous payment streams you can access instantly.',
+      logo: 'https://pbs.twimg.com/profile_images/1163480930910199809/nlJtmWT1_400x400.jpg',
+    });
 
-    pluginContext.addPage("/follow-us", FollowUsOnTwitter);
-    pluginContext.addHomeButton("Follow Us", "/follow-us");
+    pluginContext.addPage("/sablier-follow-us", FollowUsOnTwitter);
   }
 
   getWeb3() {
