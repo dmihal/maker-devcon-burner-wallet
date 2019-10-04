@@ -57,9 +57,6 @@ const AppCard = styled(Card)`
   margin: 8px 0px;
   font-weight: 400;
   align-items: center;
-  &:not(:first-of-type) {
-    margin-left: 12px;
-  }
   & > span {
     display: block;
   }
@@ -140,7 +137,12 @@ const HomePage: React.FC<BurnerContext> = ({ defaultAccount, actions, pluginData
           ))}
         />
       </Box>
-      <Box margin='0 var(--page-margin)'>
+      <Box margin="0 var(--page-margin)">
+        <Flex justifyContent="space-between" alignItems="center" my={2} pb={3} borderBottom={'1px solid #f2f2f2'}>
+          <Text level={2} as="h2" margin={0}>
+            Apps
+          </Text>
+        </Flex>
         <AppCard>
             <Box width={'60%'}>
               <Text level={2} as={'h3'} margin={'0'} color={'#444'}>
