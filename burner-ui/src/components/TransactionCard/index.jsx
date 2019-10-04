@@ -1,38 +1,39 @@
 import React from 'react';
 import styled from 'styled-components'
-import { Card } from 'rimble-ui'
+import { Card, Flex } from 'rimble-ui'
 
 
 
 export const TransactionCard = styled(Card)`
   display: flex;
+  flex: 1;
   flex-direction: column;
   border-radius: 8px;
   padding: 0px;
   color: #4E3FCE;
-  background: #E1DEFF;
 `
 
-export const TransactionCardHeader = styled.div`
-  background: #CAC4FF;
+export const TransactionCardHeader = styled(Flex)`
+  flex-direction: column;
   padding: 16px;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
 `
 
-export const TransactionCardBody = styled.div`
+export const TransactionCardBody = styled(Flex)`
   display: flex;
+  flex: 1;
   flex-direction: column;
   align-items: center;
+  justify-items: center;
   padding: 0px 16px;
 `
 
-export const TransactionCardFooter = styled.div`
+export const TransactionCardFooter = styled(Flex)`
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  background: #D1CCFC;
   padding: 8px 16px;
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
