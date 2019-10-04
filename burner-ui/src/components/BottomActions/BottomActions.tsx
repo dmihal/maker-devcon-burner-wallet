@@ -153,9 +153,6 @@ class BottomActions extends Component<BottomActionsProps> {
               />
             </Flex>
           </Card>
-          {pluginData.homeButtons.map(({ title, path }) => (
-            <Link children={title} to={path} key={title} />
-          ))}
         </Box>
         <ReceiveModal
           address={this.props.defaultAccount}

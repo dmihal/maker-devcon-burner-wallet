@@ -13,5 +13,6 @@ module.exports = override(
     path.resolve("../exchange"),
     path.resolve("../plugins"),
     path.resolve("../collectable-plugin"),
+    path.resolve("../sablier"),
   ]),
 );

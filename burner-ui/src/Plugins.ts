@@ -17,9 +17,10 @@ export interface PluginElementData {
   options: any,
 }
 
-interface PluginHomeButton {
+interface PluginButton {
   title: string,
   path: string,
+  options: any,
 }
 
 interface PluginContext {
@@ -43,7 +44,7 @@ type TXSentFn = (data: SentData) => string | void | null;
 
 export interface BurnerPluginData {
   pages: PluginPageData[],
-  homeButtons: PluginHomeButton[],
+  buttons: { [position:string]: PluginButton[] },
   elements: { [position:string]: PluginElementData[] },
   accountSearches: AccountSearchFn[],
   tryHandleQR: (qr: string, context: PluginContext) => boolean,
@@ -53,6 +54,7 @@ export interface BurnerPluginData {
 export interface BurnerPluginContext {
   addElement: (position: string, Component: PluginElement, options?: any) => void,
   addHomeButton: (title: string, path: string) => any,
+  addButton: (position: string, title: string, path: string, options?: any) => void,
   addPage: (path: string, Component: PluginPage) => any,
   getAssets: () => Asset[],
   getWeb3: (network: string, options?: any) => any,
@@ -63,7 +65,7 @@ export interface BurnerPluginContext {
 
 export const DEFAULT_PLUGIN_DATA = {
   pages: [],
-  homeButtons: [],
+  buttons: {},
   elements: {},
   accountSearches: [],
   tryHandleQR: () => false,
@@ -107,7 +109,10 @@ export default class Plugins {
       onQRScanned: (callback: QRScannedFn) => this.qrHandlers.push(callback),
       onSent: (callback: TXSentFn) => this.sentHandlers.push(callback),
       addPage: (path: string, Component: PluginPage) => this.addPluginPage(plugin, path, Component),
-      addHomeButton: (title: string, path: string) => this.addPluginHomeButton(plugin, title, path),
+      addHomeButton: (title: string, path: string) =>
+        this.addPluginButton(plugin, 'home', title, path),
+      addButton: (position: string, title: string, path: string, options?: any) =>
+        this.addPluginButton(plugin, position, title, path, options),
       getAssets: () => this.ui.getAssets(),
       getWeb3: (network: string, options?: any) => this.ui.getCore().getWeb3(network, options),
     };
@@ -128,9 +133,13 @@ export default class Plugins {
     });
   }
 
-  addPluginHomeButton(plugin: Plugin, title: string, path: string) {
+  addPluginButton(plugin: Plugin, position: string, title: string, path: string, options: any) {
+    const existingButtons = this.pluginData.buttons[position] || [];
     this.setPluginData({
-      homeButtons: [...this.pluginData.homeButtons, { plugin, title, path }],
+      buttons: {
+        ...this.pluginData.buttons,
+        [position]: [...existingButtons, { plugin, title, path, options }],
+      },
     });
   }
 
