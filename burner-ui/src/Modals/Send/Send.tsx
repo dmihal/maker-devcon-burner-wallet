@@ -376,7 +376,7 @@ class SendModal extends Component<SendPageProps, SendPageState, BurnerContext> {
                       <AssetSelector
                         selected={asset}
                         assets={assets}
-                        // onChange={() => this.setState({ asset: newAsset })}
+                        onChange={newAsset => this.setState({ asset: newAsset })}
                         disabled={sending}
                       />
                     </AmountWrapper>
