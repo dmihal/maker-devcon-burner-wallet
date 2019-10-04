@@ -22,7 +22,7 @@ import { BurnerContext, withBurner, SendParams } from '../../BurnerProvider';
 import { Account } from '../../';
 import AddressInputField from '../../components/AddressInputField';
 import AddressInputSearchResults from '../../components/AddressInputSearchResults';
-// import AssetSelector from '../../components/AssetSelector';
+import AssetSelector from '../../components/AssetSelector';
 // import Button from '../../components/Button';
 import Text from '../../components/Text';
 import Page from '../../components/Page';
@@ -373,12 +373,12 @@ class SendModal extends Component<SendPageProps, SendPageState, BurnerContext> {
                       >
                         Max
                       </MaxButton>
-                      {/* <AssetSelector
+                      <AssetSelector
                         selected={asset}
                         assets={assets}
                         // onChange={() => this.setState({ asset: newAsset })}
                         disabled={sending}
-                      /> */}
+                      />
                     </AmountWrapper>
                     </TransactionCardBody>
                     <TransactionCardFooter>
