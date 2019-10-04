@@ -14,6 +14,7 @@ interface PluginPageData {
 export interface PluginElementData {
   Component: ComponentType<BasePluginContext>,
   plugin: Plugin,
+  options: any,
 }
 
 interface PluginHomeButton {
@@ -50,7 +51,7 @@ export interface BurnerPluginData {
 }
 
 export interface BurnerPluginContext {
-  addElement: (position: string, Component: PluginElement) => void,
+  addElement: (position: string, Component: PluginElement, options?: any) => void,
   addHomeButton: (title: string, path: string) => any,
   addPage: (path: string, Component: PluginPage) => any,
   getAssets: () => Asset[],
@@ -100,8 +101,8 @@ export default class Plugins {
 
   getPluginContext(plugin: Plugin): BurnerPluginContext {
     return {
-      addElement: (position: string, Component: PluginElement) =>
-        this.addPluginElement(plugin, position, Component),
+      addElement: (position: string, Component: PluginElement, options?: any) =>
+        this.addPluginElement(plugin, position, Component, options),
       onAccountSearch: (callback: AccountSearchFn) => this.addAccountSearch(callback),
       onQRScanned: (callback: QRScannedFn) => this.qrHandlers.push(callback),
       onSent: (callback: TXSentFn) => this.sentHandlers.push(callback),
@@ -133,13 +134,13 @@ export default class Plugins {
     });
   }
 
-  addPluginElement(plugin: Plugin, position: string, Component: PluginElement) {
+  addPluginElement(plugin: Plugin, position: string, Component: PluginElement, options?: any) {
     const WrappedComponent = withBurner(Component);
     const existingElements = this.pluginData.elements[position] || [];
     this.setPluginData({
       elements: {
         ...this.pluginData.elements,
-        [position]: [...existingElements, { plugin, Component: WrappedComponent }],
+        [position]: [...existingElements, { plugin, Component: WrappedComponent, options }],
       },
     });
   }

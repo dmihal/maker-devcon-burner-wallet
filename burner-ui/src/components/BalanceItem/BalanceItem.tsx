@@ -37,19 +37,19 @@ const assetIcons = {
   dai: <DAI />
 };
 
+interface BalanceItemProps {
+  asset: Asset | string;
+  usdBalance?: string | null;
+  balance?: string | null;
+}
+
 const BalanceCard = styled(Card)`
-  display: flex;
-  flex: 1;
-  border-radius: 8px;
-  padding: 8px;
-  padding-right: 12px;
+  display: inline-block;
   font-size: 48px;
   font-weight: 400;
-  text-align: right;
   /* Use monospaced characters and leverage ch unit */
   min-width: calc(4ch + 24px);
   max-width: calc(6ch + 24px);
-  align-items: center;
   &:not(:first-of-type) {
     margin-left: 12px;
   }

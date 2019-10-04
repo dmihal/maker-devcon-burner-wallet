@@ -12,7 +12,7 @@ export default class CollectablePlugin {
 
   initializePlugin(pluginContext) {
     this.pluginContext = pluginContext;
-    pluginContext.addElement('home-middle', NFTDrawer);
+    pluginContext.addElement('home-tab', NFTDrawer, { title: 'Collectables' });
     pluginContext.addPage('/nft/:id', NFTDetailPage);
     pluginContext.addPage('/clone/:id', NFTClonePage);
   }
@@ -41,8 +41,13 @@ export default class CollectablePlugin {
       const uri = await contract.methods.tokenURI(id).call();
       const response = await fetch(uri);
       const metadata = await response.json();
+      const attributes = metadata.attributes.reduce((obj, { trait_type, value }) => {
+        obj[trait_type] = value;
+        return obj;
+      }, {});
       this.nftCache[id] = {
         ...metadata,
+        attributes,
         id,
       };
     }
@@ -50,8 +55,20 @@ export default class CollectablePlugin {
     return this.nftCache[id];
   }
 
+  async canClone(id) {
+    const contract = this.getContract();
+    const { numClonesAllowed, numClonesInWild } = await contract.methods.getCollectablesById(id).call();
+    return numClonesInWild.lt(numClonesAllowed);
+  }
+
   async cloneNFT(id, account) {
     const contract = this.getContract();
+
+    const previouslyClonedId = await contract.methods.getClonedTokenByAddress(account, id).call();
+    if (previouslyClonedId.toNumber() !== 0) {
+      return previouslyClonedId;
+    }
+
     const receipt = await contract.methods.clone(account, id).send({ from: account });
     return receipt.events.Transfer.returnValues.tokenId.toNumber();
   }
