@@ -12,7 +12,9 @@ const H1 = styled.h1`
 const P = styled.p`
   font-weight: 400;
   font-size: 2.1ch;
+  line-height: 140%;
 `;
+
 
 const LoadingWrapper = styled.div`
   animation: fadeInOut 2s;
@@ -24,6 +26,13 @@ const KeyboardAwareBox = styled(Box)`
     background: pink;
   }
 `;
+
+const IcoArrow = styled.span`
+display: inline-block;
+margin-right: 8px;
+color: var(--color-primary);
+font-weight: 600;
+`
 
 const BigEmoji = styled.div`
   font-size: 110px;
@@ -51,17 +60,17 @@ const BounceAnimation = createGlobalStyle`
   }
 
   @-webkit-keyframes bounce {
-    0%, 20%, 50%, 80%, 100% {-webkit-transform: translateY(0);}	
+    0%, 20%, 50%, 80%, 100% {-webkit-transform: translateY(0);}
     40% {-webkit-transform: translateY(-30px);}
     60% {-webkit-transform: translateY(-15px);}
   }
-  
+
   @-moz-keyframes bounce {
     0%, 20%, 50%, 80%, 100% {-moz-transform: translateY(0);}
     40% {-moz-transform: translateY(-30px);}
     60% {-moz-transform: translateY(-15px);}
   }
-  
+
   @-o-keyframes bounce {
     0%, 20%, 50%, 80%, 100% {-o-transform: translateY(0);}
     40% {-o-transform: translateY(-30px);}
@@ -83,12 +92,8 @@ const Step1: React.FC<Step1Props> = ({ next }) => {
       <Box mt='auto' mb='auto'>
         <H1>
           Claim your <br />
-          burner wallet
+          Maker <br />burner wallet
         </H1>
-        <P>
-          Your burner wallet is browser-based &amp; built specifically to use
-          with different vendors at events here.
-        </P>
         <P>If you are in incognito mode, please enter regular browsing mode.</P>
       </Box>
       <Button
@@ -109,26 +114,27 @@ interface Step2Props {
 const Step2: React.FC<Step2Props> = ({ next }) => {
   return (
     <>
-      <Box mt='auto' mb='auto'>
-        <H1>
-          Claim your <br />
-          burner wallet
-        </H1>
-        <P>
-          Remember not to clear your cache, otherwise you could lose your
-          wallet.
-        </P>
-      </Box>
-      <KeyboardAwareBox marginTop='auto'>
-        <Input width={'100%'} placeholder={'Give your wallet a name'} />
-        <Button
-          width='100%'
-          children='Create wallet &amp; claim funds!'
-          mb={0}
-          mt={12}
-          onClick={() => next()}
-        />
-      </KeyboardAwareBox>
+    <Box mt='auto' mb='auto'>
+      <H1>
+        What can you do?
+      </H1>
+      <P>
+        <IcoArrow>{'\u2192'}</IcoArrow>Find and scan physical Dai tokens to load up on xDai
+      </P>
+      <P>
+        <IcoArrow>{'\u2192'}</IcoArrow>Purchase swag from the Maker booth.
+      </P>
+      <P>
+        <IcoArrow>{'\u2192'}</IcoArrow>Look for special QR codes scattered around Devcon to get rare NFTs
+      </P>
+    </Box>
+    <Button
+      width='100%'
+      children="Create Wallet"
+      mb={0}
+      mt={'auto'}
+      onClick={() => next()}
+    />
     </>
   );
 };
