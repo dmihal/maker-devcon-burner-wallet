@@ -6,7 +6,7 @@ import Text from '../Text';
 import { Eth, Xdai, Dai } from '../TokenIcons';
 
 interface BalanceItemProps {
-  asset: Asset | string;
+  asset: Asset;
   usdBalance?: string | null;
   balance?: string | null;
 }
@@ -50,6 +50,8 @@ const BalanceCard = styled(Card)`
   /* Use monospaced characters and leverage ch unit */
   min-width: calc(4ch + 24px);
   max-width: calc(6ch + 24px);
+  text-align: right;
+  padding: 8px 16px 8px 8px;
   &:not(:first-of-type) {
     margin-left: 12px;
   }
@@ -64,15 +66,17 @@ const BalanceItem: React.FC<BalanceItemProps> = ({
   balance
 }) => (
   <BalanceCard>
-    {assetIcons[asset.id.toLowerCase()] && assetIcons[asset.id.toLowerCase()]}
-    <Flex flexDirection={'column'} flex={'1'}>
-      {!(usdBalance || balance) && '-'}
-      {usdBalance
-        ? `$${Number(usdBalance).toFixed(2)}`
-        : Number(balance).toFixed(2)}
-      <Text as={'span'} level={4}>
-        {asset.name}
-      </Text>
+    <Flex alignItems='center' justifyContent='space-between'>
+      {assetIcons[asset.id.toLowerCase()] && assetIcons[asset.id.toLowerCase()]}
+      <Flex flexDirection={'column'} flex={'1'}>
+        {!(usdBalance || balance) && '-'}
+        {usdBalance
+          ? `$${Number(usdBalance).toFixed(2)}`
+          : Number(balance).toFixed(2)}
+        <Text as={'span'} level={4}>
+          {asset.name}
+        </Text>
+      </Flex>
     </Flex>
   </BalanceCard>
 );
