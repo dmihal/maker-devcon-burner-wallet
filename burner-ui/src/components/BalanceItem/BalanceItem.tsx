@@ -63,7 +63,7 @@ const BalanceItem: React.FC<BalanceItemProps> = ({
   balance
 }) => (
   <BalanceCard>
-    {assetIcons[asset.id.toLowerCase()]}
+    {assetIcons[asset.id.toLowerCase()] && assetIcons[asset.id.toLowerCase()]}
     <Flex flexDirection={'column'} flex={'1'}>
       {!(usdBalance || balance) && '-'}
       {usdBalance
