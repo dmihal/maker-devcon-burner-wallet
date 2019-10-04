@@ -3,6 +3,7 @@ import { Asset } from '@burner-wallet/assets';
 import { PluginPageContext } from '@burner-wallet/ui';
 import Exchange from '../Exchange';
 import Pair from '../pairs/Pair';
+import ExchangeInput from './ExchangeInput';
 const classes = require('./ExchangePage.module.css');
 
 interface ExchangePageState {
@@ -126,7 +127,7 @@ export default class ExchangePage extends Component<PluginPageContext, ExchangeP
   render() {
     const { burnerComponents, assets, accounts } = this.props;
     const { assetA, assetB, amount, estimate, isExchanging } = this.state;
-    const { Page, AssetSelector, Button, AmountInput } = burnerComponents;
+    const { Page, AssetSelector, Button } = burnerComponents;
 
     if (accounts.length === 0) {
       return null;
@@ -137,19 +138,23 @@ export default class ExchangePage extends Component<PluginPageContext, ExchangeP
     const assetsProps = { assets: assetBOptions };
 
     return (
-      <Page title="Exchange">
+      <Page title="Exchange" back>
+        <div className={classes.inputContainer}>
+          <ExchangeInput
+            input={amount}
+            inputUnit={assetA.name}
+            onChange={newAmount => this.update({ amount: newAmount })}
+            output={estimate && assetB.getDisplayValue(estimate)}
+            outputUnit={assetB.name}
+            disabled={isExchanging}
+          />
+        </div>
+
         <div className={classes.fromContainer}>
           <div>From:</div>
           <AssetSelector
             selected={assetA}
             onChange={(newAsset: Asset) => this.update({ assetA: newAsset })}
-            disabled={isExchanging}
-          />
-
-          <AmountInput
-            asset={assetA}
-            value={amount}
-            onChange={newVal => this.update({ amount: newVal })}
             disabled={isExchanging}
           />
         </div>
@@ -166,12 +171,6 @@ export default class ExchangePage extends Component<PluginPageContext, ExchangeP
           </Fragment>
         ) : (
           <div>No exchanges available for {assetA.name}</div>
-        )}
-
-        {estimate && (
-          <div>
-            {assetB.getDisplayValue(estimate)} {assetB.name}
-          </div>
         )}
 
         <Button
