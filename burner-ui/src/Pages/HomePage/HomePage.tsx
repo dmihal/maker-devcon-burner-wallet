@@ -1,10 +1,11 @@
-import React, { useRef, useEffect, Component, useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import HistoryEvent from '@burner-wallet/core/HistoryEvent';
 
 import { BurnerContext, withBurner } from '../../BurnerProvider';
 import Button from '../../components/Button';
 import Page from '../../components/Page';
-import styled from 'styled-components';
 // import ActionRow from '../../components/ActionRow';
 import { Box, Flex, Card } from 'rimble-ui';
 import PluginElements from '../../components/PluginElements';
@@ -73,62 +74,95 @@ interface HomePageProps {
   accounts;
 }
 
-class HomePage extends Component<BurnerContext & HomePageProps, any> {
-  constructor(props: BurnerContext & HomePageProps) {
-    super(props);
+const TabButton = styled.button`
+  background: ${(props) => (props.selected ? 'var(--color-primary)' : 'var(--color-tertiary)')};
+  border-radius: 30px;
+  display: flex;
+  font-size: 16px;
+  align-items: center;
+  color: ${(props) => (props.selected ? 'var(--color-tertiary)' : 'var(--color-primary)')};
+  padding: 8px 12px;
+  border: none;
+  outline: none;
+  margin: 0 4px;
+  transition: 0.15s ease-in-out;
+
+  &:first-child {
+    margin-left: 0px;
   }
-  render() {
-    const { accounts, defaultAccount, actions, pluginData, assets } = this.props;
-    return (
-      <StyledPage title={'My Wallet'}>
-        <PluginElements position='home-top' />
-        <BalanceRow accounts={accounts} assets={assets} />
-        <PluginElements position='home-middle' />
-        <Box margin='0 var(--page-margin)'>
-          <Flex justifyContent={'space-between'} alignItems={'center'} my={2}>
-            <Text level={2} as="h2" margin={0}>
-              Recent activity
-            </Text>
-            <ViewAllButton to="/activity">View All</ViewAllButton>
+`;
+
+const HomePage: React.FC<BurnerContext> = ({ defaultAccount, actions, pluginData }) => {
+  const [tab, setTab] = useState(0);
+
+  const homeTabs = [
+    { Component: BalanceRow, plugin: null, options: { title: 'Cash' } },
+    ...(pluginData.elements['home-tab'] || []),
+  ];
+  const { Component: TabComponent, plugin: tabPlugin } = homeTabs[tab];
+
+  return (
+    <StyledPage title="My Wallet">
+      <PluginElements position="home-top" />
+
+      <Box margin="0 var(--page-margin)">
+        <Flex justifyContent="space-between" alignItems="center" my={2}>
+          <Flex>
+            {homeTabs.map(({ options }: PluginElementData, i: number) => (
+              <TabButton key={options.title} onClick={() => setTab(i)} selected={tab === i}>
+                {options.title}
+              </TabButton>
+            ))}
           </Flex>
-          <History
-            account={defaultAccount}
-            render={(events: any[]) =>
-              events.slice(0, 3).map(event => (
-                <HistoryListEvent
-                  key={JSON.stringify(event)}
-                  event={event}
-                  account={defaultAccount}
-                  navigateTo={actions.navigateTo}
-                />
-              ))
-            }
-          />
-        </Box>
-        <Box margin='0 var(--page-margin)'>
-        <AppCard>
-              <Box width={'60%'}>
-                <Text level={2} as={'h3'} margin={'0'} color={'#444'}>
-                  Sablier
-                </Text>
-                <Text level={3} as={'p'} margin={'0'} textAlign={'left'} color={'#999'}>
-                  Continuous payment streams you can access instantly.
-                </Text>
-              </Box>
-                <Flex width={'40%'} flexDirection={'column'} alignItems={'center'}>
-                  <Box borderRadius={100} width={'64px'} height={'64px'} backgroundColor={'#999999'}></Box>
-                </Flex>
-              </AppCard>
-          <Link to='/advanced'>Advanced</Link>
-        </Box>
-        <PositionedBottomActions
-          actions={actions}
-          pluginData={pluginData}
-          defaultAccount={defaultAccount}
+        </Flex>
+      </Box>
+
+      <TabComponent plugin={tabPlugin} />
+
+      <PluginElements position="home-middle" />
+      <Box margin="0 var(--page-margin)">
+        <Flex justifyContent="space-between" alignItems="center" my={2}>
+          <Text level={2} as="h2" margin={0}>
+            Recent activity
+          </Text>
+          <ViewAllButton to="/activity">View All</ViewAllButton>
+        </Flex>
+
+        <History
+          account={defaultAccount}
+          render={(events: HistoryEvent[]) => events.slice(0, 3).map((event: HistoryEvent) => (
+            <HistoryListEvent
+              key={JSON.stringify(event)}
+              event={event}
+              account={defaultAccount}
+              navigateTo={actions.navigateTo}
+            />
+          ))}
         />
-      </StyledPage>
-    );
-  }
-}
+      </Box>
+      <Box margin='0 var(--page-margin)'>
+        <AppCard>
+            <Box width={'60%'}>
+              <Text level={2} as={'h3'} margin={'0'} color={'#444'}>
+                Sablier
+              </Text>
+              <Text level={3} as={'p'} margin={'0'} textAlign={'left'} color={'#999'}>
+                Continuous payment streams you can access instantly.
+              </Text>
+            </Box>
+            <Flex width={'40%'} flexDirection={'column'} alignItems={'center'}>
+              <Box borderRadius={100} width={'64px'} height={'64px'} backgroundColor={'#999999'}></Box>
+            </Flex>
+          </AppCard>
+        <Link to='/advanced'>Advanced</Link>
+      </Box>
+      <PositionedBottomActions
+        actions={actions}
+        pluginData={pluginData}
+        defaultAccount={defaultAccount}
+      />
+    </StyledPage>
+  );
+};
 
 export default withBurner(HomePage);
