@@ -31,6 +31,9 @@ const ScanButton = styled(Button)`
       background-size: 60%;
       z-index:21;
     }
+    &:before {
+      background: var(--color-makergradientdarker);
+    }
 `;
 
 // override default styles
