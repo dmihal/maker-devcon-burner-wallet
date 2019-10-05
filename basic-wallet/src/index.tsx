@@ -10,6 +10,7 @@ import { xdaiBridge, uniswapDai } from '../../exchange/src/pairs';
 import BurnerUI from '../../burner-ui/src';
 import LegacyPlugin from '@burner-wallet/plugins/legacy';
 import CollectablePlugin from '../../collectable-plugin';
+import ChingPlugin from '../../ching-plugin';
 import SablierPlugin from '../../sablier';
 
 // Github Pages hack
@@ -45,8 +46,9 @@ const BurnerWallet = () =>
     plugins={[
       exchange,
       new LegacyPlugin(),
-      new CollectablePlugin('42', '0x32cCe0ff29c6B0cB37068484637329a40777D472'),
+      new CollectablePlugin('100', '0xdc6Bc87DD19a4e6877dCEb358d77CBe76e226B8b'),
       new SablierPlugin(),
+      new ChingPlugin(),
     ]}
   />
 

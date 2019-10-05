@@ -1,0 +1,9 @@
+{
+  "name": "ching-plugin",
+  "version": "1.0.0",
+  "main": "src/ching-plugin.js",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.19.0"
+  }
+}
