@@ -5,8 +5,8 @@ import { xdai, dai, eth, NativeAsset } from '@burner-wallet/assets';
 import BurnerCore from '@burner-wallet/core';
 import { InjectedSigner, LocalSigner } from '@burner-wallet/core/signers';
 import { InfuraGateway, InjectedGateway, XDaiGateway, } from '@burner-wallet/core/gateways';
-import Exchange from '@burner-wallet/exchange';
-import { xdaiBridge, uniswapDai } from '@burner-wallet/exchange/pairs';
+import Exchange from '../../exchange/src';
+import { xdaiBridge, uniswapDai } from '../../exchange/src/pairs';
 import BurnerUI from '../../burner-ui/src';
 import LegacyPlugin from '@burner-wallet/plugins/legacy';
 import CollectablePlugin from '../../collectable-plugin';
@@ -18,6 +18,12 @@ if (localStorage.getItem('path')) {
   localStorage.removeItem('path');
 }
 
+const keth = new NativeAsset({
+  id: 'keth',
+  name: 'kETH',
+  network: '42',
+});
+
 const core = new BurnerCore({
   signers: [new InjectedSigner(), new LocalSigner()],
   gateways: [
@@ -25,24 +31,19 @@ const core = new BurnerCore({
     new InfuraGateway(process.env.REACT_APP_INFURA_KEY),
     new XDaiGateway(),
   ],
-  // assets: [xdai, dai, eth],
-  assets: [new NativeAsset({
-    id: 'keth',
-    name: 'kETH',
-    network: '42',
-  })],
+  assets: [xdai, dai, eth, keth],
 });
 
-// const exchange = new Exchange({
-//   pairs: [xdaiBridge, uniswapDai],
-// });
+const exchange = new Exchange({
+  pairs: [xdaiBridge, uniswapDai],
+});
 
 const BurnerWallet = () =>
   <BurnerUI
     title="MakerDAO Wallet"
     core={core}
     plugins={[
-      // exchange,
+      exchange,
       new LegacyPlugin(),
       new CollectablePlugin('42', '0x32cCe0ff29c6B0cB37068484637329a40777D472'),
       new SablierPlugin(),
