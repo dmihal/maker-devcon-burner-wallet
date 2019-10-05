@@ -50,8 +50,9 @@ const styles = (theme: any) => ({
 });
 
 const Wrapper = styled.div`
-  min-width: 100%;
   min-height: 100%;
+  max-width: 700px;
+  margin: 0 auto;
 `;
 
 const Container: React.FC<{ classes: any }> = ({ children, classes }) => (
