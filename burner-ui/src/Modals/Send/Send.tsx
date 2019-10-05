@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import styled from 'styled-components';
-import { Redirect, RouteComponentProps } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import injectSheet from 'react-jss';
 import { Asset } from '@burner-wallet/assets';
 import Color from 'color';
@@ -214,13 +214,15 @@ interface SendPageState {
   assets;
   message: string;
   hide: Function;
-  isOpen: boolean;
   fieldValue?: string | Number;
 }
 
-type SendPageProps = BurnerContext & RouteComponentProps & { classes: any };
+interface SendPageProps extends BurnerContext {
+  isOpen: boolean;
+  to?: string;
+}
 
-class SendModal extends Component<SendPageProps, SendPageState, BurnerContext> {
+class SendModal extends Component<SendPageProps, SendPageState> {
   constructor(props: SendPageProps) {
     super(props);
     this.state = {
@@ -236,6 +238,18 @@ class SendModal extends Component<SendPageProps, SendPageState, BurnerContext> {
       account: null,
       accounts: [],
     };
+  }
+
+  componentDidMount() {
+    if (this.props.to) {
+      this.setState({ to: this.props.to });
+    }
+  }
+
+  componentDidUpdate(oldProps) {
+    if (this.props.isOpen && !oldProps.isOpen && this.props.to) {
+      this.setState({ to: this.props.to });
+    }
   }
 
   closeModal = () => {
@@ -289,13 +303,11 @@ class SendModal extends Component<SendPageProps, SendPageState, BurnerContext> {
       account,
       message,
     } = this.state;
-    const { actions, classes, assets } = this.props;
+    const { assets, isOpen } = this.props;
 
     if (txHash && asset) {
       return <Redirect to={`/receipt/${asset.id}/${txHash}`} />;
     }
-
-    const { isOpen } = this.props;
 
     const colors = {
       foreground: 'black',
