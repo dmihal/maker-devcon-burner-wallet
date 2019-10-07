@@ -78,7 +78,8 @@ const TabButton = styled.button`
 `;
 
 const HomeTopWrapper = styled(Box)`
-background: var(--color-makergradient);
+background: transparent;
+border-bottom: 1px solid #f2f2f2;
   padding: var(--page-margin);
 
 
