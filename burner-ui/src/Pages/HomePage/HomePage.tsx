@@ -60,14 +60,14 @@ interface HomePageProps {
 }
 
 const TabButton = styled.button`
-  background: ${(props) => (props.selected ? 'var(--color-primary)' : 'var(--color-tertiary)')};
+  background: ${(props) => (props.selected ? 'var(--color-primary)' : 'transparent')};
   border-radius: 30px;
   display: flex;
   font-size: 16px;
   align-items: center;
   color: ${(props) => (props.selected ? 'var(--color-tertiary)' : 'var(--color-primary)')};
   padding: 8px 12px;
-  border: none;
+  border: 1px solid var(--color-primary);
   outline: none;
   margin: 0 4px;
   transition: 0.15s ease-in-out;
