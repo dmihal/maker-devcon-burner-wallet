@@ -67,7 +67,7 @@ const BalanceItem: React.FC<BalanceItemProps> = ({
   balance
 }) => (
   <BalanceCard>
-    <Flex alignItems='center' justifyContent='space-between'>
+    <Flex alignItems='flex-start' justifyContent='space-between'>
       {assetIcons[asset.id.toLowerCase()] && assetIcons[asset.id.toLowerCase()]}
       <Flex flexDirection={'column'} flex={'1'}>
         {!(usdBalance || balance) && '-'}
