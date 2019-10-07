@@ -26,6 +26,8 @@ const Unit = styled.div`
 `;
 
 const StyledInput = styled(Input)`
+  display: flex;
+  align-content: center;
   width: 100%;
   height: 100%;
   border: 0;
