@@ -227,6 +227,10 @@ class Onboarding extends Component<OnboardingProps> {
     };
   }
 
+  componentDidMount() {
+    localStorage.setItem('showedWelcome', true);
+  }
+
   goToStep = step => {
     this.setState({
       step: step
