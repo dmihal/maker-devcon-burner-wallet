@@ -340,7 +340,7 @@ class SendModal extends Component<SendPageProps, SendPageState> {
                     backgroundColor={'var(--color-makergradient)'}
                     >
                     <TitleBar>
-                      <Text level={1} as={'h1'} color={'var(--color-makerheadline)'}>
+                      <Text level={1} as={'h1'} margin='8px 0px 16px 0px' color={'var(--color-primary)'}>
                         Send To
                       </Text>
 
@@ -417,7 +417,7 @@ class SendModal extends Component<SendPageProps, SendPageState> {
                   </TransactionCard>
                   <SendButton
                     width={'100%'}
-                    my={2}
+                    mt={2}
                     onClick={() => this.send()}
                     disabled={!canSend || exceedsBalance}
                   >
