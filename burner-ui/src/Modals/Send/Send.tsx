@@ -81,10 +81,10 @@ const TitleBar = styled(Box)`
 `;
 
 const AmountWrapper = styled(Flex)`
-  padding: 0 var(--page-margin);
   align-items: center;
   flex-direction: column;
   flex: 1;
+  text-align: center;
 `;
 
 
@@ -336,9 +336,11 @@ class SendModal extends Component<SendPageProps, SendPageState> {
                     flexDirection={'column'}
                     justifyContent={'center'}
                   >
-                    <TransactionCardHeader>
+                    <TransactionCardHeader
+                    backgroundColor={'var(--color-makergradient)'}
+                    >
                     <TitleBar>
-                      <Text level={1} as={'h1'} m={0} color={'var(--color-primary)'}>
+                      <Text level={1} as={'h1'} color={'var(--color-makerheadline)'}>
                         Send To
                       </Text>
 
@@ -373,7 +375,7 @@ class SendModal extends Component<SendPageProps, SendPageState> {
                     </TransactionCardHeader>
                     <TransactionCardBody>
                     <AmountWrapper>
-                      <Text level={2} as={'h2'} color={'var(--color-nearblack)'}>
+                      <Text level={2} as={'h2'} color={'var(--color-nearblack)'} textAlign={'center'}>
                         How much do you want to send?
                       </Text>
                       <RimbleAmountInput
