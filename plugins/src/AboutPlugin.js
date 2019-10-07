@@ -2,6 +2,7 @@ import React from 'react';
 import ching from './ching.jpg';
 import maker from './maker.png';
 import factory from './factory.png';
+import rimble from './rimblelogo.png'
 
 const projects = [
   {
@@ -15,6 +16,12 @@ const projects = [
     description: 'Easily create and deploy customized burner wallets.',
     domain: 'burnerfactory.com',
     image: factory,
+  },
+  {
+    name: 'Rimble',
+    description: 'An open-source library of React components and guides to help you make dApps everyone can use.',
+    domain: 'rimble.consensys.design',
+    image: rimble,
   },
   {
     name: 'Ching',
