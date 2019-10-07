@@ -22,8 +22,6 @@ const H1 = styled.h1`
 
 const OnboardingImage = styled(Image)`
 position: absolute;
-top: 0;
-right: -64px;
 z-index: -999;
 `
 
@@ -117,7 +115,9 @@ const Step1: React.FC<Step1Props> = ({ next }) => {
   return (
     <>
       <Box mt='auto' mb='auto'>
-      <OnboardingImage src={BurnerBoiPeace}/>
+      <OnboardingImage src={BurnerBoiPeace}
+      top={'-0'}
+      right={'-80px'}/>
       <MakerLogo />
         <Headline>
           Welcome <br /> to Devcon
@@ -144,6 +144,10 @@ const Step2: React.FC<Step2Props> = ({ next }) => {
   return (
     <>
     <Box>
+    <OnboardingImage src={Daibot}
+    top={'-120px'}
+    left='0px'
+    />
       <Headline>
         What can you do?
       </Headline>
