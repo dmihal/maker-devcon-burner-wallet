@@ -9,16 +9,6 @@ import Assets from "../data-providers/Assets";
 import Text from '../components/Text';
 
 
-const Wrapper = styled.div`
-  display: flex;
-  align-items: center;
-  flex: 1 0;
-  cursor: default;
-  padding: 8px;
-  margin: 8px
-  border: 1px solid hsla(0, 0%, 90%, 1);
-`;
-
 const TextAssetName = styled(Text)`
   font-size: 18px;
   overflow: hidden;
@@ -34,7 +24,7 @@ const TextAssetBalance = styled(Text)`
 
 const SelectWrapper = styled.div`
   position: relative;
-  width: 100%;
+  align-self: stretch;
   margin: 8px;
   background: #fff;
 `;
@@ -50,36 +40,31 @@ const TextContainer = styled.div`
 `;
 
 const AssetContainer = styled.div`
+  cursor: default;
   display: flex;
   padding: 8px;
-  width: 100%;
   justify-content: space-between;
   align-items: center;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  flex: 1;
 `;
 
 const Selected = styled.div`
-  padding: 6px;
+  padding: 4px;
   border: solid 1px #cccccc;
   border-radius: 4px;
   display: flex;
   align-items: center;
+
   &:after {
-    content: "\25be";
+    content: "\\25be";
     margin: 4px;
     color: #555;
     display: block;
   }
 `;
-
-const IcoArrowDown = styled.span`
-  font-size: 32px;
-  line-height: 0;
-  justify-self: flex-end;
-  margin: 0px 8px;
-`
 
 const ItemWrapper = styled.div`
   position: absolute;
@@ -90,6 +75,7 @@ const ItemWrapper = styled.div`
   padding: 6px;
   border-radius: 4px;
   z-index: 10;
+  box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
   &:hover {
     background: #efefef;
   }
@@ -102,22 +88,19 @@ const Item = styled.div`
 `;
 
 const AssetElement: React.FC<{ asset: Asset }> = ({ asset }) => (
-  <Wrapper>
-    <AssetContainer>
-      <TextAssetName level={3} as="p">{asset.name}</TextAssetName>
-      <AccountBalance
-        asset={asset}
-        render={(data: AccountBalanceData | null) =>
-          data && (
-            <TextAssetBalance level={4} as="p" margin={0} color={999999}>
-              {data.usdBalance ? `$${data.usdBalance}` : data.displayBalance}
-            </TextAssetBalance>
-          )
-        }
-      />
-    </AssetContainer>
-    <IcoArrowDown>{ '\u25BE' }</IcoArrowDown>
-  </Wrapper>
+  <AssetContainer>
+    <TextAssetName level={3} as="p">{asset.name}</TextAssetName>
+    <AccountBalance
+      asset={asset}
+      render={(data: AccountBalanceData | null) =>
+        data && (
+          <TextAssetBalance level={4} as="p" margin={0} color={999999}>
+            {data.usdBalance ? `$${data.usdBalance}` : data.displayBalance}
+          </TextAssetBalance>
+        )
+      }
+    />
+  </AssetContainer>
 );
 
 export interface AssetSelectorProps {
