@@ -53,7 +53,7 @@ const AppButton = ({ title, description, logo, path }) => (
 
         {description && (
           <Text level={3} as="p" margin="0" textAlign="left" color="#999">
-            Continuous payment streams you can access instantly.
+            Exchange tokens seamlessly.
           </Text>
         )}
       </Box>

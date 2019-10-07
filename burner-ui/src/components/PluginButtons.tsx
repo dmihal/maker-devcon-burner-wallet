@@ -8,12 +8,7 @@ export interface PluginButtonsProps {
   component: ComponentType;
 }
 
-const PluginButtons: React.FC<PluginButtonsProps & BurnerContext> = ({
-  position,
-  component,
-  pluginData,
-  ...props
-}) => {
+const PluginButtons: React.FC<PluginButtonsProps & BurnerContext> = ({ position, component, pluginData, ...props }) => {
   const elements = pluginData.buttons[position];
   if (!elements || elements.length === 0) {
     return null;
@@ -23,9 +18,12 @@ const PluginButtons: React.FC<PluginButtonsProps & BurnerContext> = ({
 
   return (
     <Fragment>
-      {elements.map(({ title, path, options }: PluginButtonData, i: number) => (
-        <Component key={i} title={title} path={path} {...options} {...props} />
-      ))}
+      {elements.map(({ title, path, options }: PluginButtonData, i: number) => {
+        if (path === "/stream") {
+          path = "https://demo.sablier.app";
+        }
+        return <Component key={i} title={title} path={path} {...options} {...props} />;
+      })}
     </Fragment>
   );
 };
