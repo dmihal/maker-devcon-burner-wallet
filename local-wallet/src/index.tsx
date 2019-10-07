@@ -7,6 +7,7 @@ import { HTTPGateway } from '@burner-wallet/core/gateways';
 import BurnerUI from '../../burner-ui/src';
 import LegacyPlugin from '../../plugins/src/legacy';
 import CollectablePlugin from '../../collectable-plugin';
+import AboutPlugin from '../../plugins/src/AboutPlugin';
 
 const core = new BurnerCore({
   signers: [
@@ -28,6 +29,7 @@ const BurnerWallet = () =>
     plugins={[
       new LegacyPlugin(),
       new CollectablePlugin('5777', process.env.REACT_APP_NFT_ADDRESS),
+      new AboutPlugin(),
     ]}
   />
 
