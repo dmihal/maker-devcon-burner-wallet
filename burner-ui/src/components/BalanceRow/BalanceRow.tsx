@@ -1,10 +1,8 @@
 import React from 'react';
-import { Flex } from 'rimble-ui';
 import styled from 'styled-components';
-import AccountBalance, {
-  AccountBalanceData
-} from '../../data-providers/AccountBalance';
-
+import AccountBalance, { AccountBalanceData } from '../../data-providers/AccountBalance';
+import { Asset } from "@burner-wallet/assets";
+import { withBurner, BurnerContext } from "../../BurnerProvider";
 import BalanceItem from '../BalanceItem';
 
 const Row = styled.section`
@@ -14,18 +12,13 @@ const Row = styled.section`
   white-space: nowrap;
 `;
 
-interface BalanceRowProps {
-  account: string;
-  assets?: any;
-}
-
-const BalanceRow: React.FC<BalanceRowProps> = ({ account, assets }) => (
+const BalanceRow: React.FC<BurnerContext> = ({ defaultAccount, assets }) => (
   <Row>
-    {assets.map(asset => (
+    {assets.map((asset: Asset) => (
       <AccountBalance
         key={asset.id}
         asset={asset.id}
-        account={account}
+        account={defaultAccount}
         render={(data: AccountBalanceData | null) => (
           <BalanceItem
             asset={asset}
@@ -38,4 +31,4 @@ const BalanceRow: React.FC<BalanceRowProps> = ({ account, assets }) => (
   </Row>
 );
 
-export default BalanceRow;
+export default withBurner(BalanceRow);

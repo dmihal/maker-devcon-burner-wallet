@@ -14,7 +14,9 @@ const Wrapper = styled.div`
   align-items: center;
   flex: 1 0;
   cursor: default;
-  border-radius: 8px;
+  padding: 8px;
+  margin: 8px
+  border: 1px solid hsla(0, 0%, 90%, 1);
 `;
 
 const TextAssetName = styled(Text)`
@@ -28,15 +30,13 @@ const TextAssetName = styled(Text)`
 const TextAssetBalance = styled(Text)`
   color: #777;
   margin: 0px 8px;
-
 `;
 
 const SelectWrapper = styled.div`
   position: relative;
   width: 100%;
   margin: 8px;
-  background: #D1CCFC;
-  border-radius: 8px;
+  background: #fff;
 `;
 
 const TextContainer = styled.div`
@@ -52,8 +52,8 @@ const TextContainer = styled.div`
 const AssetContainer = styled.div`
   display: flex;
   padding: 8px;
-  width: 50%;
-  justify-content: space-around;
+  width: 100%;
+  justify-content: space-between;
   align-items: center;
   overflow: hidden;
   white-space: nowrap;
@@ -88,7 +88,6 @@ const ItemWrapper = styled.div`
   left: 0;
   right: 0;
   padding: 6px;
-  box-shadow: 0px 3px 5px 0px #999;
   border-radius: 4px;
   z-index: 10;
   &:hover {
@@ -104,9 +103,6 @@ const Item = styled.div`
 
 const AssetElement: React.FC<{ asset: Asset }> = ({ asset }) => (
   <Wrapper>
-    <TextContainer>
-      <Text level={3} as="p" margin={0}>Currency</Text>
-    </TextContainer>
     <AssetContainer>
       <TextAssetName level={3} as="p">{asset.name}</TextAssetName>
       <AccountBalance

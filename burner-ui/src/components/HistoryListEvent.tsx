@@ -2,13 +2,11 @@ import React, { Fragment } from 'react';
 import injectSheet from 'react-jss';
 import { Asset } from '@burner-wallet/assets';
 import HistoryEvent from '@burner-wallet/core/HistoryEvent';
-import PluginElements, {
-  PluginElementsProps
-} from '../../components/PluginElements';
+import PluginElements, { PluginElementsProps } from './PluginElements';
 import { Flex } from 'rimble-ui';
 import styled from 'styled-components';
 
-import Text from '../../components/Text';
+import Text from './Text';
 
 const HistoryPluginElements = PluginElements as React.FC<
   PluginElementsProps & { event: HistoryEvent }
@@ -31,7 +29,7 @@ interface HistoryListEventProps {
 const HistoryListEvent: React.FC<HistoryListEventProps> = ({
   event,
   account,
-  navigateTo
+  navigateTo,
 }) => {
   let type;
   const asset = event.getAsset();
@@ -60,8 +58,10 @@ const HistoryListEvent: React.FC<HistoryListEventProps> = ({
           </div>
 
           <div>
-            <Text level={2} as={'div'} right color="var(--color-primary)">
-              {event.to === account ? '\u2199  ' : '\u2197  '}
+            <Text level={2} as="div" right color={event.to === account ? '#28C081' : '#FD9D28'}>
+              {event.to === account
+                ? (<Text as="span" color="#28C081">{'\u2199'}</Text>)
+                : (<Text as="span" color="#FD9D28">{'\u2197'}</Text>)}
               {parseFloat(asset.getDisplayValue(event.value)).toFixed(2)}
             </Text>
             <Text level={4} right as={'div'}>
@@ -79,6 +79,7 @@ const HistoryListEvent: React.FC<HistoryListEventProps> = ({
     default:
       console.warn('Unknown event type', event.type);
   }
+  return null;
 };
 
 export default HistoryListEvent;

@@ -2,5 +2,9 @@
   "name": "collectable-plugin",
   "version": "1.0.0",
   "main": "src/CollectablePlugin.js",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "rimble-ui": "^0.10.0",
+    "styled-components": "^4.4.0"
+  }
 }

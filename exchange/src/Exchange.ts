@@ -22,7 +22,7 @@ export default class Exchange implements Plugin {
     this.pairs.forEach(pair => pair.setExchange(this));
 
     await pluginContext.addPage('/exchange', ExchangePage);
-    await pluginContext.addHomeButton('Exchange', '/exchange');
+    await pluginContext.addButton('apps', 'Exchange', '/exchange', { description: 'Convert between different currencies' });
   }
 
   getPairs() {

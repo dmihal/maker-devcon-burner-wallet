@@ -1,0 +1,25 @@
+{
+  "name": "@sablier/burner-wallet",
+  "version": "0.0.1",
+  "main": "src/SablierPlugin.js",
+  "dependencies": {
+    "classnames": "^2.2.6",
+    "ethers": "^4.0.37",
+    "prop-types": "^15.7.2",
+    "react-responsive": "^8.0.1"
+  },
+  "devDependencies": {
+    "@sablier/eslint-config": "1.0.0",
+    "eslint": "^6.1.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.14.3",
+    "eslint-plugin-react-hooks": "^1.7.0",
+    "react-scripts": "3.1.0"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "private": true
+}

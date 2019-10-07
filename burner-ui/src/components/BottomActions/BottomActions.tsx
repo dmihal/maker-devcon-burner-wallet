@@ -28,8 +28,11 @@ const ScanButton = styled(Button)`
       height: 100%;
       content: '';
       background: center no-repeat url("${SCAN_QR_DATAURI}");
-      background-size: 60%;
+      background-size: 50%;
       z-index:21;
+    }
+    &:before {
+      background: var(--color-makergradientdarker);
     }
 `;
 
@@ -87,7 +90,8 @@ class BottomActions extends Component<BottomActionsProps> {
     super(props);
     this.state = {
       receiveModalVisible: false,
-      sendModalVisible: false
+      sendModalVisible: false,
+      to: null,
     };
   }
 
@@ -111,11 +115,13 @@ class BottomActions extends Component<BottomActionsProps> {
 
   closeSendModal = () => {
     this.setState({
-      sendModalVisible: false
+      sendModalVisible: false,
+      to: null,
     });
   };
   render() {
     const { actions, pluginData, defaultAccount, className } = this.props;
+    const { sendModalVisible, to } = this.state;
 
     return (
       <>
@@ -134,7 +140,7 @@ class BottomActions extends Component<BottomActionsProps> {
                     if (pluginData.tryHandleQR(result, { actions })) {
                       return;
                     } else if (ADDRESS_REGEX.test(result)) {
-                      actions.navigateTo('/send', { address: result });
+                      this.setState({ sendModalVisible: true, to: result });
                     } else if (PK_REGEX.test(result)) {
                       actions.callSigner('writeKey', defaultAccount, result);
                     } else if (result.indexOf(location.origin) === 0) {
@@ -150,9 +156,6 @@ class BottomActions extends Component<BottomActionsProps> {
               />
             </Flex>
           </Card>
-          {pluginData.homeButtons.map(({ title, path }) => (
-            <Link children={title} to={path} key={title} />
-          ))}
         </Box>
         <ReceiveModal
           address={this.props.defaultAccount}
@@ -160,8 +163,8 @@ class BottomActions extends Component<BottomActionsProps> {
           hide={() => this.closeReceiveModal()}
         />
         <SendModal
-          address={this.props.defaultAccount}
-          isOpen={this.state.sendModalVisible}
+          to={to}
+          isOpen={sendModalVisible}
           hide={() => this.closeSendModal()}
         />
       </>
