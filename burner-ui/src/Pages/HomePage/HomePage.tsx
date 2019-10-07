@@ -77,6 +77,16 @@ const TabButton = styled.button`
   }
 `;
 
+const HomeTopWrapper = styled(Box)`
+background: var(--color-makergradient);
+  padding: var(--page-margin);
+
+
+@media (max-width: 320px) {
+    padding: 4px;
+  }
+`
+
 const HomePage: React.FC<BurnerContext> = ({ defaultAccount, actions, pluginData }) => {
   const [tab, setTab] = useState(0);
 
@@ -87,10 +97,13 @@ const HomePage: React.FC<BurnerContext> = ({ defaultAccount, actions, pluginData
   const { Component: TabComponent, plugin: tabPlugin } = homeTabs[tab];
 
   return (
-    <StyledPage title="My Wallet">
+    <StyledPage>
       <PluginElements position="home-top" />
 
-      <Box margin="0 var(--page-margin)">
+      <HomeTopWrapper>
+      <Flex flexDirection={'column'}>
+      <Flex flexDirection={'row'} justifyContent={'space-between'}>
+      <Text level={1} as={'h1'} px={3} my={0}>My Wallet</Text>
         <Flex justifyContent="space-between" alignItems="center" my={2}>
           <Flex>
             {homeTabs.map(({ options }: PluginElementData, i: number) => (
@@ -100,9 +113,11 @@ const HomePage: React.FC<BurnerContext> = ({ defaultAccount, actions, pluginData
             ))}
           </Flex>
         </Flex>
-      </Box>
+      </Flex>
 
       <TabComponent plugin={tabPlugin} />
+      </Flex>
+      </HomeTopWrapper>
 
       <PluginElements position="home-middle" />
       <Box margin="0 var(--page-margin)">
