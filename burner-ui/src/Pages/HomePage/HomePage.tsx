@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import HistoryEvent from '@burner-wallet/core/HistoryEvent';
@@ -79,6 +79,12 @@ const TabButton = styled.button`
 
 const HomePage: React.FC<BurnerContext> = ({ defaultAccount, actions, pluginData }) => {
   const [tab, setTab] = useState(0);
+
+  useEffect(() => {
+    if (!localStorage.getItem('showedWelcome')) {
+      actions.navigateTo('/welcome');
+    }
+  }, []);
 
   const homeTabs = [
     { Component: BalanceRow, plugin: null, options: { title: 'Cash' } },
