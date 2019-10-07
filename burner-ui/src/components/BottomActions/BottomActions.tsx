@@ -28,7 +28,7 @@ const ScanButton = styled(Button)`
       height: 100%;
       content: '';
       background: center no-repeat url("${SCAN_QR_DATAURI}");
-      background-size: 60%;
+      background-size: 50%;
       z-index:21;
     }
     &:before {
