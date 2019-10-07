@@ -57,6 +57,14 @@ const Reader = styled(QrReader)`
   flex: '1 0';
 `;
 
+const CloseButton = styled(Button)`
+background: var(--color-primary);
+
+  &:before {
+    background: var(--color-primary);
+  }
+`
+
 ModalBackdrop.defaultProps = {
   bg: 'blacks.10',
   p: 3
@@ -94,25 +102,15 @@ const Scanner: React.FC<BurnerContext & { classes: any }> = ({
           flex={'1'}
         >
         <Flex alignItems={'center'} p={3} pb={0}>
-          <Text
-            level={1}
-            as={'h1'}
-            left
-          >
-          Scan
-          </Text>
           </Flex>
 
           <Box p={[3, 4]} pt={0} overflow={'scroll'}>
-            <Text level={3} color={'inherit'} left margin={'0'} >
-              Place the QR code within the scanner
-            </Text>
             <Box
               // size={['100%', '200px']}
               width={1}
               // maxWidth={'220px'}
               mx={'auto'}
-              mt={4}
+              mt={0}
               mb={4}
               p={3}
               bg={'white'}
@@ -154,20 +152,22 @@ const Scanner: React.FC<BurnerContext & { classes: any }> = ({
                 />
               </ReaderContainer>
             </Box>
+            <Text level={2} color={'inherit'} center margin={'0'} >
+              Place the QR code within the scanner
+            </Text>
           </Box>
         </Card>
         <Box position={'relative'} width={'100%'} my={2} backgroundColor={'transparent'}>
-        <Button
+        <CloseButton
           width={'100%'}
           p={0}
           borderRadius={1}
           positionSelf={'center'}
-          backgroundColor={'var(--color-primary)'}
           onClick={() => completeScan(null)}
           boxShadow={2}
         >
         Close
-        </Button>
+        </CloseButton>
         </Box>
       </ModalBackdrop>
     </Portal>
