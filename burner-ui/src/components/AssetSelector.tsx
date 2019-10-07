@@ -15,9 +15,8 @@ const Wrapper = styled.div`
   flex: 1 0;
   cursor: default;
   padding: 8px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  box-shadow: 0px 2px 4px rgba(0,0,0,0.2);
+  margin: 8px
+  border: 1px solid hsla(0, 0%, 90%, 1);
 `;
 
 const TextAssetName = styled(Text)`
@@ -89,15 +88,10 @@ const ItemWrapper = styled.div`
   left: 0;
   right: 0;
   padding: 6px;
-  box-shadow: 0px 3px 5px 0px #999;
   border-radius: 4px;
   z-index: 10;
   &:hover {
     background: #efefef;
-  }
-
-  &:Wrapper {
-    box-shadow: none;
   }
 `;
 
