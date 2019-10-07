@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
-import { Flex, Box, Button, Input } from 'rimble-ui';
+import { Flex, Box, Button, Input, Image } from 'rimble-ui';
 import Text from '../../components/Text';
 import styled, { createGlobalStyle } from 'styled-components';
 import { Redirect } from 'react-router-dom';
+import BurnerBoiPeace from '../../static/burnerboipeace.svg';
+import Daibot from '../../static/daibot.svg';
+
 
 const Headline = styled(Text)`
 font-size: 2.25rem;
@@ -16,11 +19,13 @@ const H1 = styled.h1`
   color: ${props => props.color}
 `;
 
-const P = styled.p`
-  font-weight: 400;
-  font-size: 2.1ch;
-  line-height: 140%;
-`;
+
+const OnboardingImage = styled(Image)`
+position: absolute;
+top: 0;
+right: -64px;
+z-index: -999;
+`
 
 
 const LoadingWrapper = styled.div`
@@ -112,9 +117,10 @@ const Step1: React.FC<Step1Props> = ({ next }) => {
   return (
     <>
       <Box mt='auto' mb='auto'>
+      <OnboardingImage src={BurnerBoiPeace}/>
       <MakerLogo />
         <Headline>
-          Welcome <br /> to Devcon✌️
+          Welcome <br /> to Devcon
         </Headline>
         <Text level={2} as="p" color="#444">If you are in incognito mode, please enter regular browsing mode.</Text>
       </Box>
@@ -122,7 +128,7 @@ const Step1: React.FC<Step1Props> = ({ next }) => {
         width='100%'
         children="I'm in regular browsing mode"
         mb={0}
-        mt={'auto'}
+        mt={0}
         onClick={() => next()}
         mainColor="var(--color-primary)"
       />
@@ -137,25 +143,25 @@ interface Step2Props {
 const Step2: React.FC<Step2Props> = ({ next }) => {
   return (
     <>
-    <Box mt='auto' mb='auto'>
+    <Box>
       <Headline>
         What can you do?
       </Headline>
-      <P>
+      <Text level={2} color="#444" as='p'>
         <IcoArrow>{'\u2192'}</IcoArrow>Find and scan physical Dai tokens to load up on xDai
-      </P>
-      <P>
+      </Text>
+      <Text level={2} color="#444" as='p'>
         <IcoArrow>{'\u2192'}</IcoArrow>Use your xDai to buy swag from the Maker booth.
-      </P>
-      <P>
+      </Text>
+      <Text level={2} color="#444" as='p'>
         <IcoArrow>{'\u2192'}</IcoArrow>Look for special QR codes scattered around Devcon to get rare NFTs
-      </P>
+      </Text>
     </Box>
     <Button
       width='100%'
       children="Create Wallet"
       mb={0}
-      mt={'auto'}
+      mt={0}
       onClick={() => next()}
       mainColor="var(--color-primary)"
     />
@@ -241,6 +247,7 @@ class Onboarding extends Component<OnboardingProps> {
         padding={'var(--page-margin)'}
         minHeight={window.innerHeight}
         flexDirection='column'
+        justifyContent='space-evenly'
       >
         <BounceAnimation />
         {this.state.step === 1 && <Step1 next={() => this.goToStep(2)} />}
