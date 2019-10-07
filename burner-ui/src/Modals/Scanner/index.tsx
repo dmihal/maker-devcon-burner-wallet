@@ -3,7 +3,8 @@ import React, { useRef, useState, Fragment } from 'react';
 import QrReader from 'react-qr-reader';
 import { withBurner, BurnerContext } from '../../BurnerProvider';
 import styled from 'styled-components';
-import { Box, Flex, Text, Card, Button, Portal } from 'rimble-ui';
+import { Box, Flex, Card, Button, Portal } from 'rimble-ui';
+import Text from '../../components/Text';
 
 const ModalBackdrop = styled(Box)`
   & {
@@ -39,9 +40,13 @@ const TextInstruction = styled.div`
   margin-top: 16px;
 `;
 
-const CameraIconContainer = styled.div`
+const CameraIconContainer = styled(Card)`
   display: flex;
-  height: 100px;
+  padding: 12px;
+  margin: 12px auto;
+  width: 140px;
+  border-radius: 15px;
+  height: 90px
 `;
 
 const CameraIcon = styled.svg`
@@ -88,56 +93,47 @@ const Scanner: React.FC<BurnerContext & { classes: any }> = ({
           p={0}
           display={'flex'}
           flexDirection={'column'}
-          justifyContent={'center'}
+          justifyContent={'flex-start'}
+          alignContent={'flex-start'}
+          flex={'1'}
         >
-          <Button.Text
-            icon={'Close'}
-            mainColor={'inherit'}
-            p={0}
-            borderRadius={'100%'}
-            position={'absolute'}
-            top={0}
-            right={0}
-            onClick={() => completeScan(null)}
-          />
-
+        <Flex alignItems={'center'} p={3} pb={0}>
           <Text
-            color={'inherit'}
-            p={3}
-            borderBottom={1}
-            borderColor={'blacks.4'}
-            lineHeight={'solid'}
-            textAlign={'center'}
-            fontWeight={3}
+            level={1}
+            as={'h1'}
+            left
           >
-            Scan Qr Code
+          Scan
           </Text>
+          </Flex>
 
-          <Box p={[3, 4]} overflow={'scroll'}>
-            <Text color={'inherit'} textAlign={'center'} mb={4}>
-              Place the code within the scanner
+          <Box p={[3, 4]} pt={0} overflow={'scroll'}>
+            <Text level={3} color={'inherit'} left margin={'0'} >
+              Place the QR code within the scanner
             </Text>
             <Box
               // size={['100%', '200px']}
               width={1}
-              maxWidth={'220px'}
+              // maxWidth={'220px'}
               mx={'auto'}
+              mt={4}
               mb={4}
-              p={4}
+              p={3}
               bg={'white'}
               border={1}
               borderColor={'blacks.3'}
-              boxShadow={2}
+              // boxShadow={2}
+              borderRadius={2}
             >
               {fallback && (
                 <Fragment>
-                  <TextInstruction>Take a photo of a QR code</TextInstruction>
+                  <Text>Take a photo of a QR code</Text>
                   <CameraIconContainer
                     onClick={() => reader.current!.openImageDialog()}
                   >
                     <CameraIcon viewBox='0 0 24 24'>
                       <path
-                        fill='#ffffff'
+                        fill='#333333'
                         d='M4,4H7L9,2H15L17,4H20A2,2 0 0,1 22,6V18A2,2 0 0,1 20,20H4A2,2 0 0,1 2,18V6A2,2 0 0,1 4,4M12,7A5,5 0 0,0 7,12A5,5 0 0,0 12,17A5,5 0 0,0 17,12A5,5 0 0,0 12,7M12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9Z'
                       />
                     </CameraIcon>
@@ -164,6 +160,19 @@ const Scanner: React.FC<BurnerContext & { classes: any }> = ({
             </Box>
           </Box>
         </Card>
+        <Box position={'relative'} width={'100%'} my={2} backgroundColor={'transparent'}>
+        <Button
+          width={'100%'}
+          p={0}
+          borderRadius={1}
+          positionSelf={'center'}
+          backgroundColor={'var(--color-primary)'}
+          onClick={() => completeScan(null)}
+          boxShadow={2}
+        >
+        Close
+        </Button>
+        </Box>
       </ModalBackdrop>
     </Portal>
   );
