@@ -6,7 +6,7 @@ import { withBurner, BurnerContext } from "../../BurnerProvider";
 import BalanceItem from '../BalanceItem';
 
 const Row = styled.section`
-  padding: 32px var(--page-margin);
+  padding: 32px 0;
   width: 100%;
   overflow-x: scroll;
   white-space: nowrap;
