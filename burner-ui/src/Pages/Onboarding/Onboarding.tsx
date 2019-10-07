@@ -4,6 +4,11 @@ import Text from '../../components/Text';
 import styled, { createGlobalStyle } from 'styled-components';
 import { Redirect } from 'react-router-dom';
 
+const Headline = styled(Text)`
+font-size: 2.25rem;
+font-weight: 600;
+`
+
 const H1 = styled.h1`
   font-weight: 600;
   font-size: 3.3ch;
@@ -108,15 +113,10 @@ const Step1: React.FC<Step1Props> = ({ next }) => {
     <>
       <Box mt='auto' mb='auto'>
       <MakerLogo />
-        <H1>
-          Claim your
-        </H1>
-        <Flex alignItems={'center'} my={3}>
-        <H1 margin={'0'}>
-        Maker burner wallet
-        </H1>
-        </Flex>
-        <P>If you are in incognito mode, please enter regular browsing mode.</P>
+        <Headline>
+          Welcome <br /> to Devcon✌️
+        </Headline>
+        <Text level={2} as="p" color="#444">If you are in incognito mode, please enter regular browsing mode.</Text>
       </Box>
       <Button
         width='100%'
@@ -124,6 +124,7 @@ const Step1: React.FC<Step1Props> = ({ next }) => {
         mb={0}
         mt={'auto'}
         onClick={() => next()}
+        mainColor="var(--color-primary)"
       />
     </>
   );
@@ -137,9 +138,9 @@ const Step2: React.FC<Step2Props> = ({ next }) => {
   return (
     <>
     <Box mt='auto' mb='auto'>
-      <H1>
+      <Headline>
         What can you do?
-      </H1>
+      </Headline>
       <P>
         <IcoArrow>{'\u2192'}</IcoArrow>Find and scan physical Dai tokens to load up on xDai
       </P>
@@ -156,6 +157,7 @@ const Step2: React.FC<Step2Props> = ({ next }) => {
       mb={0}
       mt={'auto'}
       onClick={() => next()}
+      mainColor="var(--color-primary)"
     />
     </>
   );
@@ -181,7 +183,7 @@ class Loading extends Component<Step3Props> {
     },
     2: {
       emoji: '🐣',
-      text: 'Migrating your funds'
+      text: 'Reticulating splines'
     },
     3: {
       emoji: '🐥',
