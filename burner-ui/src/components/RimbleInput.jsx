@@ -18,7 +18,7 @@ export const TransferMessageInput = styled(Input)`
   transition: 0.15s ease-in-out;
 
   &:focus {
-    background: #E1DEFF;
+    background: hsla(0, 0%, 90%, 1);
     box-shadow: none;
     text-align: center;
   }

@@ -31,8 +31,11 @@ const GlobalStyle = createGlobalStyle`
     --color-tertiary: #D2F9F5;
     --color-makergradient: linear-gradient(180deg, rgba(182, 237, 231, 0.38) 0%, rgba(253, 193, 52, 0.15) 100%);
     --color-makergradientdarker: linear-gradient(180deg, rgba(16, 230, 206, 0.38) 15.63%, rgba(255, 187, 28, 0.25) 100%);
+    --color-makerheadline: #291a42;
 
     --color-nearblack: #291a42;
+
+    --color-disabled: #bbddd9;
 
     --modal-background: #E1DEFF;
     --modal-header-background: #CAC4FF;

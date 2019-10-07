@@ -34,6 +34,7 @@ const Input = styled.input`
   font-size: 16px;
   padding: 4px;
   background: transparent;
+  align-content: center;
 `;
 
 const MaxBtn = styled.div`
