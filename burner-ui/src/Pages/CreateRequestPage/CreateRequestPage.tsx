@@ -12,6 +12,7 @@ import {
 import AssetSelector from '../../components/AssetSelector';
 import Button from '../../components/Button';
 import RimbleInput from '../../components/RimbleInput';
+import RimbleAmountInput from '../../components/RimbleAmountInput';
 import { Flex } from 'rimble-ui';
 
 // To Do: This is also used by SendPage.tsx & should be migrated to an independent component to avoid consistency errors.
