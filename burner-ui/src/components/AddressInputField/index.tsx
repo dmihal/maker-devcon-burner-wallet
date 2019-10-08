@@ -97,13 +97,13 @@ const AddressInputField: React.FC<AddressInputFieldProps> = ({
             onChange={e => onChange(e.target.value, null)}
           />
           <Flex position={'absolute'} right={0} mr={1} bottom='8px'>
-            <Button size={'small'} mx={2} p={0} onClick={scan}>
+            <Button size={'small'} mx={2} p={0} onClick={scan} mainColor="var(--color-primary)">
               <Icon name='CenterFocusWeak' />
             </Button>
           </Flex>
           {scan && (
             <Flex position={'absolute'} right={0} mr={1} bottom='8px'>
-              <Button size={'small'} mx={2} p={0} onClick={scan}>
+              <Button size={'small'} mx={2} p={0} onClick={scan} mainColor="var(--color-primary)">
                 <Icon name='CenterFocusWeak' />
               </Button>
             </Flex>
