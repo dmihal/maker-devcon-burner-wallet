@@ -34,9 +34,8 @@ const StyledPage = styled(Page)`
   padding-bottom: 110px;
 `;
 
-
 const ViewAllButton = styled(Link)`
-  background: #F2F2F2;
+  background: #f2f2f2;
   border-radius: 30px;
   display: flex;
   align-items: center;
@@ -60,12 +59,14 @@ interface HomePageProps {
 }
 
 const TabButton = styled.button`
-  background: ${(props) => (props.selected ? 'var(--color-primary)' : 'transparent')};
+  background: ${props =>
+    props.selected ? 'var(--color-primary)' : 'transparent'};
   border-radius: 30px;
   display: flex;
   font-size: 16px;
   align-items: center;
-  color: ${(props) => (props.selected ? 'var(--color-tertiary)' : 'var(--color-primary)')};
+  color: ${props =>
+    props.selected ? 'var(--color-tertiary)' : 'var(--color-primary)'};
   padding: 8px 12px;
   border: 1px solid var(--color-primary);
   outline: none;
@@ -78,17 +79,20 @@ const TabButton = styled.button`
 `;
 
 const HomeTopWrapper = styled(Box)`
-background: transparent;
-border-bottom: 1px solid #f2f2f2;
+  background: transparent;
+  border-bottom: 1px solid #f2f2f2;
   padding: var(--page-margin);
 
-
-@media (max-width: 320px) {
+  @media (max-width: 320px) {
     padding: 4px;
   }
-`
+`;
 
-const HomePage: React.FC<BurnerContext> = ({ defaultAccount, actions, pluginData }) => {
+const HomePage: React.FC<BurnerContext> = ({
+  defaultAccount,
+  actions,
+  pluginData
+}) => {
   const [tab, setTab] = useState(0);
 
   useEffect(() => {
@@ -99,65 +103,94 @@ const HomePage: React.FC<BurnerContext> = ({ defaultAccount, actions, pluginData
 
   const homeTabs = [
     { Component: BalanceRow, plugin: null, options: { title: 'Cash' } },
-    ...(pluginData.elements['home-tab'] || []),
+    ...(pluginData.elements['home-tab'] || [])
   ];
   const { Component: TabComponent, plugin: tabPlugin } = homeTabs[tab];
 
   return (
     <StyledPage>
-      <PluginElements position="home-top" />
+      <PluginElements position='home-top' />
 
       <HomeTopWrapper>
-      <Flex flexDirection={'column'}>
-      <Flex flexDirection={'row'} justifyContent={'space-between'}>
-      <Text level={1} as={'h1'} px={3} my={0}>My Wallet</Text>
-        <Flex justifyContent="space-between" alignItems="center" my={2}>
-          <Flex>
-            {homeTabs.map(({ options }: PluginElementData, i: number) => (
-              <TabButton key={options.title} onClick={() => setTab(i)} selected={tab === i}>
-                {options.title}
-              </TabButton>
-            ))}
+        <Flex flexDirection={'column'}>
+          <Flex flexDirection={'row'} justifyContent={'space-between'}>
+            <Text level={1} as={'h1'} px={3} my={0}>
+              My Wallet
+            </Text>
+            <Flex justifyContent='space-between' alignItems='center' my={2}>
+              <Flex>
+                {homeTabs.map(({ options }: PluginElementData, i: number) => (
+                  <TabButton
+                    key={options.title}
+                    onClick={() => setTab(i)}
+                    selected={tab === i}
+                  >
+                    {options.title}
+                  </TabButton>
+                ))}
+              </Flex>
+            </Flex>
           </Flex>
-        </Flex>
-      </Flex>
 
-      <TabComponent plugin={tabPlugin} />
-      </Flex>
+          <TabComponent plugin={tabPlugin} />
+        </Flex>
       </HomeTopWrapper>
 
-      <PluginElements position="home-middle" />
-      <Box margin="0 var(--page-margin)">
-        <Flex justifyContent="space-between" alignItems="center" my={2}>
-          <Text level={2} as="h2" margin={0}>
+      <PluginElements position='home-middle' />
+      <Box margin='0 var(--page-margin) var(--page-margin)'>
+        <Flex justifyContent='space-between' alignItems='center' my={2}>
+          <Text level={2} as='h2' margin={0} opacity={0.8}>
             Recent activity
           </Text>
-          <ViewAllButton to="/activity">View All</ViewAllButton>
+          <ViewAllButton to='/activity'>View All</ViewAllButton>
         </Flex>
 
         <History
           account={defaultAccount}
-          render={(events: HistoryEvent[]) => events.slice(0, 3).map((event: HistoryEvent) => (
-            <HistoryListEvent
-              key={JSON.stringify(event)}
-              event={event}
-              account={defaultAccount}
-              navigateTo={actions.navigateTo}
-            />
-          ))}
+          render={(events: HistoryEvent[]) =>
+            events.length > 0 ? (
+              events
+                .slice(0, 3)
+                .map((event: HistoryEvent) => (
+                  <HistoryListEvent
+                    key={JSON.stringify(event)}
+                    event={event}
+                    account={defaultAccount}
+                    navigateTo={actions.navigateTo}
+                  />
+                ))
+            ) : (
+              <Text as='p' level={3} opacity='0.5'>
+                No recent transactions
+              </Text>
+            )
+          }
         />
       </Box>
-      <Box margin="0 var(--page-margin)">
-        <Flex justifyContent="space-between" alignItems="center" my={2} pb={3} borderBottom={'1px solid #f2f2f2'}>
-          <Text level={2} as="h2" margin={0}>
+      <Box margin='0 var(--page-margin) var(--page-margin)'>
+        <Flex
+          justifyContent='space-between'
+          alignItems='center'
+          my={2}
+          pb={3}
+          borderBottom={'1px solid #f2f2f2'}
+        >
+          <Text level={2} as='h2' margin={0}>
             Apps
           </Text>
         </Flex>
 
-        <PluginButtons position="apps" component={AppButton} />
+        <PluginButtons position='apps' component={AppButton} />
 
-        <PluginButtons position="home" component={({ path, title }) => <Link to={path} style={{display:'block'}}>{title}</Link>} />
-        <Link to="/advanced">Advanced</Link>
+        <PluginButtons
+          position='home'
+          component={({ path, title }) => (
+            <Link to={path} style={{ display: 'block' }}>
+              {title}
+            </Link>
+          )}
+        />
+        <Link to='/advanced'>Advanced</Link>
       </Box>
       <PositionedBottomActions
         actions={actions}
