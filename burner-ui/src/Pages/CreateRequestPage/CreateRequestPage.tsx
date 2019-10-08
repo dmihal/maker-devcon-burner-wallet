@@ -52,6 +52,7 @@ const ReceivePage: React.FC<BurnerContext> = ({ actions, history, assets }) => {
             onChange={newAsset => setAsset(newAsset)}
           />
           <TransactionCardFooter>
+          {/*
           {asset.supportsMessages() && (
             <Fragment>
               <Text level={3} as="h3" margin={0} color={'var(--color-nearblack)'}>
@@ -63,7 +64,9 @@ const ReceivePage: React.FC<BurnerContext> = ({ actions, history, assets }) => {
                 onChange={(e) => this.setState({ message: e.target.value })}
               />
             </Fragment>
+
           )}
+          */}
           </TransactionCardFooter>
         </TransactionCard>
       </Flex>
