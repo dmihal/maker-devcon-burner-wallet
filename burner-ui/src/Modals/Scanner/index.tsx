@@ -14,8 +14,6 @@ const ModalBackdrop = styled(Box)`
     left: 0;
     right: 0;
     z-index: 9999;
-    height: ${window.innerHeight};
-    width: 100vw;
     display: flex;
     flex-direction: column;
   }
@@ -119,21 +117,6 @@ const Scanner: React.FC<BurnerContext & { classes: any }> = ({
               // boxShadow={2}
               borderRadius={2}
             >
-              {fallback && (
-                <Fragment>
-                  <Text>Take a photo of a QR code</Text>
-                  <CameraIconContainer
-                    onClick={() => reader.current!.openImageDialog()}
-                  >
-                    <CameraIcon viewBox='0 0 24 24'>
-                      <path
-                        fill='#ffffff'
-                        d='M4,4H7L9,2H15L17,4H20A2,2 0 0,1 22,6V18A2,2 0 0,1 20,20H4A2,2 0 0,1 2,18V6A2,2 0 0,1 4,4M12,7A5,5 0 0,0 7,12A5,5 0 0,0 12,17A5,5 0 0,0 17,12A5,5 0 0,0 12,7M12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9Z'
-                      />
-                    </CameraIcon>
-                  </CameraIconContainer>
-                </Fragment>
-              )}
 
               <ReaderContainer>
                 <Reader
@@ -153,8 +136,15 @@ const Scanner: React.FC<BurnerContext & { classes: any }> = ({
               </ReaderContainer>
             </Box>
             <Text level={2} color={'inherit'} center margin={'0'} >
-              Place the QR code within the scanner
+            { fallback ? 'Take a photo of the QR  code then tap the Upload button' : 'Place the QR code within the scanner'}
             </Text>
+            {fallback && (
+              <Flex my={4} justifyContent={'center'}>
+              <Button mainColor={'var(--color-primary)'} onClick={() => reader.current!.openImageDialog()}>
+              Upload QR Code
+              </Button>
+              </Flex>
+            )}
           </Box>
         </Card>
         <Box position={'relative'} width={'100%'} my={2} backgroundColor={'transparent'}>
