@@ -36,7 +36,7 @@ const StyledInput = styled(Input)`
   background: none;
   box-shadow: none;
   text-align: center;
-  margin: 1rem 0rem;
+  padding: 0;
 
   :focus {
     box-shadow: none;

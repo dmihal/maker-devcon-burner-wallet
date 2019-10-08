@@ -58,6 +58,13 @@ const ModalBackdrop = styled(Box)`
   }
 `;
 
+const ModalWrapper = styled(Flex)`
+  flex-direction: column;
+  flex: 1;
+  justify-content: space-between;
+  height: ${window.innerHeight}px;
+`
+
 const PurpleCard = styled(Card)`
   background-color: var(--modal-header-background);
   height: 100%;
@@ -98,6 +105,7 @@ const MaxButton = styled(Button)`
   margin: 8px 0px;
   border: 0px;
   text-transform: uppercase;
+  height: 32px;
 
   &:focus {
     outline: none;
@@ -325,6 +333,7 @@ class SendModal extends Component<SendPageProps, SendPageState> {
             return (
               <Portal>
                 <ModalBackdrop>
+                <ModalWrapper>
                   <TransactionCard
                     width={1}
                     maxWidth={6}
@@ -346,7 +355,7 @@ class SendModal extends Component<SendPageProps, SendPageState> {
 
                       <Button.Text
                         icon={'Close'}
-                        mainColor={'inherit'}
+                        mainColor={'var(--color-primary)'}
                         p={0}
                         borderRadius={'100%'}
                         position={'absolute'}
@@ -423,6 +432,7 @@ class SendModal extends Component<SendPageProps, SendPageState> {
                   >
                     Send
                   </SendButton>
+                  </ModalWrapper>
                 </ModalBackdrop>
               </Portal>
             );

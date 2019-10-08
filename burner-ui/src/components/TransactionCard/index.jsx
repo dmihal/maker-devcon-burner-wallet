@@ -11,7 +11,7 @@ export const TransactionCard = styled(Card)`
   justify-content: space-between;
   border-radius: 8px;
   padding: 0px;
-  color: #4E3FCE;
+  color: var(--color-primary);
 `
 
 export const TransactionCardHeader = styled(Flex)`
