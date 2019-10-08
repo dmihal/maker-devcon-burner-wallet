@@ -102,7 +102,7 @@ const ReceiptPage: React.FC<RouteComponentProps<MatchParams>> = ({ match }) => (
                 Message
               </Text>
               <Text level={3} as='div'>
-                Hello world
+                {tx.message}
               </Text>
             </Box>
           </Box>
