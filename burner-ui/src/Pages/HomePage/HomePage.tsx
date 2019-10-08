@@ -60,14 +60,14 @@ interface HomePageProps {
 }
 
 const TabButton = styled.button`
-  background: ${(props) => (props.selected ? 'var(--color-primary)' : 'var(--color-tertiary)')};
+  background: ${(props) => (props.selected ? 'var(--color-primary)' : 'transparent')};
   border-radius: 30px;
   display: flex;
   font-size: 16px;
   align-items: center;
   color: ${(props) => (props.selected ? 'var(--color-tertiary)' : 'var(--color-primary)')};
   padding: 8px 12px;
-  border: none;
+  border: 1px solid var(--color-primary);
   outline: none;
   margin: 0 4px;
   transition: 0.15s ease-in-out;
@@ -76,6 +76,17 @@ const TabButton = styled.button`
     margin-left: 0px;
   }
 `;
+
+const HomeTopWrapper = styled(Box)`
+background: transparent;
+border-bottom: 1px solid #f2f2f2;
+  padding: var(--page-margin);
+
+
+@media (max-width: 320px) {
+    padding: 4px;
+  }
+`
 
 const HomePage: React.FC<BurnerContext> = ({ defaultAccount, actions, pluginData }) => {
   const [tab, setTab] = useState(0);
@@ -93,10 +104,13 @@ const HomePage: React.FC<BurnerContext> = ({ defaultAccount, actions, pluginData
   const { Component: TabComponent, plugin: tabPlugin } = homeTabs[tab];
 
   return (
-    <StyledPage title="My Wallet">
+    <StyledPage>
       <PluginElements position="home-top" />
 
-      <Box margin="0 var(--page-margin)">
+      <HomeTopWrapper>
+      <Flex flexDirection={'column'}>
+      <Flex flexDirection={'row'} justifyContent={'space-between'}>
+      <Text level={1} as={'h1'} px={3} my={0}>My Wallet</Text>
         <Flex justifyContent="space-between" alignItems="center" my={2}>
           <Flex>
             {homeTabs.map(({ options }: PluginElementData, i: number) => (
@@ -106,9 +120,11 @@ const HomePage: React.FC<BurnerContext> = ({ defaultAccount, actions, pluginData
             ))}
           </Flex>
         </Flex>
-      </Box>
+      </Flex>
 
       <TabComponent plugin={tabPlugin} />
+      </Flex>
+      </HomeTopWrapper>
 
       <PluginElements position="home-middle" />
       <Box margin="0 var(--page-margin)">
