@@ -12,6 +12,14 @@ export default class LinksPlugin implements Plugin {
     this._pluginContext = pluginContext;
 
     pluginContext.addPage('/pk', NewPKPage);
+    pluginContext.onQRScanned((qr, pluginCtx) => {
+      if (qr.indexOf('https://xdai.io/pk') === 0) {
+        console.log(qr.substr(15));
+        pluginCtx.actions.navigateTo(qr.substr(15));
+        return true;
+      }
+    });
+
   }
 
   get pluginContext() {

@@ -8,7 +8,7 @@ import { InfuraGateway, InjectedGateway, XDaiGateway, } from '@burner-wallet/cor
 import Exchange from '../../exchange/src';
 import { xdaiBridge, uniswapDai } from '../../exchange/src/pairs';
 import BurnerUI from '../../burner-ui/src';
-import LegacyPlugin from '@burner-wallet/plugins/legacy';
+import LegacyPlugin from '../../plugins/src/legacy';
 import CollectablePlugin from '../../collectable-plugin';
 import AboutPlugin from '../../plugins/src/AboutPlugin';
 import DropPartyPlugin from '../../plugins/src/DropPartyPlugin';
