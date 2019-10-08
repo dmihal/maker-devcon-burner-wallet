@@ -36,7 +36,7 @@ const ButtonScan = styled.button`
 
 const ButtonClear = styled.button`
   font-size: 32px;
-  color: #4e3fce;
+  color: var(--color-primary);
   background: transparent;
   border: 0px;
   outline: none;
