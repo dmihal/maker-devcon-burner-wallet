@@ -19,7 +19,7 @@ const rimbleTheme = {
   font:
     "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif",
   titleFont: null,
-  accentColor: '#4e3fce',
+  accentColor: 'var(--color-primary)',
   paperBackground: '#ffffff',
   homeButtonColor: null
 };
@@ -40,11 +40,7 @@ const styles = (theme: any) => ({
       width: '100%'
     },
     '#root': {
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      height: '100%'
+      height: window.innerHeight,
     }
   }
 });
