@@ -37,19 +37,24 @@ const ButtonScan = styled.button`
 const ButtonClear = styled.button`
   font-size: 32px;
   color: #4e3fce;
+  background: transparent;
+  border: 0px;
+  outline: none;
 `;
 
 const StyledWrapper = styled(Box)`
   & {
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: baseline;
     width: 100%;
+    max-width: 320px;
     position: relative;
   }
 `;
 
 const StyledInput = styled(Input)`
+  overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 `;
@@ -91,13 +96,13 @@ const AddressInputField: React.FC<AddressInputFieldProps> = ({
             fontWeight={3}
             onChange={e => onChange(e.target.value, null)}
           />
-          <Flex position={'absolute'} right={0} mr={2}>
+          <Flex position={'absolute'} right={0} mr={1} bottom='8px'>
             <Button size={'small'} mx={2} p={0} onClick={scan}>
               <Icon name='CenterFocusWeak' />
             </Button>
           </Flex>
           {scan && (
-            <Flex position={'absolute'} right={0} mr={2}>
+            <Flex position={'absolute'} right={0} mr={1} bottom='8px'>
               <Button size={'small'} mx={2} p={0} onClick={scan}>
                 <Icon name='CenterFocusWeak' />
               </Button>
