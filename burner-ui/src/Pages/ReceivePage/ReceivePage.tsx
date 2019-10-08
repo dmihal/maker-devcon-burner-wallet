@@ -93,12 +93,12 @@ const ReceivePage: React.FC<BurnerContext> = ({ defaultAccount, actions }) => {
 
         <ScanRequestCard onClick={() => actions.navigateTo('/request')}>
           <ScanRequestHeader>
-            <IcoScanRequest></IcoScanRequest>
             <Text level={3} as={'h1'}>
               Create Request
             </Text>
           </ScanRequestHeader>
           <Text level={3} as={'p'}>
+            {'u/2197'}
             Creates a QR code that someone can scan to pay you.
           </Text>
         </ScanRequestCard>

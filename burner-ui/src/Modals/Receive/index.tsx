@@ -41,6 +41,10 @@ const StyledInput = styled(Input)`
   white-space: nowrap;
 `;
 
+const Header = styled(Box)`
+background: var(--color-makergradient);
+`
+
 interface AddressQrModalProps {
   isOpen: boolean;
   hide: Function;
@@ -97,18 +101,19 @@ class ReceiveModal extends Component<AddressQrModalProps> {
               />
 
 
-              <Box p={[3, 4]} pt={0} overflow={'scroll'}>
+              <Header p={[3, 4]} pt={0} overflow={'scroll'}>
               <Text
                 level={1}
                 as={'h1'}
-                center
+                color={'var(--color-primary)'}
+                left
               >
                 {text.title}
               </Text>
-                <Text level={3} as={'p'} margin={0} center>
+                <Text level={3} as={'p'} margin={0} left>
                   {text.description}
                 </Text>
-              </Box>
+              </Header>
                 <Box
                   // size={['100%', '200px']}
                   width={1}
@@ -155,6 +160,7 @@ class ReceiveModal extends Component<AddressQrModalProps> {
                   </Clipboard>
                 </Box>
             </Card>
+            {/*
             <Card borderRadius={2} border={0} padding={2} marginTop='var(--page-margin)' backgroundColor={'var(--color-tertiary)'}>
               <Flex flexDirection={'row'} alignItems={'center'}>
               <Box borderRadius={'100px'} backgroundColor={'var(--color-primary)'}>
@@ -167,6 +173,7 @@ class ReceiveModal extends Component<AddressQrModalProps> {
               </Box>
               </Flex>
             </Card>
+            */}
           </ModalBackdrop>
         </Portal>
       )

@@ -11,16 +11,14 @@ import {
 } from '../../components/TransactionCard';
 import AssetSelector from '../../components/AssetSelector';
 import Button from '../../components/Button';
-import RimbleInput from '../../components/RimbleInput';
+import {
+  RimbleInput,
+  TransferMessageInput
+} from '../../components/RimbleInput';
+import RimbleAmountInput from '../../components/RimbleAmountInput';
+import Text from '../../components/Text';
 import { Flex } from 'rimble-ui';
 
-// To Do: This is also used by SendPage.tsx & should be migrated to an independent component to avoid consistency errors.
-const TransferMessageInput = styled(RimbleInput)`
-  background: transparent;
-  box-shadow: none;
-  border: 0px;
-  outline: 0px;
-`;
 
 const ReceivePage: React.FC<BurnerContext> = ({ actions, history, assets }) => {
   const [amount, setAmount] = useState(
@@ -29,18 +27,20 @@ const ReceivePage: React.FC<BurnerContext> = ({ actions, history, assets }) => {
   const [message, setMessage] = useState('');
   const [asset, setAsset] = useState(assets[0]);
   return (
-    <Page title='Request' close>
+    <Page>
       <Flex flexDirection='column' p={3}>
         <TransactionCard>
           <TransactionCardHeader>
-            <h3>Scan Request</h3>
-            <p>
+            <Text level={1} as={'h1'} margin='8px 0px 16px 0px' color={'var(--color-primary)'}>
+              Request
+            </Text>
+            <Text level={2} as='p' color={'var(--color-nearblack)'}>
               Creates a QR code with your transaction request for someone to
               scan
-            </p>
+            </Text>
           </TransactionCardHeader>
           <TransactionCardBody>
-            <h3>How much do you want to request?</h3>
+            <Text level={3} as="p" color={'var(--color-nearblack)'}>How much do you want to request?</Text>
             <RimbleAmountInput
               value={amount}
               placeholder='0'
@@ -52,24 +52,36 @@ const ReceivePage: React.FC<BurnerContext> = ({ actions, history, assets }) => {
             onChange={newAsset => setAsset(newAsset)}
           />
           <TransactionCardFooter>
-            {asset.supportsMessages() && (
-              <Fragment>
-                <div>For:</div>
-                <TransferMessageInput
-                  value={message}
-                  onChange={e => this.setState({ message: e.target.value })}
-                />
-              </Fragment>
-            )}
+          {/*
+          {asset.supportsMessages() && (
+            <Fragment>
+              <Text level={3} as="h3" margin={0} color={'var(--color-nearblack)'}>
+                For:
+              </Text>
+              <TransferMessageInput
+                placeholder="Optional"
+                value={message}
+                onChange={(e) => this.setState({ message: e.target.value })}
+              />
+            </Fragment>
+
+          )}
+          */}
           </TransactionCardFooter>
         </TransactionCard>
       </Flex>
-      <Button onClick={() => actions.navigateTo('/receive')}>Cancel</Button>
+      <Flex justifyContent={'space-between'} margin={'0 var(--page-margin)'}>
       <Button
+       background='var(--color-tertiary)'
+       onClick={() => actions.navigateTo('/')}>Back</Button>
+      <Button
+        width={'100%'}
+        background='var(--color-primary)'
         onClick={() => actions.navigateTo('/request/display', { amount })}
       >
         Next
       </Button>
+      </Flex>
     </Page>
   );
 };
