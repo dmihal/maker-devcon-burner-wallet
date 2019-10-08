@@ -40,11 +40,6 @@ const styles = (theme: any) => ({
       width: '100%'
     },
     '#root': {
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      height: '100%'
     }
   }
 });
