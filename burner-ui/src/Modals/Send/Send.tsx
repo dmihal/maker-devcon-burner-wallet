@@ -354,7 +354,7 @@ class SendModal extends Component<SendPageProps, SendPageState> {
 
                       <Button.Text
                         icon={'Close'}
-                        mainColor={'inherit'}
+                        mainColor={'var(--color-primary)'}
                         p={0}
                         borderRadius={'100%'}
                         position={'absolute'}
