@@ -58,6 +58,13 @@ const ModalBackdrop = styled(Box)`
   }
 `;
 
+const ModalWrapper = styled(Flex)`
+  flex-direction: column;
+  flex: 1;
+  justify-content: space-between;
+  height: ${window.innerHeight}px;
+`
+
 const PurpleCard = styled(Card)`
   background-color: var(--modal-header-background);
   height: 100%;
@@ -325,6 +332,7 @@ class SendModal extends Component<SendPageProps, SendPageState> {
             return (
               <Portal>
                 <ModalBackdrop>
+                <ModalWrapper>
                   <TransactionCard
                     width={1}
                     maxWidth={6}
@@ -423,6 +431,7 @@ class SendModal extends Component<SendPageProps, SendPageState> {
                   >
                     Send
                   </SendButton>
+                  </ModalWrapper>
                 </ModalBackdrop>
               </Portal>
             );
