@@ -11,6 +11,7 @@ import BurnerUI from '../../burner-ui/src';
 import LegacyPlugin from '@burner-wallet/plugins/legacy';
 import CollectablePlugin from '../../collectable-plugin';
 import AboutPlugin from '../../plugins/src/AboutPlugin';
+import DropPartyPlugin from '../../plugins/src/DropPartyPlugin';
 import ChingPlugin from '../../ching-plugin';
 // import SablierPlugin from '../../sablier';
 
@@ -51,6 +52,7 @@ const BurnerWallet = () =>
       // new SablierPlugin(),
       new ChingPlugin(),
       new AboutPlugin(),
+      new DropPartyPlugin(),
     ]}
   />
 
