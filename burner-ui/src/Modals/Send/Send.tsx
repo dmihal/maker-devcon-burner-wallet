@@ -50,8 +50,6 @@ const ModalBackdrop = styled(Box)`
     left: 0;
     right: 0;
     z-index: 9999;
-    height: 100vh;
-    width: 100vw;
     display: flex;
     flex-direction: column;
     align-items: center;
