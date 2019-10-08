@@ -17,7 +17,7 @@ const QRWrapper = styled.div`
   justify-content: center;
   padding: 16px;
   margin: 16px;
-  border: 1px solid #999;
+  border: 1px solid #444;
   border-radius: 8px;
 `
 
@@ -29,11 +29,11 @@ const DisplayRequestPage = ({ history, actions }) => {
   const { amount } = history.location.state;
 
   return (
-    <Page title="Requesting" back>
+    <Page>
       <Flex flexDirection="column" p={3}>
       <TransactionCard>
         <TransactionCardHeader>
-        <Text level={3} as="h1" center>Please scan this QR code to complete the transaction.</Text>
+        <Text level={2} as="h1" center color={'var(--color-nearblack)'}>Please scan this QR code to complete the transaction.</Text>
         </TransactionCardHeader>
         <TransactionCardBody>
           <QRWrapper>
