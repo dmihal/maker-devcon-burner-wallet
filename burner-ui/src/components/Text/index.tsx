@@ -17,6 +17,7 @@ const StyledText = styled.p`
     props.center ? 'center' : props.right ? 'right' : props.left && 'left'};
   margin: ${props => props.margin};
   color: ${props => props.color};
+  opacity: ${props => props.opacity};
 `;
 
 interface LevelProps {
@@ -27,6 +28,7 @@ interface LevelProps {
   right?: Boolean;
   margin?: string | number;
   color?: string;
+  opacity?: string | number;
 }
 
 interface TextProps extends LevelProps {
@@ -42,7 +44,8 @@ const Text: React.FC<TextProps> = ({
   right,
   children,
   margin,
-  color
+  color,
+  opacity
 }) => (
   <StyledText
     level={level}
@@ -54,6 +57,7 @@ const Text: React.FC<TextProps> = ({
     children={children}
     margin={margin}
     color={color}
+    opacity={opacity}
   />
 );
 
