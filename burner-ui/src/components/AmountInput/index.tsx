@@ -52,7 +52,7 @@ const AmountInput: React.FC<AmountInputProps> = ({
   return (
     <div>
       <Wrapper>
-        {isUSD && <Unit>$</Unit>}
+        {/*isUSD && <Unit>$</Unit>*/}
         <Input
           type="number"
           placeholder="0.00"
@@ -61,7 +61,7 @@ const AmountInput: React.FC<AmountInputProps> = ({
           disabled={disabled}
           min="0"
         />
-        {!isUSD && asset && <Unit>{asset.name}</Unit>}
+        {/*!isUSD && asset && <Unit>{asset.name}</Unit>*/}
       </Wrapper>
       {usdValue && <div>${usdValue} USD</div>}
     </div>

@@ -64,7 +64,7 @@ const AmountInput: React.FC<AmountInputProps> = ({
   return (
     <div>
       <Wrapper>
-        {isUSD && <Unit>$</Unit>}
+        {/*isUSD && <Unit>$</Unit>*/}
         <Input
           type="number"
           placeholder="0.00"
@@ -74,7 +74,7 @@ const AmountInput: React.FC<AmountInputProps> = ({
           min="0"
           max={max || undefined}
         />
-        {!isUSD && asset && <Unit>{asset.name}</Unit>}
+        {/*!isUSD && asset && <Unit>{asset.name}</Unit>*/}
         {max && (
           <MaxBtn onClick={() => onChange(max, true)}>Max</MaxBtn>
         )}

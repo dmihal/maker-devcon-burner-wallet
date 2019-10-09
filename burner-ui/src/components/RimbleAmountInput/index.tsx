@@ -65,7 +65,7 @@ const AmountInput: React.FC<AmountInputProps> = ({
   }
   return (
       <Wrapper>
-        {isUSD && <Unit>$</Unit>}
+        {/*isUSD && <Unit>$</Unit>*/}
         <StyledInput
           type="number"
           placeholder="0"
